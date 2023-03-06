@@ -1,10 +1,34 @@
+var scene;
+
+function uploadFile() {
+    const input = document.createElement("input");
+    input.type = "file"
+    input.addEventListener("change", function(e){
+        const file = e.target.files[0];
+
+		var fileReader = new FileReader();
+
+		fileReader.addEventListener( 'load', function ( event ) {
+            var contents = event.target.result;
+
+            var object = new THREE.OBJLoader().parse( contents );
+
+            scene.add(object);
+        }, false );
+		fileReader.readAsText(file);
+    })
+    input.click();
+
+
+}
+
 function initWebGLOutput(elem) {
     // create a scene, that will hold all our elements such as objects, cameras and lights.
-    var scene = new THREE.Scene();
+    scene = new THREE.Scene();
 
     //var width = elem.clientWidth;
     //var height = elem.clientHeight;
-    // TODO hardcode for now
+    // TODO only hardcode for now
 
     var width = 512;
     var height = 512;
@@ -26,46 +50,6 @@ function initWebGLOutput(elem) {
     var axes = new THREE.AxisHelper(20);
     scene.add(axes);
 
-    // create the ground plane
-    var planeGeometry = new THREE.PlaneGeometry(60, 20);
-    var planeMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc});
-    var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-
-    // rotate and position the plane
-    plane.rotation.x = -0.5 * Math.PI;
-    plane.position.x = 15;
-    plane.position.y = 0;
-    plane.position.z = 0;
-
-    // add the plane to the scene
-    scene.add(plane);
-
-    // create a cube
-    var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
-    var cubeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
-    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
-    // position the cube
-    cube.position.x = -4;
-    cube.position.y = 3;
-    cube.position.z = 0;
-
-    // add the cube to the scene
-    scene.add(cube);
-
-    // create a sphere
-    var sphereGeometry = new THREE.SphereGeometry(4, 20, 20);
-    var sphereMaterial = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
-    var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-
-    // position the sphere
-    sphere.position.x = 20;
-    sphere.position.y = 4;
-    sphere.position.z = 2;
-
-    // add the sphere to the scene
-    scene.add(sphere);
-
     // position and point the camera to the center of the scene
     camera.position.x = -30;
     camera.position.y = 40;
@@ -74,6 +58,8 @@ function initWebGLOutput(elem) {
 
     // add the output of the renderer to the html element
     elem.appendChild(renderer.domElement);
+
+    var loader = new THREE.OBJLoader();
 
     render();
 

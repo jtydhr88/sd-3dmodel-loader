@@ -66,10 +66,11 @@ def on_ui_tabs():
                 # gradioooooo...
 
                 gr.HTML('<div id="WebGL-output" style="width: 512px; height: 512px; border-radius: 0.25rem; border: 0.5px solid"></div>')
-                
+
                 jsonbox = gr.Text(label="json", elem_id="hide_json")
                 with gr.Row():
-                    json_output = gr.Button(value="Save JSON")
+                    #uploaded_file = gr.File(label="Select Model File", elem_id="uploaded_file")
+                    upload_button = gr.Button(value="Upload")
                     png_output = gr.Button(value="Save PNG")
                     send_t2t = gr.Button(value="Send to txt2img")
                     send_i2i = gr.Button(value="Send to img2img")
@@ -87,7 +88,7 @@ def on_ui_tabs():
         select_target_index.change(None, [select_target_index], None, _js="(i) => {updateTargetIndex(parseInt(i, 10))}")
         reset_btn.click(None, [], None, _js="resetCanvas")
         json_input.click(None, None, [width, height], _js="loadJSON")
-        json_output.click(None, None, None, _js="saveJSON")
+        upload_button.click(None, None, None, _js="uploadFile")
 
     return [(openpose_editor, "3d Model Loader", "3dmodel_loador")]
 
