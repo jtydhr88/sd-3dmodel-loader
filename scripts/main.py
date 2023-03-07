@@ -47,14 +47,9 @@ class Script(scripts.Script):
 base_dir = Path(scripts.basedir())
 
 def on_ui_tabs():
-    with gr.Blocks(analytics_enabled=False) as openpose_editor:
+    with gr.Blocks(analytics_enabled=False) as threeDModel_loader:
         with gr.Row():
             with gr.Column():
-                width = gr.Slider(label="width", minimum=64, maximum=2048, value=512, step=64, interactive=True)
-                height = gr.Slider(label="height", minimum=64, maximum=2048, value=512, step=64, interactive=True)
-                with gr.Row():
-                    add = gr.Button(value="Add", variant="primary")
-                    # delete = gr.Button(value="Delete")
                 with gr.Row():
                     reset_btn = gr.Button(value="Reset")
                     json_input = gr.Button(value="Load from JSON")
@@ -63,34 +58,21 @@ def on_ui_tabs():
                     bg_input = gr.Button(value="Add Background image")
 
             with gr.Column():
-                # gradioooooo...
-
                 gr.HTML('<div id="WebGL-output" style="width: 512px; height: 512px; border-radius: 0.25rem; border: 0.5px solid"></div>')
 
-                jsonbox = gr.Text(label="json", elem_id="hide_json")
                 with gr.Row():
-                    #uploaded_file = gr.File(label="Select Model File", elem_id="uploaded_file")
                     upload_button = gr.Button(value="Upload")
-                    png_output = gr.Button(value="Save PNG")
                     send_t2t = gr.Button(value="Send to txt2img")
                     send_i2i = gr.Button(value="Send to img2img")
-                    select_target_index = gr.Dropdown([str(i) for i in range(10)], label="Send to", value="0",
-                                                      interactive=True)
 
-        width.change(None, [width, height], None, _js="(w, h) => {resizeCanvas(w, h)}")
-        height.change(None, [width, height], None, _js="(w, h) => {resizeCanvas(w, h)}")
-        png_output.click(None, [], None, _js="savePNG")
         bg_input.click(None, [], None, _js="addBackground")
         png_input.click(None, [], None, _js="detectImage")
-        add.click(None, [], None, _js="getWebGLOutputScreenshot")
-        send_t2t.click(None, [], None, _js="() => {sendImage('txt2img')}")
-        send_i2i.click(None, [], None, _js="() => {sendImage('img2img')}")
-        select_target_index.change(None, [select_target_index], None, _js="(i) => {updateTargetIndex(parseInt(i, 10))}")
-        reset_btn.click(None, [], None, _js="resetCanvas")
-        json_input.click(None, None, [width, height], _js="loadJSON")
+        send_t2t.click(None, [], None, _js="() => {getWebGLOutputScreenshot('txt2img')}")
+        send_i2i.click(None, [], None, _js="() => {getWebGLOutputScreenshot('img2img')}")
+        reset_btn.click(None, [], None, _js="resetCamera")
         upload_button.click(None, None, None, _js="uploadFile")
 
-    return [(openpose_editor, "3d Model Loader", "3dmodel_loador")]
+    return [(threeDModel_loader, "3d Model Loader", "3dmodel_loador")]
 
 
 script_callbacks.on_ui_tabs(on_ui_tabs)

@@ -1,4 +1,5 @@
 var scene;
+var camera;
 
 function uploadFile() {
     const input = document.createElement("input");
@@ -46,7 +47,16 @@ function uploadFile() {
     input.click();
 }
 
-function initWebGLOutput(elem) {
+function resetCamera() {
+    // position and point the camera to the center of the scene
+    camera.position.x = -30;
+    camera.position.y = 40;
+    camera.position.z = 30;
+
+    camera.lookAt(scene.position);
+}
+
+function initWebGLOutput(webGLOutputDiv) {
     // create a scene, that will hold all our elements such as objects, cameras and lights.
     scene = new THREE.Scene();
 
@@ -65,33 +75,44 @@ function initWebGLOutput(elem) {
     var width = 512;
     var height = 512;
 
-    // create a camera, which defines where we're looking at.
-    var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+
+    resetCamera();
 
     var orbit = new THREE.OrbitControls(camera);
 
-    // create a render and set the size
+    orbit.enabled = false;
+
     var renderer = new THREE.WebGLRenderer({
         preserveDrawingBuffer: true
     });
+
     renderer.setClearColorHex();
     renderer.setClearColor(new THREE.Color(0xEEEEEE));
     renderer.setSize(width, height);
 
     // show axes in the screen
     var axes = new THREE.AxisHelper(20);
+
     scene.add(axes);
 
-    // position and point the camera to the center of the scene
-    camera.position.x = -30;
-    camera.position.y = 40;
-    camera.position.z = 30;
-    camera.lookAt(scene.position);
+    webGLOutputDiv.appendChild(renderer.domElement);
 
-    // add the output of the renderer to the html element
-    elem.appendChild(renderer.domElement);
+    webGLOutputDiv.addEventListener(
+        "mouseenter",
+        (event) => {
+            orbit.enabled = true;
+        },
+        false
+    );
 
-    var loader = new THREE.OBJLoader();
+    webGLOutputDiv.addEventListener(
+        "mouseleave",
+        (event) => {
+            orbit.enabled = false;
+        },
+        false
+    );
 
     render();
 
@@ -103,25 +124,30 @@ function initWebGLOutput(elem) {
     }
 }
 
-function getWebGLOutputScreenshot() {
+function getWebGLOutputScreenshot(type) {
     var webGLOutputDiv = gradioApp().querySelector('#WebGL-output');
 
     html2canvas(webGLOutputDiv).then(canvas => {
-        sendImage('txt2img', canvas);
+        sendImage(type, canvas);
     });
 }
 
-function sendImage(type, openpose_editor_canvas){
-
-    openpose_editor_canvas.toBlob((blob) => {
+function sendImage(type, webGLOutputCanvas){
+    webGLOutputCanvas.toBlob((blob) => {
         const file = new File(([blob]), "pose.png")
+
         const dt = new DataTransfer();
+
         dt.items.add(file);
+
         const list = dt.files
+
         const selector = type === "txt2img" ? "#txt2img_script_container" : "#img2img_script_container"
+
         if (type === "txt2img"){
             switch_to_txt2img()
-        }else if(type === "img2img"){
+        }
+        else if(type === "img2img"){
             switch_to_img2img()
         }
 
@@ -150,12 +176,12 @@ window.addEventListener('DOMContentLoaded', () => {
     const observer = new MutationObserver((m) => {
         if(!executed_webGL_output && gradioApp().querySelector('#WebGL-output')){
             executed_webGL_output = true;
+
             initWebGLOutput(gradioApp().querySelector('#WebGL-output'))
-            // gradioApp().querySelectorAll("#tabs > div > button").forEach((elem) => {
-            //     if (elem.innerText === "OpenPose Editor") elem.click()
-            // })
+
             observer.disconnect();
         }
-    })
-    observer.observe(gradioApp(), { childList: true, subtree: true })
+    });
+
+    observer.observe(gradioApp(), { childList: true, subtree: true });
 })
