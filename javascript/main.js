@@ -6,25 +6,57 @@ function uploadFile() {
     input.addEventListener("change", function(e){
         const file = e.target.files[0];
 
+        var filename = file.name;
+		var extension = filename.split( '.' ).pop().toLowerCase();
+
 		var fileReader = new FileReader();
 
-		fileReader.addEventListener( 'load', function ( event ) {
-            var contents = event.target.result;
+		fileReader.addEventListener(
+		    'load',
+		    function ( event ) {
+                var contents = event.target.result;
 
-            var object = new THREE.OBJLoader().parse( contents );
+                var object;
 
-            scene.add(object);
-        }, false );
+                switch ( extension ) {
+                    case 'obj':
+                        object = new THREE.OBJLoader().parse(contents);
+
+                        scene.add(object);
+
+                        break;
+                    case 'stl':
+                        var geometry = new THREE.STLLoader().parse( contents );
+
+                        var material = new THREE.MeshPhongMaterial( { ambient: 0xff5533, color: 0xff5533, specular: 0x111111, shininess: 200 } );
+
+					    var mesh = new THREE.Mesh( geometry, material );
+
+                        scene.add(mesh);
+
+                        break;
+                }
+            },
+            false
+        );
+
 		fileReader.readAsText(file);
     })
+
     input.click();
-
-
 }
 
 function initWebGLOutput(elem) {
     // create a scene, that will hold all our elements such as objects, cameras and lights.
     scene = new THREE.Scene();
+
+    var ambient = new THREE.AmbientLight( 0x101030 );
+
+    scene.add( ambient );
+
+    var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+    directionalLight.position.set( 0, 0, 1 );
+    scene.add( directionalLight );
 
     //var width = elem.clientWidth;
     //var height = elem.clientHeight;
