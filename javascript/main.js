@@ -1,5 +1,6 @@
 var scene;
 var camera;
+var mixer;
 
 function uploadFile() {
     const input = document.createElement("input");
@@ -10,38 +11,73 @@ function uploadFile() {
         var filename = file.name;
 		var extension = filename.split( '.' ).pop().toLowerCase();
 
-		var fileReader = new FileReader();
+		var reader = new FileReader();
 
-		fileReader.addEventListener(
-		    'load',
-		    function ( event ) {
-                var contents = event.target.result;
+        var manager = new THREE.LoadingManager();
 
-                var object;
+        switch ( extension ) {
+            case 'obj':
+                reader.addEventListener( 'load', function ( event ) {
+					var contents = event.target.result;
 
-                switch ( extension ) {
-                    case 'obj':
-                        object = new THREE.OBJLoader().parse(contents);
+					var object = new THREE.OBJLoader().parse( contents );
+					object.name = filename;
 
-                        scene.add(object);
+					scene.add(object);
 
-                        break;
-                    case 'stl':
-                        var geometry = new THREE.STLLoader().parse( contents );
+				}, false );
+				reader.readAsText( file );
 
-                        var material = new THREE.MeshPhongMaterial( { ambient: 0xff5533, color: 0xff5533, specular: 0x111111, shininess: 200 } );
+                break;
+            case 'stl':
+                reader.addEventListener( 'load', function ( event ) {
+                    var contents = event.target.result;
 
-					    var mesh = new THREE.Mesh( geometry, material );
+                    var geometry = new THREE.STLLoader().parse( contents );
+                    geometry.sourceType = "stl";
+                    geometry.sourceFile = file.name;
 
-                        scene.add(mesh);
+					var material = new THREE.MeshStandardMaterial();
 
-                        break;
-                }
-            },
-            false
-        );
+					var mesh = new THREE.Mesh( geometry, material );
+					mesh.name = filename;
 
-		fileReader.readAsText(file);
+					scene.add(mesh);
+
+				}, false );
+
+				if ( reader.readAsBinaryString !== undefined ) {
+					reader.readAsBinaryString( file );
+
+				}
+				else {
+					reader.readAsArrayBuffer( file );
+				}
+
+				break;
+
+            case 'fbx':
+                reader.addEventListener( 'load', function ( event ) {
+
+					var contents = event.target.result;
+
+					var loader = new THREE.FBXLoader( manager );
+					var object = loader.parse( contents );
+
+					 mixer = new THREE.AnimationMixer( object );
+
+                    var action = mixer.clipAction( object.animations[ 0 ] );
+
+                    action.play();
+
+                    scene.add( object );
+                    
+				}, false );
+
+				reader.readAsArrayBuffer( file );
+
+				break;
+        }
     })
 
     input.click();
@@ -59,6 +95,8 @@ function resetCamera() {
 function initWebGLOutput(webGLOutputDiv) {
     // create a scene, that will hold all our elements such as objects, cameras and lights.
     scene = new THREE.Scene();
+
+    var clock = new THREE.Clock();
 
     var ambient = new THREE.AmbientLight( 0x101030 );
 
@@ -119,6 +157,12 @@ function initWebGLOutput(webGLOutputDiv) {
         orbit.update();
 
         requestAnimationFrame(render);
+        var delta = clock.getDelta();
+
+        if (mixer) {
+            mixer.update(delta);
+        }
+
         renderer.render(scene, camera);
     }
 }
