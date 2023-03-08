@@ -87,7 +87,6 @@ function initWebGLOutput(webGLOutputDiv) {
         preserveDrawingBuffer: true
     });
 
-    renderer.setClearColorHex();
     renderer.setClearColor(new THREE.Color(0xEEEEEE));
     renderer.setSize(width, height);
 
