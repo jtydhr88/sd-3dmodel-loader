@@ -1,35 +1,9 @@
-import os
-import numpy as np
-import cv2
-
 import gradio as gr
 
 import modules.scripts as scripts
 from modules import script_callbacks
-from pathlib import Path
-
-def pil2cv(in_image):
-    out_image = np.array(in_image, dtype=np.uint8)
-
-    if out_image.shape[2] == 3:
-        out_image = cv2.cvtColor(out_image, cv2.COLOR_RGB2BGR)
-    return out_image
-
-
-def candidate2li(li):
-    res = []
-    for x, y, *_ in li:
-        res.append([x, y])
-    return res
-
-
-def subset2li(li):
-    res = []
-    for r in li:
-        for c in r:
-            res.append(c)
-    return res
-
+from modules import shared
+from modules.shared import opts
 
 class Script(scripts.Script):
     def __init__(self) -> None:
@@ -44,35 +18,48 @@ class Script(scripts.Script):
     def ui(self, is_img2img):
         return ()
 
-base_dir = Path(scripts.basedir())
-
 def on_ui_tabs():
     with gr.Blocks(analytics_enabled=False) as threeDModel_loader:
         with gr.Row():
             with gr.Column():
                 with gr.Row():
                     reset_btn = gr.Button(value="Reset")
-                    json_input = gr.Button(value="Load from JSON")
-                    png_input = gr.Button(value="Detect from image")
-                    png_input_area = gr.Image(label="Detect from image", elem_id="openpose_editor_input")
-                    bg_input = gr.Button(value="Add Background image")
-
-            with gr.Column():
-                gr.HTML('<div id="WebGL-output" style="width: 512px; height: 512px; border-radius: 0.25rem; border: 0.5px solid"></div>')
-
                 with gr.Row():
                     upload_button = gr.Button(value="Upload")
                     send_t2t = gr.Button(value="Send to txt2img")
                     send_i2i = gr.Button(value="Send to img2img")
+                with gr.Row():
+                    play_button = gr.Button(value="Play")
+                    pause_button = gr.Button(value="Pause")
+                    stop_button = gr.Button(value="Stop")
 
-        bg_input.click(None, [], None, _js="addBackground")
-        png_input.click(None, [], None, _js="detectImage")
+            with gr.Column():
+                canvas_width = opts.threeDmodel_canvas_width + "px"
+                canvas_height = opts.threeDmodel_canvas_height + "px"
+
+                gr.HTML('<div id="WebGL-output" canvas_width="' + opts.threeDmodel_canvas_width +
+                        '" canvas_height="' + opts.threeDmodel_canvas_height + '" canvas_bg_color="' + opts.threeDmodel_bg_color + '" style="width: ' +
+                        canvas_width + '; height: ' + canvas_height + '; border-radius: 0.25rem; border: 0.5px solid"></div>')
+
+        play_button.click(None, [], None, _js="play")
+        pause_button.click(None, [], None, _js="pause")
+        stop_button.click(None, [], None, _js="stop")
         send_t2t.click(None, [], None, _js="() => {getWebGLOutputScreenshot('txt2img')}")
         send_i2i.click(None, [], None, _js="() => {getWebGLOutputScreenshot('img2img')}")
-        reset_btn.click(None, [], None, _js="resetCamera")
+        reset_btn.click(None, [], None, _js="restCanvasAndCamera")
         upload_button.click(None, None, None, _js="uploadFile")
 
     return [(threeDModel_loader, "3d Model Loader", "3dmodel_loador")]
 
+def on_ui_settings():
+    section = ('3dmodel', "3D Model")
+    shared.opts.add_option("threeDmodel_bg_color", shared.OptionInfo(
+        "white", "Canvas Background Color", section=section))
+    shared.opts.add_option("threeDmodel_canvas_width", shared.OptionInfo(
+        "512", "Canvas Width", section=section))
+    shared.opts.add_option("threeDmodel_canvas_height", shared.OptionInfo(
+        "512", "Canvas Height",
+        section=section))
 
 script_callbacks.on_ui_tabs(on_ui_tabs)
+script_callbacks.on_ui_settings(on_ui_settings)

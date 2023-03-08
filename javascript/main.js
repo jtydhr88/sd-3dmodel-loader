@@ -1,6 +1,21 @@
 var scene;
 var camera;
 var mixer;
+var action;
+var isPlay;
+
+function play() {
+    action.play();
+    isPlay = true;
+}
+
+function pause() {
+    isPlay = false;
+}
+
+function stop() {
+    action.stop()
+}
 
 function uploadFile() {
     const input = document.createElement("input");
@@ -66,12 +81,22 @@ function uploadFile() {
 
 					 mixer = new THREE.AnimationMixer( object );
 
-                    var action = mixer.clipAction( object.animations[ 0 ] );
+                    action = mixer.clipAction( object.animations[ 0 ] );
 
                     action.play();
 
+                    object.traverse( function ( child ) {
+						if ( child.isMesh ) {
+
+							child.castShadow = true;
+							child.receiveShadow = true;
+
+						}
+
+					} );
+
                     scene.add( object );
-                    
+
 				}, false );
 
 				reader.readAsArrayBuffer( file );
@@ -81,6 +106,30 @@ function uploadFile() {
     })
 
     input.click();
+
+    isPlay = true;
+}
+
+function restCanvasAndCamera() {
+    restCanvas();
+    resetCamera();
+}
+
+function restCanvas() {
+    var allChildren = scene.children;
+
+    for (var i = 0; i < allChildren.length; i++) {
+        var child = allChildren[i];
+
+        if (!(child instanceof THREE.AmbientLight) &&
+            !(child instanceof THREE.DirectionalLight) &&
+            !(child instanceof THREE.PerspectiveCamera) &&
+            !(child instanceof THREE.OrbitControls) &&
+            !(child instanceof THREE.AxesHelper)) {
+
+            scene.remove(child);
+        }
+    }
 }
 
 function resetCamera() {
@@ -98,20 +147,24 @@ function initWebGLOutput(webGLOutputDiv) {
 
     var clock = new THREE.Clock();
 
-    var ambient = new THREE.AmbientLight( 0x101030 );
+    light = new THREE.HemisphereLight( 0xffffff, 0x444444 );
+    light.position.set( 0, 200, 0 );
+    scene.add( light );
 
-    scene.add( ambient );
+    light = new THREE.DirectionalLight( 0xffffff );
+    light.position.set( 0, 200, 100 );
+    light.castShadow = true;
+    light.shadow.camera.top = 180;
+    light.shadow.camera.bottom = - 100;
+    light.shadow.camera.left = - 120;
+    light.shadow.camera.right = 120;
+    scene.add( light );
 
-    var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-    directionalLight.position.set( 0, 0, 1 );
-    scene.add( directionalLight );
+    var width = webGLOutputDiv.getAttribute("canvas_width");
+    var height = webGLOutputDiv.getAttribute("canvas_height");
 
-    //var width = elem.clientWidth;
-    //var height = elem.clientHeight;
-    // TODO only hardcode for now
-
-    var width = 512;
-    var height = 512;
+    //var width = 512;
+    //var height = 512;
 
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
 
@@ -125,13 +178,26 @@ function initWebGLOutput(webGLOutputDiv) {
         preserveDrawingBuffer: true
     });
 
-    renderer.setClearColor(new THREE.Color(0xEEEEEE));
+    var bgColor = webGLOutputDiv.getAttribute("canvas_bg_color");
+
+    renderer.setClearColor(new THREE.Color(bgColor));
     renderer.setSize(width, height);
+    renderer.shadowMap.enabled = true;
 
     // show axes in the screen
-    var axes = new THREE.AxisHelper(20);
+    var axes = new THREE.AxesHelper(2000);
 
     scene.add(axes);
+
+    var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0xEEEEEE, depthWrite: false } ) );
+    mesh.rotation.x = - Math.PI / 2;
+    mesh.receiveShadow = true;
+    scene.add( mesh );
+
+    var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+    grid.material.opacity = 0.2;
+    grid.material.transparent = true;
+    scene.add( grid );
 
     webGLOutputDiv.appendChild(renderer.domElement);
 
@@ -151,15 +217,18 @@ function initWebGLOutput(webGLOutputDiv) {
         false
     );
 
+    isPlay = true;
+
     render();
 
     function render() {
         orbit.update();
 
         requestAnimationFrame(render);
+
         var delta = clock.getDelta();
 
-        if (mixer) {
+        if (mixer && isPlay) {
             mixer.update(delta);
         }
 
