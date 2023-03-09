@@ -38,7 +38,9 @@ def on_ui_tabs():
                 canvas_height = opts.threeDmodel_canvas_height + "px"
 
                 gr.HTML('<div id="WebGL-output" canvas_width="' + opts.threeDmodel_canvas_width +
-                        '" canvas_height="' + opts.threeDmodel_canvas_height + '" canvas_bg_color="' + opts.threeDmodel_bg_color + '" style="width: ' +
+                        '" canvas_height="' + opts.threeDmodel_canvas_height + '" canvas_bg_color="' +
+                        opts.threeDmodel_bg_color + '" has_ground="' + str(opts.threeDmodel_has_ground) + '" has_axis="' +
+                        str(opts.threeDmodel_has_axis) + '" style="width: ' +
                         canvas_width + '; height: ' + canvas_height + '; border-radius: 0.25rem; border: 0.5px solid"></div>')
 
         play_button.click(None, [], None, _js="play")
@@ -58,8 +60,11 @@ def on_ui_settings():
     shared.opts.add_option("threeDmodel_canvas_width", shared.OptionInfo(
         "512", "Canvas Width", section=section))
     shared.opts.add_option("threeDmodel_canvas_height", shared.OptionInfo(
-        "512", "Canvas Height",
-        section=section))
+        "512", "Canvas Height", section=section))
+    shared.opts.add_option("threeDmodel_has_ground", shared.OptionInfo(
+        True, "Has Ground", gr.Checkbox, {"interactive": True}, section=section))
+    shared.opts.add_option("threeDmodel_has_axis", shared.OptionInfo(
+        True, "Has Axis", gr.Checkbox, {"interactive": True}, section=section))
 
 script_callbacks.on_ui_tabs(on_ui_tabs)
 script_callbacks.on_ui_settings(on_ui_settings)

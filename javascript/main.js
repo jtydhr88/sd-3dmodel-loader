@@ -184,20 +184,26 @@ function initWebGLOutput(webGLOutputDiv) {
     renderer.setSize(width, height);
     renderer.shadowMap.enabled = true;
 
-    // show axes in the screen
-    var axes = new THREE.AxesHelper(2000);
+    var hasAxis = webGLOutputDiv.getAttribute("has_axis");
 
-    scene.add(axes);
+    if (hasAxis == 'True') {
+        var axes = new THREE.AxesHelper(2000);
+        scene.add(axes);
+    }
 
-    var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0xEEEEEE, depthWrite: false } ) );
-    mesh.rotation.x = - Math.PI / 2;
-    mesh.receiveShadow = true;
-    scene.add( mesh );
+    var hasGround = webGLOutputDiv.getAttribute("has_ground");
 
-    var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
-    grid.material.opacity = 0.2;
-    grid.material.transparent = true;
-    scene.add( grid );
+    if (hasGround == 'True') {
+        var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0xEEEEEE, depthWrite: false } ) );
+        mesh.rotation.x = - Math.PI / 2;
+        mesh.receiveShadow = true;
+        scene.add( mesh );
+
+        var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+        grid.material.opacity = 0.2;
+        grid.material.transparent = true;
+        scene.add( grid );
+    }
 
     webGLOutputDiv.appendChild(renderer.domElement);
 
