@@ -47,8 +47,8 @@ def on_ui_tabs():
 
         play_pause_button.click(None, [], None, _js="playAndPause")
         stop_button.click(None, [], None, _js="stop")
-        send_t2t.click(None, [], select_target_index, _js="(i) => {getWebGLOutputScreenshot('txt2img', i)}")
-        send_i2i.click(None, [], select_target_index, _js="(i) => {getWebGLOutputScreenshot('img2img', i)}")
+        send_t2t.click(None, select_target_index, None, _js="(i) => {getWebGLOutputScreenshot('txt2img', i)}")
+        send_i2i.click(None, select_target_index, None, _js="(i) => {getWebGLOutputScreenshot('img2img', i)}")
         reset_btn.click(None, [], None, _js="restCanvasAndCamera")
         upload_button.click(None, None, None, _js="uploadFile")
 
