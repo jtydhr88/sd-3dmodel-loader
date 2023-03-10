@@ -28,6 +28,9 @@ def on_ui_tabs():
                     upload_button = gr.Button(value="Upload")
                     send_t2t = gr.Button(value="Send to txt2img")
                     send_i2i = gr.Button(value="Send to img2img")
+                    select_target_index = gr.Dropdown([str(i) for i in range(opts.control_net_max_models_num)],
+                                                      label="Send to", value="0", interactive=True,
+                                                      visible=(opts.control_net_max_models_num > 1))
                 with gr.Row():
                     play_button = gr.Button(value="Play")
                     pause_button = gr.Button(value="Pause")
@@ -46,8 +49,8 @@ def on_ui_tabs():
         play_button.click(None, [], None, _js="play")
         pause_button.click(None, [], None, _js="pause")
         stop_button.click(None, [], None, _js="stop")
-        send_t2t.click(None, [], None, _js="() => {getWebGLOutputScreenshot('txt2img')}")
-        send_i2i.click(None, [], None, _js="() => {getWebGLOutputScreenshot('img2img')}")
+        send_t2t.click(None, [], select_target_index, _js="(i) => {getWebGLOutputScreenshot('txt2img', i)}")
+        send_i2i.click(None, [], select_target_index, _js="(i) => {getWebGLOutputScreenshot('img2img', i)}")
         reset_btn.click(None, [], None, _js="restCanvasAndCamera")
         upload_button.click(None, None, None, _js="uploadFile")
 
