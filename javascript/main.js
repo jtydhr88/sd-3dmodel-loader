@@ -43,13 +43,19 @@ function playAndPause() {
         isPlay = false;
     }
     else {
-        action.play();
+        if (action) {
+            action.play();
+        }
+
         isPlay = true;
     }
 }
 
 function stop() {
-    action.stop()
+    if (action) {
+        action.stop();
+    }
+
     isPlay = false;
 }
 
@@ -115,11 +121,13 @@ function uploadFile() {
 					var loader = new THREE.FBXLoader( manager );
 					var object = loader.parse( contents );
 
-					 mixer = new THREE.AnimationMixer( object );
+					mixer = new THREE.AnimationMixer( object );
 
-                    action = mixer.clipAction( object.animations[ 0 ] );
+                    if (object.animations[0]) {
+                        action = mixer.clipAction( object.animations[ 0 ] );
 
-                    action.play();
+                        action.play();
+                    }
 
                     object.traverse( function ( child ) {
 						if ( child.isMesh ) {
