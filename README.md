@@ -10,7 +10,8 @@ Currently, it supports to load three most popular types:
 3. fbx
 
 But it has potential to support more, since threejs supports.
-So if you want other formats such as cmt, gltf, just feel free to open an issue, I will add it later.
+So if you want other formats such as cmt, gltf, just feel free to open an issue, I will add it later.  
+(I upload two models, **male02.obj** and **Sanba Dancing.fbx**, as your test, you can find them under **/models** folder)
 
 ## Installation
 Just like you install other extension of webui:
@@ -31,6 +32,8 @@ Right there are 5 configurations under Settings -> 3D Model:
 
 After you change any configurations, do not **only** Apply Settings, you also need to go Extensions then click Apply and restart UI to make the settings effect.
 
+You can also configure the canvas from the main tab page, the default values would read from settings, but no need to reload if configured here. 
+![configureFromPage.png](doc/images/configureFromPage.png)
 ## Operation
 On the main tab of 3D Model Loader, you can use:
 1. **Mouse left button** -> rotate the camera
@@ -42,7 +45,8 @@ there are several buttons on the page:
 2. **Upload** -> upload your 3D model file
 3. **Send to txt2img** -> Send the current view of the 3D model on ControlNet in txt2img 
 4. **Send to img2img** -> Send the current view of the 3D model on ControlNet in img2img
-5. **Play/Pause/Stop** -> control the FBX animation playing
+5. **Send to** -> If you have multi ControlNet, you can select the one you want to send
+6. **Play/Pause/Stop** -> control the FBX animation playing
 ![buttons.png](doc/images/buttons.png)
 
 ## Gradio.Model3D?
