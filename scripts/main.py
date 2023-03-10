@@ -23,6 +23,15 @@ def on_ui_tabs():
         with gr.Row():
             with gr.Column():
                 with gr.Row():
+                    has_ground_page = gr.Checkbox(label="Ground", value=opts.threeDmodel_has_ground)
+                    has_axis_page = gr.Checkbox(label="Axis", value=opts.threeDmodel_has_axis)
+                    width_page = gr.Textbox(label="Width", value=opts.threeDmodel_canvas_width)
+                    height_page = gr.Textbox(label="Height", value=opts.threeDmodel_canvas_height)
+                    color_page = gr.Textbox(label="Background Color", value=opts.threeDmodel_bg_color)
+                with gr.Row():
+                    set_canvas_button = gr.Button(value="Set Canvas")
+
+                with gr.Row():
                     reset_btn = gr.Button(value="Reset")
                 with gr.Row():
                     upload_button = gr.Button(value="Upload")
@@ -45,6 +54,9 @@ def on_ui_tabs():
                         str(opts.threeDmodel_has_axis) + '" style="width: ' +
                         canvas_width + '; height: ' + canvas_height + '; border-radius: 0.25rem; border: 0.5px solid"></div>')
 
+        set_canvas_button.click(None, [has_ground_page, has_axis_page, width_page, height_page, color_page], None,
+                                _js="(hasGroundPage, hasAxisPage, widthPage, heightPage, colorPage) => "
+                                    "{setCanvasPage(hasGroundPage, hasAxisPage, widthPage, heightPage, colorPage)}")
         play_pause_button.click(None, [], None, _js="playAndPause")
         stop_button.click(None, [], None, _js="stop")
         send_t2t.click(None, select_target_index, None, _js="(i) => {getWebGLOutputScreenshot('txt2img', i)}")

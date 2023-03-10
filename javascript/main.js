@@ -3,6 +3,40 @@ var camera;
 var mixer;
 var action;
 var isPlay;
+var renderer;
+var axes;
+var groundMesh;
+var groundGrid;
+var webGLOutputDiv;
+
+function setCanvasPage(haGroundPage, hasAxisPage, widthPage, heightPage, colorPage) {
+    setBGColor(colorPage);
+    setCanvasSize(widthPage, heightPage);
+    setAxisVisible(hasAxisPage);
+    setGroundVisible(haGroundPage);
+}
+
+function setGroundVisible(haGround) {
+    groundMesh.visible = haGround;
+    groundGrid.visible = haGround;
+}
+
+function setAxisVisible(hasAxis) {
+    axes.visible = hasAxis;
+}
+
+function setCanvasSize(width, height) {
+    renderer.setSize(width, height);
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    webGLOutputDiv.setAttribute("style","width: " + width + "px; height: " + height + "px");
+}
+
+function setBGColor(bgColor) {
+    renderer.setClearColor(new THREE.Color(bgColor));
+}
 
 function playAndPause() {
     if (isPlay) {
@@ -165,9 +199,6 @@ function initWebGLOutput(webGLOutputDiv) {
     var width = webGLOutputDiv.getAttribute("canvas_width");
     var height = webGLOutputDiv.getAttribute("canvas_height");
 
-    //var width = 512;
-    //var height = 512;
-
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
 
     resetCamera();
@@ -176,7 +207,7 @@ function initWebGLOutput(webGLOutputDiv) {
 
     orbit.enabled = false;
 
-    var renderer = new THREE.WebGLRenderer({
+    renderer = new THREE.WebGLRenderer({
         preserveDrawingBuffer: true
     });
 
@@ -188,23 +219,39 @@ function initWebGLOutput(webGLOutputDiv) {
 
     var hasAxis = webGLOutputDiv.getAttribute("has_axis");
 
+    axes = new THREE.AxesHelper(2000);
+    scene.add(axes);
+
     if (hasAxis == 'True') {
-        var axes = new THREE.AxesHelper(2000);
-        scene.add(axes);
+        axes.visible = true;
     }
+    else {
+        axes.visible = false;
+    }
+
+    groundMesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0xEEEEEE, depthWrite: false } ) );
+
+    groundMesh.rotation.x = - Math.PI / 2;
+    groundMesh.receiveShadow = true;
+
+    scene.add( groundMesh );
+
+    groundGrid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+
+    groundGrid.material.opacity = 0.2;
+    groundGrid.material.transparent = true;
+
+    scene.add( groundGrid );
 
     var hasGround = webGLOutputDiv.getAttribute("has_ground");
 
     if (hasGround == 'True') {
-        var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0xEEEEEE, depthWrite: false } ) );
-        mesh.rotation.x = - Math.PI / 2;
-        mesh.receiveShadow = true;
-        scene.add( mesh );
-
-        var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
-        grid.material.opacity = 0.2;
-        grid.material.transparent = true;
-        scene.add( grid );
+        groundMesh.visible = true;
+        groundGrid.visible = true;
+    }
+    else {
+        groundMesh.visible = false;
+        groundGrid.visible = false;
     }
 
     webGLOutputDiv.appendChild(renderer.domElement);
@@ -301,7 +348,9 @@ window.addEventListener('DOMContentLoaded', () => {
         if(!executed_webGL_output && gradioApp().querySelector('#WebGL-output')){
             executed_webGL_output = true;
 
-            initWebGLOutput(gradioApp().querySelector('#WebGL-output'))
+            webGLOutputDiv = gradioApp().querySelector('#WebGL-output');
+
+            initWebGLOutput(webGLOutputDiv)
 
             observer.disconnect();
         }
