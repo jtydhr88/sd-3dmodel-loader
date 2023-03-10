@@ -4,17 +4,19 @@ var mixer;
 var action;
 var isPlay;
 
-function play() {
-    action.play();
-    isPlay = true;
-}
-
-function pause() {
-    isPlay = false;
+function playAndPause() {
+    if (isPlay) {
+        isPlay = false;
+    }
+    else {
+        action.play();
+        isPlay = true;
+    }
 }
 
 function stop() {
     action.stop()
+    isPlay = false;
 }
 
 function uploadFile() {

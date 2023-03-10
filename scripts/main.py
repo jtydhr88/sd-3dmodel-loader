@@ -32,8 +32,7 @@ def on_ui_tabs():
                                                       label="Send to", value="0", interactive=True,
                                                       visible=(opts.control_net_max_models_num > 1))
                 with gr.Row():
-                    play_button = gr.Button(value="Play")
-                    pause_button = gr.Button(value="Pause")
+                    play_pause_button = gr.Button(value="Play/Pause")
                     stop_button = gr.Button(value="Stop")
 
             with gr.Column():
@@ -46,8 +45,7 @@ def on_ui_tabs():
                         str(opts.threeDmodel_has_axis) + '" style="width: ' +
                         canvas_width + '; height: ' + canvas_height + '; border-radius: 0.25rem; border: 0.5px solid"></div>')
 
-        play_button.click(None, [], None, _js="play")
-        pause_button.click(None, [], None, _js="pause")
+        play_pause_button.click(None, [], None, _js="playAndPause")
         stop_button.click(None, [], None, _js="stop")
         send_t2t.click(None, [], select_target_index, _js="(i) => {getWebGLOutputScreenshot('txt2img', i)}")
         send_i2i.click(None, [], select_target_index, _js="(i) => {getWebGLOutputScreenshot('img2img', i)}")
