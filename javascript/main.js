@@ -20,13 +20,6 @@ function updateModel(modelScalePage) {
     }
 }
 
-function setCanvasPage(haGroundPage, hasAxisPage, widthPage, heightPage, colorPage) {
-    setBGColor(colorPage);
-    setCanvasSize(widthPage, heightPage);
-    setAxisVisible(hasAxisPage);
-    setGroundVisible(haGroundPage);
-}
-
 function setGroundVisible(haGround) {
     groundMesh.visible = haGround;
 }
@@ -187,12 +180,8 @@ function uploadFile() {
 }
 
 function restCanvasAndCamera() {
-    restCanvas();
-    resetCamera();
-}
-
-function restCanvas() {
     removeMainObject();
+    resetCamera();
 }
 
 function resetCamera() {
