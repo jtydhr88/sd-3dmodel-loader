@@ -29,6 +29,9 @@ function setCanvasPage(haGroundPage, hasAxisPage, widthPage, heightPage, colorPa
 
 function setGroundVisible(haGround) {
     groundMesh.visible = haGround;
+}
+
+function setGroundGridVisible(haGround) {
     groundGrid.visible = haGround;
 }
 
@@ -45,8 +48,12 @@ function setCanvasSize(width, height) {
     webGLOutputDiv.setAttribute("style","width: " + width + "px; height: " + height + "px");
 }
 
-function setBGColor(bgColor) {
-    renderer.setClearColor(new THREE.Color(bgColor));
+function setBGColor(gColor) {
+    renderer.setClearColor(new THREE.Color(gColor));
+}
+
+function setGroundColor(gColor) {
+    groundMesh.material.color = new THREE.Color(gColor);
 }
 
 function playAndPause() {
@@ -81,6 +88,7 @@ function removeMainObject() {
 function uploadFile() {
     const input = document.createElement("input");
     input.type = "file"
+    input.accept = ".obj, .stl, .fbx"
     input.addEventListener("change", function(e){
         const file = e.target.files[0];
 
