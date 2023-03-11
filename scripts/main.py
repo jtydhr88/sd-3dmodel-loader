@@ -33,7 +33,7 @@ def on_ui_tabs():
                     color_page = gr.ColorPicker(label="Background Color", value=opts.threeDmodel_bg_color)
                     ground_color_page = gr.ColorPicker(label="Ground Color", value=opts.threeDmodel_ground_color)
                 with gr.Row():
-                    model_scale_page = gr.Slider(label="Model Scale", minimum=0, maximum=1, step=0.01, value=1)
+                    model_scale_page = gr.Slider(label="Model Scale", minimum=0.01, maximum=10, step=0.01, value=1)
                 with gr.Row():
                     upload_button = gr.Button(value="Load Model", variant="primary")
                 with gr.Row():
@@ -51,7 +51,7 @@ def on_ui_tabs():
                 gr.HTML(f'<div id="WebGL-output" canvas_width="{opts.threeDmodel_canvas_width}" canvas_height="{opts.threeDmodel_canvas_height}" ' +
                         f'canvas_bg_color="{opts.threeDmodel_bg_color}" canvas_ground_color="{opts.threeDmodel_ground_color}" ' +
                         f'has_ground="{opts.threeDmodel_has_ground}" has_ground_grid="{opts.threeDmodel_has_ground_grid}" has_axis="{opts.threeDmodel_has_axis}" ' +
-                        f'style="width: {opts.threeDmodel_canvas_height + 2}px; height: {opts.threeDmodel_canvas_width + 2}px; border: 0.5px solid;"></div>')
+                        f'style="width: {int(opts.threeDmodel_canvas_width) + 2}px; height: {int(opts.threeDmodel_canvas_height) + 2}px; border: 0.5px solid;"></div>')
 
         width_page.change(None, [width_page, height_page], None, _js="setCanvasSize")
         height_page.change(None, [width_page, height_page], None, _js="setCanvasSize")
