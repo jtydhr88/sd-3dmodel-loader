@@ -8,6 +8,17 @@ var axes;
 var groundMesh;
 var groundGrid;
 var webGLOutputDiv;
+var mainObject;
+
+function updateModel(modelScalePage) {
+    var object = scene.getObjectByName("mainObject");
+
+    var modelScale = Number(modelScalePage);
+
+    if (object) {
+        object.scale.set(modelScale, modelScale, modelScale);
+    }
+}
 
 function setCanvasPage(haGroundPage, hasAxisPage, widthPage, heightPage, colorPage) {
     setBGColor(colorPage);
@@ -59,6 +70,14 @@ function stop() {
     isPlay = false;
 }
 
+function removeMainObject() {
+    var object = scene.getObjectByName("mainObject");
+
+    if (object) {
+        scene.remove(object);
+    }
+}
+
 function uploadFile() {
     const input = document.createElement("input");
     input.type = "file"
@@ -72,15 +91,17 @@ function uploadFile() {
 
         var manager = new THREE.LoadingManager();
 
+        removeMainObject();
+
         switch ( extension ) {
             case 'obj':
                 reader.addEventListener( 'load', function ( event ) {
 					var contents = event.target.result;
 
-					var object = new THREE.OBJLoader().parse( contents );
-					object.name = filename;
+					mainObject = new THREE.OBJLoader().parse( contents );
+					mainObject.name = "mainObject";
 
-					scene.add(object);
+					scene.add(mainObject);
 
 				}, false );
 				reader.readAsText( file );
@@ -91,15 +112,16 @@ function uploadFile() {
                     var contents = event.target.result;
 
                     var geometry = new THREE.STLLoader().parse( contents );
+
                     geometry.sourceType = "stl";
                     geometry.sourceFile = file.name;
 
 					var material = new THREE.MeshStandardMaterial();
 
-					var mesh = new THREE.Mesh( geometry, material );
-					mesh.name = filename;
+					mainObject = new THREE.Mesh( geometry, material );
+					mainObject.name = "mainObject";
 
-					scene.add(mesh);
+					scene.add(mainObject);
 
 				}, false );
 
@@ -119,17 +141,17 @@ function uploadFile() {
 					var contents = event.target.result;
 
 					var loader = new THREE.FBXLoader( manager );
-					var object = loader.parse( contents );
+					mainObject = loader.parse( contents );
 
-					mixer = new THREE.AnimationMixer( object );
+					mixer = new THREE.AnimationMixer( mainObject );
 
-                    if (object.animations[0]) {
-                        action = mixer.clipAction( object.animations[ 0 ] );
+                    if (mainObject.animations[0]) {
+                        action = mixer.clipAction( mainObject.animations[ 0 ] );
 
                         action.play();
                     }
 
-                    object.traverse( function ( child ) {
+                    mainObject.traverse( function ( child ) {
 						if ( child.isMesh ) {
 
 							child.castShadow = true;
@@ -139,7 +161,9 @@ function uploadFile() {
 
 					} );
 
-                    scene.add( object );
+					mainObject.name = "mainObject";
+
+                    scene.add( mainObject );
 
 				}, false );
 
@@ -160,20 +184,7 @@ function restCanvasAndCamera() {
 }
 
 function restCanvas() {
-    var allChildren = scene.children;
-
-    for (var i = 0; i < allChildren.length; i++) {
-        var child = allChildren[i];
-
-        if (!(child instanceof THREE.AmbientLight) &&
-            !(child instanceof THREE.DirectionalLight) &&
-            !(child instanceof THREE.PerspectiveCamera) &&
-            !(child instanceof THREE.OrbitControls) &&
-            !(child instanceof THREE.AxesHelper)) {
-
-            scene.remove(child);
-        }
-    }
+    removeMainObject();
 }
 
 function resetCamera() {

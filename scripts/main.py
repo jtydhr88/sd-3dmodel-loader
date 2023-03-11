@@ -30,11 +30,15 @@ def on_ui_tabs():
                     color_page = gr.Textbox(label="Background Color", value=opts.threeDmodel_bg_color)
                 with gr.Row():
                     set_canvas_button = gr.Button(value="Set Canvas")
+                with gr.Row():
+                    model_scale_page = gr.Textbox(label="Scale", value="1")
+                with gr.Row():
+                    update_model_button = gr.Button(value="Update Model")
 
                 with gr.Row():
                     reset_btn = gr.Button(value="Reset")
                 with gr.Row():
-                    upload_button = gr.Button(value="Upload")
+                    upload_button = gr.Button(value="Upload Model")
                     send_t2t = gr.Button(value="Send to txt2img")
                     send_i2i = gr.Button(value="Send to img2img")
                     select_target_index = gr.Dropdown([str(i) for i in range(opts.control_net_max_models_num)],
@@ -54,6 +58,7 @@ def on_ui_tabs():
                         str(opts.threeDmodel_has_axis) + '" style="width: ' +
                         canvas_width + '; height: ' + canvas_height + '; border-radius: 0.25rem; border: 0.5px solid"></div>')
 
+        update_model_button.click(None, [model_scale_page], None, _js="(modelScalePage) => {updateModel(modelScalePage)}")
         set_canvas_button.click(None, [has_ground_page, has_axis_page, width_page, height_page, color_page], None,
                                 _js="(hasGroundPage, hasAxisPage, widthPage, heightPage, colorPage) => "
                                     "{setCanvasPage(hasGroundPage, hasAxisPage, widthPage, heightPage, colorPage)}")
