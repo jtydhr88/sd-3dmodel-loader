@@ -51,7 +51,7 @@ def on_ui_tabs():
                 gr.HTML(f'<div id="WebGL-output" canvas_width="{opts.threeDmodel_canvas_width}" canvas_height="{opts.threeDmodel_canvas_height}" ' +
                         f'canvas_bg_color="{opts.threeDmodel_bg_color}" canvas_ground_color="{opts.threeDmodel_ground_color}" ' +
                         f'has_ground="{opts.threeDmodel_has_ground}" has_ground_grid="{opts.threeDmodel_has_ground_grid}" has_axis="{opts.threeDmodel_has_axis}" ' +
-                        f'style="width: {opts.threeDmodel_canvas_height + 2}px; height: {opts.threeDmodel_canvas_width + 2}px; border: 0.5px solid"></div>')
+                        f'style="width: {opts.threeDmodel_canvas_height + 2}px; height: {opts.threeDmodel_canvas_width + 2}px; border: 0.5px solid;"></div>')
 
         width_page.change(None, [width_page, height_page], None, _js="setCanvasSize")
         height_page.change(None, [width_page, height_page], None, _js="setCanvasSize")
