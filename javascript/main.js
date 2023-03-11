@@ -45,7 +45,7 @@ function setCanvasSize(width, height) {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
-    webGLOutputDiv.setAttribute("style","width: " + width + "px; height: " + height + "px");
+    webGLOutputDiv.setAttribute("style", `width: ${width + 2}px; height: ${height + 2}px; border: 0.5px solid;`);
 }
 
 function setBGColor(gColor) {
