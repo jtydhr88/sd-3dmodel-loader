@@ -224,7 +224,8 @@ function initWebGLOutput(webGLOutputDiv) {
     orbit.enabled = false;
 
     renderer = new THREE.WebGLRenderer({
-        preserveDrawingBuffer: true
+        preserveDrawingBuffer: true,
+        antialias: true
     });
 
     var bgColor = webGLOutputDiv.getAttribute("canvas_bg_color");
@@ -307,17 +308,9 @@ function initWebGLOutput(webGLOutputDiv) {
     }
 }
 
-function getWebGLOutputScreenshot(type, index) {
-    var webGLOutputDiv = gradioApp().querySelector('#WebGL-output');
-
-    html2canvas(webGLOutputDiv).then(canvas => {
-        sendImage(type, canvas, index);
-    });
-}
-
-function sendImage(type, webGLOutputCanvas, index){
-    webGLOutputCanvas.toBlob((blob) => {
-        const file = new File(([blob]), "pose.png")
+function sendImage(type, index){
+    renderer.domElement.toBlob((blob) => {
+        const file = new File([blob], "pose.png")
 
         const dt = new DataTransfer();
 
