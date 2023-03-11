@@ -30,8 +30,9 @@ def on_ui_tabs():
                     has_ground_page = gr.Checkbox(label="Show Ground", value=opts.threeDmodel_has_ground)
                     has_ground_grid_page = gr.Checkbox(label="Show Grid", value=opts.threeDmodel_has_ground_grid)
                     has_axis_page = gr.Checkbox(label="Show Axis", value=opts.threeDmodel_has_axis)
-                    color_page = gr.ColorPicker(label="Background Color", value=opts.threeDmodel_bg_color)
-                    ground_color_page = gr.ColorPicker(label="Ground Color", value=opts.threeDmodel_ground_color)
+                    with gr.Row():
+                        color_page = gr.ColorPicker(label="Background Color", value=opts.threeDmodel_bg_color, elem_id="bg_color")
+                        ground_color_page = gr.ColorPicker(label="Ground Color", value=opts.threeDmodel_ground_color, elem_id="ground_color")
                 with gr.Row():
                     model_scale_page = gr.Slider(label="Model Scale", minimum=0.01, maximum=10, step=0.01, value=1)
                 with gr.Row():
