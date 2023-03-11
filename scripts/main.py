@@ -51,7 +51,10 @@ def on_ui_tabs():
                 gr.HTML(f'<div id="WebGL-output" canvas_width="{opts.threeDmodel_canvas_width}" canvas_height="{opts.threeDmodel_canvas_height}" ' +
                         f'canvas_bg_color="{opts.threeDmodel_bg_color}" canvas_ground_color="{opts.threeDmodel_ground_color}" ' +
                         f'has_ground="{opts.threeDmodel_has_ground}" has_ground_grid="{opts.threeDmodel_has_ground_grid}" has_axis="{opts.threeDmodel_has_axis}" ' +
-                        f'style="width: {int(opts.threeDmodel_canvas_width) + 2}px; height: {int(opts.threeDmodel_canvas_height) + 2}px; border: 0.5px solid;"></div>')
+                        f'style="width: {int(opts.threeDmodel_canvas_width) + 2}px; height: {int(opts.threeDmodel_canvas_height) + 2}px; border: 0.5px solid; position: relative;">'
+                        f'<div style="width:50px;height:50px;background:blue;position: absolute; left: 50%; opacity: 0.7;" id="cameraUp"><div style="position: relative;top: 27%;left: 31%;width:20px;height:20px;border-top:3px solid #fff;border-right:3px solid #fff;transform: rotate(-45deg);"></div></div>'
+                        f'<div style="width:50px;height:50px;background:blue;position: absolute; left: 50%; bottom:0; opacity: 0.7;"  id="cameraDown"><div style="position: relative;top: 27%;left: 31%;width:20px;height:20px;border-top:3px solid #fff;border-right:3px solid #fff;transform: rotate(135deg);"></div></div>'
+                        f'</div>')
 
         width_page.change(None, [width_page, height_page], None, _js="setCanvasSize")
         height_page.change(None, [width_page, height_page], None, _js="setCanvasSize")

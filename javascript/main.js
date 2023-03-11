@@ -9,6 +9,19 @@ var groundMesh;
 var groundGrid;
 var webGLOutputDiv;
 var mainObject;
+var orbit;
+var currentTarget;
+var cameraMoveSpeed = 3;
+
+function cameraUp() {
+    currentTarget.y += cameraMoveSpeed;
+    orbit.target.copy(currentTarget);
+}
+
+function cameraDown() {
+    currentTarget.y -= cameraMoveSpeed;
+    orbit.target.copy(currentTarget);
+}
 
 function updateModel(modelScalePage) {
     var object = scene.getObjectByName("mainObject");
@@ -35,7 +48,7 @@ function setCanvasSize(width, height) {
     renderer.setSize(width, height);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    webGLOutputDiv.setAttribute("style", `width: ${width + 2}px; height: ${height + 2}px; border: 0.5px solid;`);
+    webGLOutputDiv.setAttribute("style", `width: ${width + 2}px; height: ${height + 2}px; border: 0.5px solid;position: relative;`);
 }
 
 function setBGColor(gColor) {
@@ -186,8 +199,10 @@ function initWebGLOutput(webGLOutputDiv) {
 
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     resetCamera();
-    var orbit = new THREE.OrbitControls(camera);
+    orbit = new THREE.OrbitControls(camera);
     orbit.enabled = false;
+    currentTarget = new THREE.Vector3(0, 0, 0);
+    orbit.target.copy(currentTarget);
 
     renderer = new THREE.WebGLRenderer({
         preserveDrawingBuffer: true,
@@ -264,6 +279,7 @@ function initWebGLOutput(webGLOutputDiv) {
 
     function render() {
         orbit.update();
+        currentTarget = orbit.target;
         requestAnimationFrame(render);
 
         var delta = clock.getDelta();
@@ -324,6 +340,19 @@ window.addEventListener('DOMContentLoaded', () => {
             executed_webGL_output = true;
             webGLOutputDiv = gradioApp().querySelector('#WebGL-output');
             initWebGLOutput(webGLOutputDiv)
+
+            cameraUpDiv = gradioApp().querySelector('#cameraUp');
+
+            cameraUpDiv.addEventListener('click', function (event) {
+                cameraUp();
+            });
+
+            cameraDownDiv = gradioApp().querySelector('#cameraDown');
+
+            cameraDownDiv.addEventListener('click', function (event) {
+                cameraDown();
+            });
+
             observer.disconnect();
         }
     });
