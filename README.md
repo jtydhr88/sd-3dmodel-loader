@@ -20,15 +20,19 @@ Just like you install other extension of webui:
 3. install
 4. go to Installed, apply and restart UI
 
-(I will try to commit it to webui repo soon)
+Or you can install from Extensions -> Available, and load the official extension link, then you can find this extension on the list.
+![installFromOfficialLink.png](doc/images/installFromOfficialLink.png)
 
 ## Settings
-Right there are 5 configurations under Settings -> 3D Model:
-1. Canvas Background Color -> you can use English color keywords, such white, red, and so on, full color list see threejs doc [here](https://github.com/mrdoob/three.js/blob/f9ae9899444a88a8fe2fcd1b847e9136d4a145bf/build/three.js#L8722)
-2. Canvas Width
-3. Canvas Height
-4. Has Ground
-5. Has Axis
+Right there are some configurations under Settings -> 3D Model:
+1. Canvas Background Color
+2. Canvas ground Color
+3. Canvas Width
+4. Canvas Height
+5. Show Ground
+6. Show Grid
+7. Show Axis
+![configureFromSettings.png](doc/images/configureFromSettings.png)
 
 After you change any configurations, do not **only** Apply Settings, you also need to go Extensions then click Apply and restart UI to make the settings effect.
 
@@ -41,8 +45,8 @@ On the main tab of 3D Model Loader, you can use:
 3. **Mouse right button** -> move the camera
 
 there are several buttons on the page:
-1. **Rest** -> rest the camera to default position and remove all uploaded objects (There are some issues on this feature, I will fix soon)
-2. **Upload** -> upload your 3D model file
+1. **Upload Model** -> upload your 3D model file
+2. **Reset** -> reset the camera to default position and remove all uploaded objects (There are some issues on this feature, I will fix soon)
 3. **Send to txt2img** -> Send the current view of the 3D model on ControlNet in txt2img 
 4. **Send to img2img** -> Send the current view of the 3D model on ControlNet in img2img
 5. **Send to** -> If you have multi ControlNet, you can select the one you want to send
@@ -56,3 +60,8 @@ I know gradio has its own 3D model component called **Gradio.Model3D**, but it o
 Even ThreeJS has superpower to do huge graphic works, such as Light, Texture, and so on.  
 However I don't want to rebuild a C4D or Blender inside stable diffusion webui (Actually ThreeJS already has it, called **editor** see [here](https://threejs.org/editor/))
 Thus this extension will focus on user experience to give you better reference image from your 3D Model.
+
+## Credits
+Created by [jtydhr88](https://github.com/jtydhr88) and special thanks to other contributors:
+- [missionfloyd](https://github.com/missionfloyd)
+- Everyone who gives feedback
