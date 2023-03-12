@@ -12,6 +12,8 @@ var mainObject;
 var orbit;
 var currentTarget;
 var cameraMoveSpeed = 3;
+var canvasWidth;
+var canvasHeight;
 
 function cameraUp() {
     currentTarget.y += cameraMoveSpeed;
@@ -49,6 +51,8 @@ function setCanvasSize(width, height) {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     webGLOutputDiv.setAttribute("style", `width: ${width + 2}px; height: ${height + 2}px; border: 0.5px solid;position: relative;`);
+    canvasWidth = width;
+    canvasHeight = height;
 }
 
 function setBGColor(gColor) {
@@ -83,10 +87,25 @@ function removeMainObject() {
     }
 }
 
+function scaleObjectToProper(object) {
+    const boundingBox = new THREE.Box3();
+
+    boundingBox.setFromObject(object);
+
+    const expectRadius = 20;
+
+    const radius = boundingBox.getBoundingSphere(new THREE.Sphere()).radius;
+
+    const modelScale = expectRadius / radius;
+
+    object.scale.set(modelScale, modelScale, modelScale);
+}
+
 function uploadFile() {
     const input = document.createElement("input");
-    input.type = "file"
-    input.accept = ".obj, .stl, .fbx"
+    input.type = "file";
+    input.accept = ".obj, .stl, .fbx";
+
     input.addEventListener("change", function(e) {
         const file = e.target.files[0];
         var filename = file.name;
@@ -103,6 +122,9 @@ function uploadFile() {
 
                     mainObject = new THREE.OBJLoader().parse(contents);
                     mainObject.name = "mainObject";
+
+                    scaleObjectToProper(mainObject);
+
                     scene.add(mainObject);
                 }, false);
 
@@ -119,6 +141,8 @@ function uploadFile() {
 
                     mainObject = new THREE.Mesh(geometry, material);
                     mainObject.name = "mainObject";
+
+                    scaleObjectToProper(mainObject);
 
                     scene.add(mainObject);
                 }, false);
@@ -152,6 +176,9 @@ function uploadFile() {
                     });
 
                     mainObject.name = "mainObject";
+
+                    scaleObjectToProper(mainObject);
+
                     scene.add(mainObject);
                 }, false);
 
@@ -196,6 +223,9 @@ function initWebGLOutput(webGLOutputDiv) {
 
     var width = webGLOutputDiv.getAttribute("canvas_width");
     var height = webGLOutputDiv.getAttribute("canvas_height");
+
+    canvasWidth = width;
+    canvasHeight = height;
 
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     resetCamera();
