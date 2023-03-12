@@ -225,8 +225,6 @@ function initWebGLOutput(webGLOutputDiv) {
 
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     resetCamera();
-    orbit = new THREE.OrbitControls(camera);
-    orbit.enabled = false;
 
     renderer = new THREE.WebGLRenderer({
         preserveDrawingBuffer: true,
@@ -319,6 +317,9 @@ function initWebGLOutput(webGLOutputDiv) {
         },
         false
     );
+
+    orbit = new THREE.OrbitControls(camera, renderer.domElement);
+    orbit.enabled = false;
 
     isPlay = true;
     render();
