@@ -13,6 +13,14 @@ var orbit;
 var canvasWidth;
 var canvasHeight;
 
+function check3DModelWebGLOutputDivVisible() {
+    if ((webGLOutputDiv.offsetWidth > 0) && (webGLOutputDiv.offsetHeight > 0)) {
+        return true;
+    }
+
+    return false;
+}
+
 function updateModel(modelScalePage) {
     var object = scene.getObjectByName("mainObject");
     var modelScale = Number(modelScalePage);
@@ -316,16 +324,19 @@ function initWebGLOutput(webGLOutputDiv) {
     render();
 
     function render() {
-        orbit.update();
         requestAnimationFrame(render);
 
-        var delta = clock.getDelta();
+        if (check3DModelWebGLOutputDivVisible()) {
+            orbit.update();
 
-        if (mixer && isPlay) {
-            mixer.update(delta);
+            var delta = clock.getDelta();
+
+            if (mixer && isPlay) {
+                mixer.update(delta);
+            }
+
+            renderer.render(scene, camera);
         }
-
-        renderer.render(scene, camera);
     }
 }
 
