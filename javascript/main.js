@@ -10,20 +10,8 @@ var groundGrid;
 var webGLOutputDiv;
 var mainObject;
 var orbit;
-var currentTarget;
-var cameraMoveSpeed = 3;
 var canvasWidth;
 var canvasHeight;
-
-function cameraUp() {
-    currentTarget.y += cameraMoveSpeed;
-    orbit.target.copy(currentTarget);
-}
-
-function cameraDown() {
-    currentTarget.y -= cameraMoveSpeed;
-    orbit.target.copy(currentTarget);
-}
 
 function updateModel(modelScalePage) {
     var object = scene.getObjectByName("mainObject");
@@ -50,7 +38,7 @@ function setCanvasSize(width, height) {
     renderer.setSize(width, height);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    webGLOutputDiv.setAttribute("style", `width: ${width + 2}px; height: ${height + 2}px; border: 0.5px solid;position: relative;`);
+    webGLOutputDiv.setAttribute("style", `width: ${width + 2}px; height: ${height + 2}px; border: 0.5px solid;`);
     canvasWidth = width;
     canvasHeight = height;
 }
@@ -231,8 +219,6 @@ function initWebGLOutput(webGLOutputDiv) {
     resetCamera();
     orbit = new THREE.OrbitControls(camera);
     orbit.enabled = false;
-    currentTarget = new THREE.Vector3(0, 0, 0);
-    orbit.target.copy(currentTarget);
 
     renderer = new THREE.WebGLRenderer({
         preserveDrawingBuffer: true,
@@ -304,12 +290,33 @@ function initWebGLOutput(webGLOutputDiv) {
         false
     );
 
+    webGLOutputDiv.addEventListener(
+        "mousedown",
+        (event) => {
+            if (event.button == 1) {
+                orbit.mouseButtons = { LEFT: THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.RIGHT, RIGHT: THREE.MOUSE.MIDDLE };
+                orbit.screenSpacePanning  = true;
+            }
+        },
+        false
+    );
+
+    webGLOutputDiv.addEventListener(
+        "mouseup",
+        (event) => {
+            if (event.button == 1) {
+                orbit.mouseButtons = { LEFT: THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.MIDDLE, RIGHT: THREE.MOUSE.RIGHT };
+                orbit.screenSpacePanning  = false;
+            }
+        },
+        false
+    );
+
     isPlay = true;
     render();
 
     function render() {
         orbit.update();
-        currentTarget = orbit.target;
         requestAnimationFrame(render);
 
         var delta = clock.getDelta();
@@ -370,18 +377,6 @@ window.addEventListener('DOMContentLoaded', () => {
             executed_webGL_output = true;
             webGLOutputDiv = gradioApp().querySelector('#WebGL-output');
             initWebGLOutput(webGLOutputDiv)
-
-            cameraUpDiv = gradioApp().querySelector('#cameraUp');
-
-            cameraUpDiv.addEventListener('click', function (event) {
-                cameraUp();
-            });
-
-            cameraDownDiv = gradioApp().querySelector('#cameraDown');
-
-            cameraDownDiv.addEventListener('click', function (event) {
-                cameraDown();
-            });
 
             observer.disconnect();
         }
