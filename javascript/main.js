@@ -300,8 +300,7 @@ function initWebGLOutput(webGLOutputDiv) {
         "mousedown",
         (event) => {
             if (event.button == 1) {
-                orbit.mouseButtons = { LEFT: THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.RIGHT, RIGHT: THREE.MOUSE.MIDDLE };
-                orbit.screenSpacePanning  = true;
+                orbit.screenSpacePanning  = false;
             }
         },
         false
@@ -311,8 +310,7 @@ function initWebGLOutput(webGLOutputDiv) {
         "mouseup",
         (event) => {
             if (event.button == 1) {
-                orbit.mouseButtons = { LEFT: THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.MIDDLE, RIGHT: THREE.MOUSE.RIGHT };
-                orbit.screenSpacePanning  = false;
+                orbit.screenSpacePanning  = true;
             }
         },
         false
@@ -320,6 +318,7 @@ function initWebGLOutput(webGLOutputDiv) {
 
     orbit = new THREE.OrbitControls(camera, renderer.domElement);
     orbit.enabled = false;
+    orbit.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.PAN };
 
     isPlay = true;
     render();
