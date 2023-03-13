@@ -1,28 +1,28 @@
-var scene;
-var camera;
-var mixer;
-var action;
-var isPlay;
-var renderer;
-var axes;
-var groundMesh;
-var groundGrid;
-var webGLOutputDiv;
-var mainObject;
-var orbit;
-var canvasWidth;
-var canvasHeight;
+var scene3DModel;
+var camera3DModel;
+var mixer3DModel;
+var action3DModel;
+var isPlay3DModel;
+var renderer3DModel;
+var axes3DModel;
+var groundMesh3DModel;
+var groundGrid3DModel;
+var webGLOutputDiv3DModel;
+var mainObject3DModel;
+var orbitController3DModel;
+var canvasWidth3DModel;
+var canvasHeight3DModel;
 
 function check3DModelWebGLOutputDivVisible() {
-    if ((webGLOutputDiv.offsetWidth > 0) && (webGLOutputDiv.offsetHeight > 0)) {
+    if ((webGLOutputDiv3DModel.offsetWidth > 0) && (webGLOutputDiv3DModel.offsetHeight > 0)) {
         return true;
     }
 
     return false;
 }
 
-function updateModel(modelScalePage) {
-    var object = scene.getObjectByName("mainObject");
+function updateModel3DModel(modelScalePage) {
+    var object = scene3DModel.getObjectByName("mainObject3DModel");
     var modelScale = Number(modelScalePage);
 
     if (object) {
@@ -30,60 +30,60 @@ function updateModel(modelScalePage) {
     }
 }
 
-function setGroundVisible(haGround) {
-    groundMesh.visible = haGround;
+function setGroundVisible3DModel(haGround) {
+    groundMesh3DModel.visible = haGround;
 }
 
-function setGroundGridVisible(haGround) {
-    groundGrid.visible = haGround;
+function setGroundGridVisible3DModel(haGround) {
+    groundGrid3DModel.visible = haGround;
 }
 
-function setAxisVisible(hasAxis) {
-    axes.visible = hasAxis;
+function setAxisVisible3DModel(hasAxis) {
+    axes3DModel.visible = hasAxis;
 }
 
-function setCanvasSize(width, height) {
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    webGLOutputDiv.setAttribute("style", `width: ${width + 2}px; height: ${height + 2}px; border: 0.5px solid;`);
-    canvasWidth = width;
-    canvasHeight = height;
+function setCanvasSize3DModel(width, height) {
+    renderer3DModel.setSize(width, height);
+    camera3DModel.aspect = width / height;
+    camera3DModel.updateProjectionMatrix();
+    webGLOutputDiv3DModel.setAttribute("style", `width: ${width + 2}px; height: ${height + 2}px; border: 0.5px solid;`);
+    canvasWidth3DModel = width;
+    canvasHeight3DModel = height;
 }
 
-function setBGColor(gColor) {
-    renderer.setClearColor(new THREE.Color(gColor));
+function setBGColor3DModel(gColor) {
+    renderer3DModel.setClearColor(new THREE.Color(gColor));
 }
 
-function setGroundColor(gColor) {
-    groundMesh.material.color = new THREE.Color(gColor);
+function setGroundColor3DModel(gColor) {
+    groundMesh3DModel.material.color = new THREE.Color(gColor);
 }
 
-function playAndPause() {
-    if (isPlay) {
-        isPlay = false;
-    } else if (action) {
-        action.play();
-        isPlay = true;
+function playAndPause3DModel() {
+    if (isPlay3DModel) {
+        isPlay3DModel = false;
+    } else if (action3DModel) {
+        action3DModel.play();
+        isPlay3DModel = true;
     }
 }
 
-function stop() {
-    if (action) {
-        action.stop();
+function stop3DModel() {
+    if (action3DModel) {
+        action3DModel.stop();
     }
-    isPlay = false;
+    isPlay3DModel = false;
 }
 
-function removeMainObject() {
-    var object = scene.getObjectByName("mainObject");
+function removeMainObject3DModel() {
+    var object = scene3DModel.getObjectByName("mainObject3DModel");
 
     if (object) {
-        scene.remove(object);
+        scene3DModel.remove(object);
     }
 }
 
-function scaleObjectToProper(object) {
+function scaleObjectToProper3DModel(object) {
     const boundingBox = new THREE.Box3();
 
     boundingBox.setFromObject(object);
@@ -97,7 +97,7 @@ function scaleObjectToProper(object) {
     object.scale.set(modelScale, modelScale, modelScale);
 }
 
-function uploadFile() {
+function uploadFile3DModel() {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = ".obj, .stl, .fbx";
@@ -109,19 +109,19 @@ function uploadFile() {
         var reader = new FileReader();
         var manager = new THREE.LoadingManager();
 
-        removeMainObject();
+        removeMainObject3DModel();
 
         switch (extension) {
             case 'obj':
                 reader.addEventListener('load', function(event) {
                     var contents = event.target.result;
 
-                    mainObject = new THREE.OBJLoader().parse(contents);
-                    mainObject.name = "mainObject";
+                    mainObject3DModel = new THREE.OBJLoader().parse(contents);
+                    mainObject3DModel.name = "mainObject3DModel";
 
-                    scaleObjectToProper(mainObject);
+                    scaleObjectToProper3DModel(mainObject3DModel);
 
-                    scene.add(mainObject);
+                    scene3DModel.add(mainObject3DModel);
                 }, false);
 
                 reader.readAsText(file);
@@ -135,12 +135,12 @@ function uploadFile() {
                     geometry.sourceType = "stl";
                     geometry.sourceFile = file.name;
 
-                    mainObject = new THREE.Mesh(geometry, material);
-                    mainObject.name = "mainObject";
+                    mainObject3DModel = new THREE.Mesh(geometry, material);
+                    mainObject3DModel.name = "mainObject3DModel";
 
-                    scaleObjectToProper(mainObject);
+                    scaleObjectToProper3DModel(mainObject3DModel);
 
-                    scene.add(mainObject);
+                    scene3DModel.add(mainObject3DModel);
                 }, false);
 
                 if (reader.readAsBinaryString !== undefined) {
@@ -155,27 +155,27 @@ function uploadFile() {
                 reader.addEventListener('load', function(event) {
                     var contents = event.target.result;
                     var loader = new THREE.FBXLoader(manager);
-                    mainObject = loader.parse(contents);
-                    mixer = new THREE.AnimationMixer(mainObject);
+                    mainObject3DModel = loader.parse(contents);
+                    mixer3DModel = new THREE.AnimationMixer(mainObject3DModel);
 
-                    if (mainObject.animations[0]) {
-                        action = mixer.clipAction(mainObject.animations[0]);
+                    if (mainObject3DModel.animations[0]) {
+                        action3DModel = mixer3DModel.clipAction(mainObject3DModel.animations[0]);
 
-                        action.play();
+                        action3DModel.play();
                     }
 
-                    mainObject.traverse(function(child) {
+                    mainObject3DModel.traverse(function(child) {
                         if (child.isMesh) {
                             child.castShadow = true;
                             child.receiveShadow = true;
                         }
                     });
 
-                    mainObject.name = "mainObject";
+                    mainObject3DModel.name = "mainObject3DModel";
 
-                    scaleObjectToProper(mainObject);
+                    scaleObjectToProper3DModel(mainObject3DModel);
 
-                    scene.add(mainObject);
+                    scene3DModel.add(mainObject3DModel);
                 }, false);
 
                 reader.readAsArrayBuffer(file);
@@ -183,30 +183,30 @@ function uploadFile() {
         }
     })
     input.click();
-    isPlay = true;
+    isPlay3DModel = true;
 }
 
-function restCanvasAndCamera() {
-    removeMainObject();
-    resetCamera();
+function restCanvasAndCamera3DModel() {
+    removeMainObject3DModel();
+    resetCamera3DModel();
 }
 
-function resetCamera() {
+function resetCamera3DModel() {
     // position and point the camera to the center of the scene
-    camera.position.x = -30;
-    camera.position.y = 40;
-    camera.position.z = 30;
-    camera.lookAt(scene.position);
+    camera3DModel.position.x = -30;
+    camera3DModel.position.y = 40;
+    camera3DModel.position.z = 30;
+    camera3DModel.lookAt(scene3DModel.position);
 }
 
-function initWebGLOutput(webGLOutputDiv) {
+function initWebGLOutput3DModel(webGLOutputDiv3DModel) {
     // create a scene, that will hold all our elements such as objects, cameras and lights.
-    scene = new THREE.Scene();
-    var clock = new THREE.Clock();
+    scene3DModel = new THREE.Scene();
+    var clock3DModel = new THREE.Clock();
 
     light = new THREE.HemisphereLight(0xffffff, 0x444444);
     light.position.set(0, 200, 0);
-    scene.add(light);
+    scene3DModel.add(light);
 
     light = new THREE.DirectionalLight(0xffffff);
     light.position.set(0, 200, 100);
@@ -215,133 +215,133 @@ function initWebGLOutput(webGLOutputDiv) {
     light.shadow.camera.bottom = -100;
     light.shadow.camera.left = -120;
     light.shadow.camera.right = 120;
-    scene.add(light);
+    scene3DModel.add(light);
 
-    var width = webGLOutputDiv.getAttribute("canvas_width");
-    var height = webGLOutputDiv.getAttribute("canvas_height");
+    var width = webGLOutputDiv3DModel.getAttribute("canvas_width");
+    var height = webGLOutputDiv3DModel.getAttribute("canvas_height");
 
-    canvasWidth = width;
-    canvasHeight = height;
+    canvasWidth3DModel = width;
+    canvasHeight3DModel = height;
 
-    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    resetCamera();
+    camera3DModel = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    resetCamera3DModel();
 
-    renderer = new THREE.WebGLRenderer({
+    renderer3DModel = new THREE.WebGLRenderer({
         preserveDrawingBuffer: true,
         antialias: true
     });
 
-    var bgColor = webGLOutputDiv.getAttribute("canvas_bg_color");
+    var bgColor = webGLOutputDiv3DModel.getAttribute("canvas_bg_color");
 
-    renderer.setClearColor(new THREE.Color(bgColor));
-    renderer.setSize(width, height);
-    renderer.shadowMap.enabled = true;
+    renderer3DModel.setClearColor(new THREE.Color(bgColor));
+    renderer3DModel.setSize(width, height);
+    renderer3DModel.shadowMap.enabled = true;
 
-    var hasAxis = webGLOutputDiv.getAttribute("has_axis");
+    var hasAxis = webGLOutputDiv3DModel.getAttribute("has_axis");
 
-    axes = new THREE.AxesHelper(2000);
-    scene.add(axes);
+    axes3DModel = new THREE.AxesHelper(2000);
+    scene3DModel.add(axes3DModel);
 
     if (hasAxis == 'True') {
-        axes.visible = true;
+        axes3DModel.visible = true;
     } else {
-        axes.visible = false;
+        axes3DModel.visible = false;
     }
 
-    groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({
+    groundMesh3DModel = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({
         color: 0xEEEEEE,
         depthWrite: false
     }));
 
-    groundMesh.rotation.x = -Math.PI / 2;
-    groundMesh.receiveShadow = true;
-    scene.add(groundMesh);
+    groundMesh3DModel.rotation.x = -Math.PI / 2;
+    groundMesh3DModel.receiveShadow = true;
+    scene3DModel.add(groundMesh3DModel);
 
-    groundGrid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
-    groundGrid.material.opacity = 0.2;
-    groundGrid.material.transparent = true;
-    scene.add(groundGrid);
+    groundGrid3DModel = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
+    groundGrid3DModel.material.opacity = 0.2;
+    groundGrid3DModel.material.transparent = true;
+    scene3DModel.add(groundGrid3DModel);
 
-    var hasGround = webGLOutputDiv.getAttribute("has_ground");
+    var hasGround = webGLOutputDiv3DModel.getAttribute("has_ground");
 
     if (hasGround == 'True') {
-        groundMesh.visible = true;
+        groundMesh3DModel.visible = true;
     } else {
-        groundMesh.visible = false;
+        groundMesh3DModel.visible = false;
     }
     
-    var hasGroundGrid = webGLOutputDiv.getAttribute("has_ground_grid");
+    var hasGroundGrid = webGLOutputDiv3DModel.getAttribute("has_ground_grid");
 
     if (hasGroundGrid == 'True') {
-        groundGrid.visible = true;
+        groundGrid3DModel.visible = true;
     } else {
-        groundGrid.visible = false;
+        groundGrid3DModel.visible = false;
     }
 
-    webGLOutputDiv.appendChild(renderer.domElement);
+    webGLOutputDiv3DModel.appendChild(renderer3DModel.domElement);
 
-    webGLOutputDiv.addEventListener(
+    webGLOutputDiv3DModel.addEventListener(
         "mouseenter",
         (event) => {
-            orbit.enabled = true;
+            orbitController3DModel.enabled = true;
         },
         false
     );
 
-    webGLOutputDiv.addEventListener(
+    webGLOutputDiv3DModel.addEventListener(
         "mouseleave",
         (event) => {
-            orbit.enabled = false;
+            orbitController3DModel.enabled = false;
         },
         false
     );
 
-    webGLOutputDiv.addEventListener(
+    webGLOutputDiv3DModel.addEventListener(
         "mousedown",
         (event) => {
             if (event.button == 1) {
-                orbit.screenSpacePanning  = false;
+                orbitController3DModel.screenSpacePanning  = false;
             }
         },
         false
     );
 
-    webGLOutputDiv.addEventListener(
+    webGLOutputDiv3DModel.addEventListener(
         "mouseup",
         (event) => {
             if (event.button == 1) {
-                orbit.screenSpacePanning  = true;
+                orbitController3DModel.screenSpacePanning  = true;
             }
         },
         false
     );
 
-    orbit = new THREE.OrbitControls(camera, renderer.domElement);
-    orbit.enabled = false;
-    orbit.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.PAN };
+    orbitController3DModel = new THREE.OrbitControls(camera3DModel, renderer3DModel.domElement);
+    orbitController3DModel.enabled = false;
+    orbitController3DModel.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.PAN };
 
-    isPlay = true;
-    render();
+    isPlay3DModel = true;
+    render3DModel();
 
-    function render() {
-        requestAnimationFrame(render);
+    function render3DModel() {
+        requestAnimationFrame(render3DModel);
 
         if (check3DModelWebGLOutputDivVisible()) {
-            orbit.update();
+            orbitController3DModel.update();
 
-            var delta = clock.getDelta();
+            var delta = clock3DModel.getDelta();
 
-            if (mixer && isPlay) {
-                mixer.update(delta);
+            if (mixer3DModel && isPlay3DModel) {
+                mixer3DModel.update(delta);
             }
 
-            renderer.render(scene, camera);
+            renderer3DModel.render(scene3DModel, camera3DModel);
         }
     }
 }
 
-function sendImage(type, index) {
-    renderer.domElement.toBlob((blob) => {
+function sendImage3DModel(type, index) {
+    renderer3DModel.domElement.toBlob((blob) => {
         const file = new File([blob], "pose.png")
         const dt = new DataTransfer();
         dt.items.add(file);
@@ -380,14 +380,14 @@ function sendImage(type, index) {
     });
 }
 
-let executed_webGL_output = false;
+let executed_webGL_output_3dmodel = false;
 
 window.addEventListener('DOMContentLoaded', () => {
     const observer = new MutationObserver((m) => {
-        if (!executed_webGL_output && gradioApp().querySelector('#WebGL-output')) {
-            executed_webGL_output = true;
-            webGLOutputDiv = gradioApp().querySelector('#WebGL-output');
-            initWebGLOutput(webGLOutputDiv)
+        if (!executed_webGL_output_3dmodel && gradioApp().querySelector('#WebGL-output-3dmodel')) {
+            executed_webGL_output_3dmodel = true;
+            webGLOutputDiv3DModel = gradioApp().querySelector('#WebGL-output-3dmodel');
+            initWebGLOutput3DModel(webGLOutputDiv3DModel)
 
             observer.disconnect();
         }
