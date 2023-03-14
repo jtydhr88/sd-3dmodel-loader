@@ -12,6 +12,7 @@ var mainObject3DModel;
 var orbitController3DModel;
 var canvasWidth3DModel;
 var canvasHeight3DModel;
+var loader;
 
 function check3DModelWebGLOutputDivVisible() {
     if ((webGLOutputDiv3DModel.offsetWidth > 0) && (webGLOutputDiv3DModel.offsetHeight > 0)) {
@@ -127,7 +128,7 @@ function uploadFile3DModel(file) {
 
     switch (extension) {
         case 'obj':
-            var loader = new THREE.OBJLoader();
+            loader = new THREE.OBJLoader();
             loader.load(file.data, function(object) {
                 object.name = "mainObject3DModel";
                 scaleObjectToProper3DModel(object);
@@ -135,7 +136,7 @@ function uploadFile3DModel(file) {
             });
             break;
         case 'stl':
-            var loader = new THREE.STLLoader();
+            loader = new THREE.STLLoader();
             loader.load(file.data, function(object) {
                 var material = new THREE.MeshStandardMaterial();
                 geometry.sourceType = "stl";
@@ -149,7 +150,7 @@ function uploadFile3DModel(file) {
             });
             break;
         case 'fbx':
-            var loader = new THREE.FBXLoader(manager);
+            loader = new THREE.FBXLoader(manager);
             loader.load(file.data, function(object) {
                 mixer3DModel = new THREE.AnimationMixer(object);
 
@@ -172,8 +173,6 @@ function uploadFile3DModel(file) {
             });
             break;
         case 'gltf':
-            let loader;
-
             if (isGLTF1(atob(file.data.split(",")[1]))) {
                 alert( 'Import of glTF asset not possible. Only versions >= 2.0 are supported. Please try to upgrade the file to glTF 2.0 using glTF-Pipeline.' );
             } else {
@@ -195,7 +194,7 @@ function uploadFile3DModel(file) {
             const dracoLoader = new THREE.DRACOLoader();
             //dracoLoader.setDecoderPath( '.' );
 
-            const loader = new THREE.GLTFLoader();
+            loader = new THREE.GLTFLoader();
             loader.setDRACOLoader(dracoLoader);
             loader.load(file.data, function(result) {
                 const scene = result.scene;
@@ -205,7 +204,7 @@ function uploadFile3DModel(file) {
             });
             break;
         case 'dae':
-            const loader = new THREE.ColladaLoader(manager);
+            loader = new THREE.ColladaLoader(manager);
             loader.load(contents, function(object) {
                 object.scene.name = "mainObject3DModel";
                 scene3DModel.add(object.scene);
