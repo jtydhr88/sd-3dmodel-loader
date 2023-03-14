@@ -135,7 +135,7 @@ function isGLTF1( contents ) {
 function uploadFile3DModel() {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = ".obj, .stl, .fbx, .gltf, .glb";
+    input.accept = ".obj, .stl, .fbx, .gltf, .glb, .dae";
 
     input.addEventListener("change", function(e) {
         const file = e.target.files[0];
@@ -275,6 +275,25 @@ function uploadFile3DModel() {
                 reader.readAsArrayBuffer( file );
 
                 break;
+
+            case 'dae':
+			{
+				reader.addEventListener( 'load', async function ( event ) {
+					const contents = event.target.result;
+
+					const loader = new THREE.ColladaLoader( manager );
+					const collada = loader.parse( contents );
+
+					collada.scene.name = "mainObject3DModel";
+
+                    scene3DModel.add(collada.scene);
+
+				}, false );
+				reader.readAsText( file );
+
+				break;
+
+			}
         }
     })
     input.click();
