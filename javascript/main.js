@@ -135,7 +135,7 @@ function isGLTF1( contents ) {
 function uploadFile3DModel() {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = ".obj, .stl, .fbx, .gltf";
+    input.accept = ".obj, .stl, .fbx, .gltf, .glb";
 
     input.addEventListener("change", function(e) {
         const file = e.target.files[0];
@@ -228,7 +228,7 @@ function uploadFile3DModel() {
 
 					} else {
 						const dracoLoader = new THREE.DRACOLoader();
-						dracoLoader.setDecoderPath( './draco/gltf/' );
+						//dracoLoader.setDecoderPath( '.' );
 
 						loader = new THREE.GLTFLoader( manager );
 						loader.setDRACOLoader( dracoLoader );
@@ -247,6 +247,33 @@ function uploadFile3DModel() {
                 }, false);
 
                 reader.readAsArrayBuffer( file );
+
+                break;
+
+            case 'glb':
+                reader.addEventListener('load', function(event) {
+                    const contents = event.target.result;
+
+					const dracoLoader = new THREE.DRACOLoader();
+					//dracoLoader.setDecoderPath( '.' );
+
+					const loader = new THREE.GLTFLoader();
+
+					loader.setDRACOLoader( dracoLoader );
+
+					loader.parse( contents, '', function ( result ) {
+						const scene = result.scene;
+						scene.name = "mainObject3DModel";
+
+						scene.animations.push( ...result.animations );
+
+						scene3DModel.add(scene);
+					} );
+
+                }, false);
+
+                reader.readAsArrayBuffer( file );
+
                 break;
         }
     })

@@ -42732,7 +42732,7 @@ class GLTFParser {
 			if ( ! pointsMaterial ) {
 
 				pointsMaterial = new THREE.PointsMaterial();
-				Material.prototype.copy.call( pointsMaterial, material );
+				THREE.Material.prototype.copy.call( pointsMaterial, material );
 				pointsMaterial.color.copy( material.color );
 				pointsMaterial.map = material.map;
 				pointsMaterial.sizeAttenuation = false; // glTF spec says points should be 1px
@@ -42752,7 +42752,7 @@ class GLTFParser {
 			if ( ! lineMaterial ) {
 
 				lineMaterial = new THREE.LineBasicMaterial();
-				Material.prototype.copy.call( lineMaterial, material );
+				THREE.Material.prototype.copy.call( lineMaterial, material );
 				lineMaterial.color.copy( material.color );
 
 				this.cache.add( cacheKey, lineMaterial );
