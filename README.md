@@ -4,13 +4,15 @@ A custom extension for [AUTOMATIC1111/stable-diffusion-webui](https://github.com
 ![controlnet.png](doc/images/controlnet.png)
 
 ## Support formats
-Currently, it supports to load three most popular types:
+Currently, it supports to load several types:
 1. obj
 2. stl
 3. fbx
+4. glb - partly support, it fails on the model needs draco_decoder (like [IridescentDishWithOlives.glb](https://github.com/mrdoob/three.js/blob/dev/examples/models/gltf/IridescentDishWithOlives.glb)) or KTX2 textures (like [coffeemat.glb](https://github.com/mrdoob/three.js/blob/dev/examples/models/gltf/coffeemat.glb)), need to figure out how to fix later
+5. gltf - partly support, it fails on the model has other resources (like [DamagedHelmet.gltf](https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf/DamagedHelmet/glTF)), need to figure out how to fix later
 
 But it has potential to support more, since threejs supports.
-So if you want other formats such as cmt, gltf, just feel free to open an issue, I will add it later.  
+So if you want other formats such as cmt, just feel free to open an issue, I will add it later.  
 (I upload two models, **male02.obj** and **Sanba Dancing.fbx**, as your test, you can find them under **/models** folder)
 
 ## Installation
