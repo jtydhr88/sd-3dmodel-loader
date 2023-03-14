@@ -97,10 +97,45 @@ function scaleObjectToProper3DModel(object) {
     object.scale.set(modelScale, modelScale, modelScale);
 }
 
+function isGLTF1( contents ) {
+
+    let resultContent;
+
+    if ( typeof contents === 'string' ) {
+
+        // contents is a JSON string
+        resultContent = contents;
+
+    } else {
+
+        const magic = THREE.LoaderUtils.decodeText( new Uint8Array( contents, 0, 4 ) );
+
+        if ( magic === 'glTF' ) {
+
+            // contents is a .glb file; extract the version
+            const version = new DataView( contents ).getUint32( 4, true );
+
+            return version < 2;
+
+        } else {
+
+            // contents is a .gltf file
+            resultContent = THREE.LoaderUtils.decodeText( new Uint8Array( contents ) );
+
+        }
+
+    }
+
+    const json = JSON.parse( resultContent );
+
+    return ( json.asset != undefined && json.asset.version[ 0 ] < 2 );
+
+}
+
 function uploadFile3DModel() {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = ".obj, .stl, .fbx";
+    input.accept = ".obj, .stl, .fbx, .gltf";
 
     input.addEventListener("change", function(e) {
         const file = e.target.files[0];
@@ -179,6 +214,39 @@ function uploadFile3DModel() {
                 }, false);
 
                 reader.readAsArrayBuffer(file);
+                break;
+
+            case 'gltf':
+                reader.addEventListener('load', function(event) {
+                    const contents = event.target.result;
+
+					let loader;
+
+					if ( isGLTF1( contents ) ) {
+
+						alert( 'Import of glTF asset not possible. Only versions >= 2.0 are supported. Please try to upgrade the file to glTF 2.0 using glTF-Pipeline.' );
+
+					} else {
+						const dracoLoader = new THREE.DRACOLoader();
+						dracoLoader.setDecoderPath( './draco/gltf/' );
+
+						loader = new THREE.GLTFLoader( manager );
+						loader.setDRACOLoader( dracoLoader );
+
+					}
+
+					loader.parse( contents, '', function ( result ) {
+						const scene = result.scene;
+						scene.name = "mainObject3DModel";
+
+						scene.animations.push( ...result.animations );
+
+						scene3DModel.add(scene);
+					} );
+
+                }, false);
+
+                reader.readAsArrayBuffer( file );
                 break;
         }
     })
