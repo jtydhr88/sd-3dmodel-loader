@@ -89,214 +89,129 @@ function scaleObjectToProper3DModel(object) {
     boundingBox.setFromObject(object);
 
     const expectRadius = 20;
-
     const radius = boundingBox.getBoundingSphere(new THREE.Sphere()).radius;
-
     const modelScale = expectRadius / radius;
 
     object.scale.set(modelScale, modelScale, modelScale);
 }
 
-function isGLTF1( contents ) {
-
+function isGLTF1(contents) {
     let resultContent;
 
-    if ( typeof contents === 'string' ) {
-
+    if (typeof contents === 'string') {
         // contents is a JSON string
         resultContent = contents;
-
     } else {
+        const magic = THREE.LoaderUtils.decodeText(new Uint8Array(contents, 0, 4));
 
-        const magic = THREE.LoaderUtils.decodeText( new Uint8Array( contents, 0, 4 ) );
-
-        if ( magic === 'glTF' ) {
-
+        if (magic === 'glTF') {
             // contents is a .glb file; extract the version
-            const version = new DataView( contents ).getUint32( 4, true );
-
+            const version = new DataView(contents).getUint32(4, true);
             return version < 2;
-
         } else {
-
             // contents is a .gltf file
-            resultContent = THREE.LoaderUtils.decodeText( new Uint8Array( contents ) );
-
+            resultContent = THREE.LoaderUtils.decodeText(new Uint8Array(contents));
         }
-
     }
 
-    const json = JSON.parse( resultContent );
-
-    return ( json.asset != undefined && json.asset.version[ 0 ] < 2 );
-
+    const json = JSON.parse(resultContent);
+    return (json.asset != undefined && json.asset.version[ 0 ] < 2);
 }
 
-function uploadFile3DModel() {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".obj, .stl, .fbx, .gltf, .glb, .dae";
+function uploadFile3DModel(file) {
+    var filename = file.name;
+    var extension = filename.split('.').pop().toLowerCase();
+    var manager = new THREE.LoadingManager();
 
-    input.addEventListener("change", function(e) {
-        const file = e.target.files[0];
-        var filename = file.name;
-        var extension = filename.split('.').pop().toLowerCase();
-        var reader = new FileReader();
-        var manager = new THREE.LoadingManager();
+    removeMainObject3DModel();
 
-        removeMainObject3DModel();
+    switch (extension) {
+        case 'obj':
+            var loader = new THREE.OBJLoader();
+            loader.load(file.data, function(object) {
+                object.name = "mainObject3DModel";
+                scaleObjectToProper3DModel(object);
+                scene3DModel.add(object);
+            });
+            break;
+        case 'stl':
+            var loader = new THREE.STLLoader();
+            loader.load(file.data, function(object) {
+                var material = new THREE.MeshStandardMaterial();
+                geometry.sourceType = "stl";
+                geometry.sourceFile = file.name;
+                
+                object = new THREE.Mesh(geometry, material);
+                object.name = "mainObject3DModel";
+                
+                scaleObjectToProper3DModel(object);
+                scene3DModel.add(object);
+            });
+            break;
+        case 'fbx':
+            var loader = new THREE.FBXLoader(manager);
+            loader.load(file.data, function(object) {
+                mixer3DModel = new THREE.AnimationMixer(object);
 
-        switch (extension) {
-            case 'obj':
-                reader.addEventListener('load', function(event) {
-                    var contents = event.target.result;
+                if (object.animations[0]) {
+                    action3DModel = mixer3DModel.clipAction(object.animations[0]);
 
-                    mainObject3DModel = new THREE.OBJLoader().parse(contents);
-                    mainObject3DModel.name = "mainObject3DModel";
-
-                    scaleObjectToProper3DModel(mainObject3DModel);
-
-                    scene3DModel.add(mainObject3DModel);
-                }, false);
-
-                reader.readAsText(file);
-                break;
-            case 'stl':
-                reader.addEventListener('load', function(event) {
-                    var contents = event.target.result;
-                    var geometry = new THREE.STLLoader().parse(contents);
-                    var material = new THREE.MeshStandardMaterial();
-
-                    geometry.sourceType = "stl";
-                    geometry.sourceFile = file.name;
-
-                    mainObject3DModel = new THREE.Mesh(geometry, material);
-                    mainObject3DModel.name = "mainObject3DModel";
-
-                    scaleObjectToProper3DModel(mainObject3DModel);
-
-                    scene3DModel.add(mainObject3DModel);
-                }, false);
-
-                if (reader.readAsBinaryString !== undefined) {
-                    reader.readAsBinaryString(file);
-                } else {
-                    reader.readAsArrayBuffer(file);
+                    action3DModel.play();
                 }
 
-                break;
-
-            case 'fbx':
-                reader.addEventListener('load', function(event) {
-                    var contents = event.target.result;
-                    var loader = new THREE.FBXLoader(manager);
-                    mainObject3DModel = loader.parse(contents);
-                    mixer3DModel = new THREE.AnimationMixer(mainObject3DModel);
-
-                    if (mainObject3DModel.animations[0]) {
-                        action3DModel = mixer3DModel.clipAction(mainObject3DModel.animations[0]);
-
-                        action3DModel.play();
+                object.traverse(function(child) {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
                     }
+                });
 
-                    mainObject3DModel.traverse(function(child) {
-                        if (child.isMesh) {
-                            child.castShadow = true;
-                            child.receiveShadow = true;
-                        }
-                    });
+                object.name = "mainObject3DModel";
+                scaleObjectToProper3DModel(object);
+                scene3DModel.add(object);
+            });
+            break;
+        case 'gltf':
+            let loader;
 
-                    mainObject3DModel.name = "mainObject3DModel";
+            if (isGLTF1(atob(file.data.split(",")[1]))) {
+                alert( 'Import of glTF asset not possible. Only versions >= 2.0 are supported. Please try to upgrade the file to glTF 2.0 using glTF-Pipeline.' );
+            } else {
+                const dracoLoader = new THREE.DRACOLoader();
+                //dracoLoader.setDecoderPath( '.' );
 
-                    scaleObjectToProper3DModel(mainObject3DModel);
+                loader = new THREE.GLTFLoader(manager);
+                loader.setDRACOLoader(dracoLoader);
+            }
+            
+            loader.load(file.data, function(result) {
+                const scene = result.scene;
+                scene.name = "mainObject3DModel";
+                scene.animations.push(result.animations);
+                scene3DModel.add(scene);
+            });
+            break;
+        case 'glb':
+            const dracoLoader = new THREE.DRACOLoader();
+            //dracoLoader.setDecoderPath( '.' );
 
-                    scene3DModel.add(mainObject3DModel);
-                }, false);
-
-                reader.readAsArrayBuffer(file);
-                break;
-
-            case 'gltf':
-                reader.addEventListener('load', function(event) {
-                    const contents = event.target.result;
-
-					let loader;
-
-					if ( isGLTF1( contents ) ) {
-
-						alert( 'Import of glTF asset not possible. Only versions >= 2.0 are supported. Please try to upgrade the file to glTF 2.0 using glTF-Pipeline.' );
-
-					} else {
-						const dracoLoader = new THREE.DRACOLoader();
-						//dracoLoader.setDecoderPath( '.' );
-
-						loader = new THREE.GLTFLoader( manager );
-						loader.setDRACOLoader( dracoLoader );
-
-					}
-
-					loader.parse( contents, '', function ( result ) {
-						const scene = result.scene;
-						scene.name = "mainObject3DModel";
-
-						scene.animations.push( ...result.animations );
-
-						scene3DModel.add(scene);
-					} );
-
-                }, false);
-
-                reader.readAsArrayBuffer( file );
-
-                break;
-
-            case 'glb':
-                reader.addEventListener('load', function(event) {
-                    const contents = event.target.result;
-
-					const dracoLoader = new THREE.DRACOLoader();
-					//dracoLoader.setDecoderPath( '.' );
-
-					const loader = new THREE.GLTFLoader();
-
-					loader.setDRACOLoader( dracoLoader );
-
-					loader.parse( contents, '', function ( result ) {
-						const scene = result.scene;
-						scene.name = "mainObject3DModel";
-
-						scene.animations.push( ...result.animations );
-
-						scene3DModel.add(scene);
-					} );
-
-                }, false);
-
-                reader.readAsArrayBuffer( file );
-
-                break;
-
-            case 'dae':
-			{
-				reader.addEventListener( 'load', async function ( event ) {
-					const contents = event.target.result;
-
-					const loader = new THREE.ColladaLoader( manager );
-					const collada = loader.parse( contents );
-
-					collada.scene.name = "mainObject3DModel";
-
-                    scene3DModel.add(collada.scene);
-
-				}, false );
-				reader.readAsText( file );
-
-				break;
-
-			}
-        }
-    })
-    input.click();
+            const loader = new THREE.GLTFLoader();
+            loader.setDRACOLoader(dracoLoader);
+            loader.load(file.data, function(result) {
+                const scene = result.scene;
+                scene.name = "mainObject3DModel";
+                scene.animations.push(result.animations);
+                scene3DModel.add(scene);
+            });
+            break;
+        case 'dae':
+            const loader = new THREE.ColladaLoader(manager);
+            loader.load(contents, function(object) {
+                object.scene.name = "mainObject3DModel";
+                scene3DModel.add(object.scene);
+            });
+            break;
+    }
     isPlay3DModel = true;
 }
 

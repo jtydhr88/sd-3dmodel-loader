@@ -36,7 +36,7 @@ def on_ui_tabs():
                 with gr.Row():
                     model_scale_page = gr.Slider(label="Model Scale", minimum=0.01, maximum=10, step=0.01, value=1)
                 with gr.Row():
-                    upload_button = gr.Button(value="Load Model", variant="primary")
+                    upload_button = gr.UploadButton(label="Load Model", variant="primary", file_types=[".obj", ".stl", ".fbx", ".gltf", ".glb", ".dae"])
                 with gr.Row():
                     reset_btn = gr.Button(value="Reset")
                     send_t2t = gr.Button(value="Send to txt2img")
@@ -67,7 +67,7 @@ def on_ui_tabs():
         send_t2t.click(None, select_target_index, None, _js="(i) => {sendImage3DModel('txt2img', i)}")
         send_i2i.click(None, select_target_index, None, _js="(i) => {sendImage3DModel('img2img', i)}")
         reset_btn.click(None, [], None, _js="restCanvasAndCamera3DModel")
-        upload_button.click(None, None, None, _js="uploadFile3DModel")
+        upload_button.upload(None, upload_button, None, _js="uploadFile3DModel")
 
     return [(threeDModel_loader, "3D Model Loader", "3dmodel_loador")]
 
