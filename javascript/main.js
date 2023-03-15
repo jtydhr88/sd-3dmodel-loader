@@ -13,6 +13,8 @@ var orbitController3DModel;
 var canvasWidth3DModel;
 var canvasHeight3DModel;
 var moveORRotateTarget3DModel;
+var hemisphereLight3DModel;
+var directionalLightLight3DModel;
 
 function moveOrRotateTarget3DModel(x, y, z) {
 	if (moveORRotateTarget3DModel) {
@@ -22,6 +24,11 @@ function moveOrRotateTarget3DModel(x, y, z) {
 			object.rotation.x = Math.PI * x;
 			object.rotation.y = Math.PI * y;
 			object.rotation.z = Math.PI * z;
+		}
+		else if (moveORRotateTarget3DModel == "Light") {
+			directionalLightLight3DModel.position.x = x * 50;
+			directionalLightLight3DModel.position.y = y * 50;
+			directionalLightLight3DModel.position.z = z * 50;
 		}
 	}
 }
@@ -70,6 +77,10 @@ function setCanvasSize3DModel(width, height) {
 
 function setBGColor3DModel(gColor) {
     renderer3DModel.setClearColor(new THREE.Color(gColor));
+}
+
+function setLightColor3DModel(gColor) {
+    directionalLightLight3DModel.color = new THREE.Color(gColor);
 }
 
 function setGroundColor3DModel(gColor) {
@@ -335,18 +346,18 @@ function initWebGLOutput3DModel(webGLOutputDiv3DModel) {
     scene3DModel = new THREE.Scene();
     var clock3DModel = new THREE.Clock();
 
-    light = new THREE.HemisphereLight(0xffffff, 0x444444);
-    light.position.set(0, 200, 0);
-    scene3DModel.add(light);
+    hemisphereLight3DModel = new THREE.HemisphereLight(0xffffff, 0x444444);
+    hemisphereLight3DModel.position.set(0, 200, 0);
+    scene3DModel.add(hemisphereLight3DModel);
 
-    light = new THREE.DirectionalLight(0xffffff);
-    light.position.set(0, 200, 100);
-    light.castShadow = true;
-    light.shadow.camera.top = 180;
-    light.shadow.camera.bottom = -100;
-    light.shadow.camera.left = -120;
-    light.shadow.camera.right = 120;
-    scene3DModel.add(light);
+    directionalLightLight3DModel = new THREE.DirectionalLight(0xffffff);
+    directionalLightLight3DModel.position.set(0, 200, 100);
+    directionalLightLight3DModel.castShadow = true;
+    directionalLightLight3DModel.shadow.camera.top = 180;
+    directionalLightLight3DModel.shadow.camera.bottom = -100;
+    directionalLightLight3DModel.shadow.camera.left = -120;
+    directionalLightLight3DModel.shadow.camera.right = 120;
+    scene3DModel.add(directionalLightLight3DModel);
 
     var width = webGLOutputDiv3DModel.getAttribute("canvas_width");
     var height = webGLOutputDiv3DModel.getAttribute("canvas_height");

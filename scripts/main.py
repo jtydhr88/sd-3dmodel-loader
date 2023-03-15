@@ -41,6 +41,8 @@ def on_ui_tabs():
                     with gr.Row():
                         color_page = gr.ColorPicker(label="Background Color", value=opts.threeDmodel_bg_color, elem_id="bg_color")
                         ground_color_page = gr.ColorPicker(label="Ground Color", value=opts.threeDmodel_ground_color, elem_id="ground_color")
+                        light_color_page = gr.ColorPicker(label="Light Color", value=opts.threeDmodel_ground_color,
+                                                           elem_id="Light_color")
                 with gr.Row():
                     model_scale_page = gr.Slider(label="Model Scale", minimum=0.01, maximum=10, step=0.01, value=1)
                 with gr.Row():
@@ -77,6 +79,7 @@ def on_ui_tabs():
         has_axis_page.change(None, [has_axis_page], None, _js="setAxisVisible3DModel")
         color_page.change(None, [color_page], None, _js="setBGColor3DModel")
         ground_color_page.change(None, [ground_color_page], None, _js="setGroundColor3DModel")
+        light_color_page.change(None, [light_color_page], None, _js="setLightColor3DModel")
         play_pause_button.click(None, [], None, _js="playAndPause3DModel")
         stop_button.click(None, [], None, _js="stop3DModel")
         send_t2t.click(None, select_target_index, None, _js="(i) => {sendImage3DModel('txt2img', i)}")
