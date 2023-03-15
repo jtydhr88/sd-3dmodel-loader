@@ -4,6 +4,8 @@ import modules.scripts as scripts
 from modules import script_callbacks
 from modules import shared
 from modules.shared import opts
+from modules import extensions
+import os
 
 class Script(scripts.Script):
     def __init__(self) -> None:
@@ -64,6 +66,16 @@ def on_ui_tabs():
                         f'has_ground="{opts.threeDmodel_has_ground}" has_ground_grid="{opts.threeDmodel_has_ground_grid}" has_axis="{opts.threeDmodel_has_axis}" ' +
                         f'style="width: {int(opts.threeDmodel_canvas_width) + 2}px; height: {int(opts.threeDmodel_canvas_height) + 2}px; border: 0.5px solid;"></div>')
 
+                import_id = 'WebGL-output-3dmodel-import'
+
+                ext = get_self_extension()
+                if ext is None:
+                    return []
+                js_ = [f'{x.path}?{os.path.getmtime(x.path)}' for x in ext.list_files('javascript/lazyload', '.js')]
+                js_.insert(0, ext.path)
+
+                gr.HTML(value='\n'.join(js_), elem_id=import_id, visible=False)
+
         position_rotate_x_page.change(None, [position_rotate_x_page, position_rotate_y_page, position_rotate_z_page],
                                       None, _js="moveOrRotateTarget3DModel")
         position_rotate_y_page.change(None, [position_rotate_x_page, position_rotate_y_page, position_rotate_z_page],
@@ -88,6 +100,16 @@ def on_ui_tabs():
         upload_button.click(None, None, None, _js="uploadFile3DModel")
 
     return [(threeDModel_loader, "3D Model Loader", "3dmodel_loador")]
+
+def get_self_extension():
+    if '__file__' in globals():
+        filepath = __file__
+    else:
+        import inspect
+        filepath = inspect.getfile(lambda: None)
+    for ext in extensions.active():
+        if ext.path in filepath:
+            return ext
 
 def on_ui_settings():
     section = ('3dmodel', "3D Model")
