@@ -12,6 +12,23 @@ var mainObject3DModel;
 var orbitController3DModel;
 var canvasWidth3DModel;
 var canvasHeight3DModel;
+var moveORRotateTarget3DModel;
+
+function moveOrRotateTarget3DModel(x, y, z) {
+	if (moveORRotateTarget3DModel) {
+		if (moveORRotateTarget3DModel == "Model") {
+			var object = scene3DModel.getObjectByName("mainObject3DModel");
+			
+			object.rotation.x = Math.PI * x;
+			object.rotation.y = Math.PI * y;
+			object.rotation.z = Math.PI * z;
+		}
+	}
+}
+
+function setTarget3DModel(target) {
+	moveORRotateTarget3DModel = target;
+}
 
 function check3DModelWebGLOutputDivVisible() {
     if ((webGLOutputDiv3DModel.offsetWidth > 0) && (webGLOutputDiv3DModel.offsetHeight > 0)) {

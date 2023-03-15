@@ -23,9 +23,17 @@ def on_ui_tabs():
         with gr.Row():
             with gr.Column():
                 with gr.Row():
-                    width_page = gr.Slider(label="Width", minimum=64, maximum=2048, value=512, step=64, interactive=True)
-                with gr.Row():
-                    height_page = gr.Slider(label="Height", minimum=64, maximum=2048, value=512, step=64, interactive=True)
+                    with gr.Column():
+                        width_page = gr.Slider(label="Width", minimum=64, maximum=2048, value=512, step=64, interactive=True)
+                        height_page = gr.Slider(label="Height", minimum=64, maximum=2048, value=512, step=64, interactive=True)
+                    with gr.Column():
+                        change_target_radio = gr.Radio(["Light", "Model"], label="Target")
+                        position_rotate_x_page = gr.Slider(
+                            label="Position/Rotate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
+                        position_rotate_y_page = gr.Slider(
+                            label="Position/Rotate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
+                        position_rotate_z_page = gr.Slider(
+                            label="Position/Rotate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
                 with gr.Row():
                     has_ground_page = gr.Checkbox(label="Show Ground", value=opts.threeDmodel_has_ground)
                     has_ground_grid_page = gr.Checkbox(label="Show Grid", value=opts.threeDmodel_has_ground_grid)
@@ -54,6 +62,13 @@ def on_ui_tabs():
                         f'has_ground="{opts.threeDmodel_has_ground}" has_ground_grid="{opts.threeDmodel_has_ground_grid}" has_axis="{opts.threeDmodel_has_axis}" ' +
                         f'style="width: {int(opts.threeDmodel_canvas_width) + 2}px; height: {int(opts.threeDmodel_canvas_height) + 2}px; border: 0.5px solid;"></div>')
 
+        position_rotate_x_page.change(None, [position_rotate_x_page, position_rotate_y_page, position_rotate_z_page],
+                                      None, _js="moveOrRotateTarget3DModel")
+        position_rotate_y_page.change(None, [position_rotate_x_page, position_rotate_y_page, position_rotate_z_page],
+                                      None, _js="moveOrRotateTarget3DModel")
+        position_rotate_z_page.change(None, [position_rotate_x_page, position_rotate_y_page, position_rotate_z_page],
+                                      None, _js="moveOrRotateTarget3DModel")
+        change_target_radio.change(None, [change_target_radio], None, _js="setTarget3DModel")
         width_page.change(None, [width_page, height_page], None, _js="setCanvasSize3DModel")
         height_page.change(None, [width_page, height_page], None, _js="setCanvasSize3DModel")
         model_scale_page.change(None, [model_scale_page], None, _js="updateModel3DModel")
