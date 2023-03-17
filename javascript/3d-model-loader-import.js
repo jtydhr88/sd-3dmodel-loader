@@ -25,8 +25,9 @@
             const { GLTFLoader } = await import(`${base_path}/GLTFLoader.js`);
             const { DRACOLoader } = await import(`${base_path}/DRACOLoader.js`);
             const { ColladaLoader } = await import(`${base_path}/ColladaLoader.js`);
+            const { VRMLoaderPlugin } = await import(`${base_path}/three-vrm.module.js`);
 
-            return { THREE, OrbitControls, OBJLoader, STLLoader, FBXLoader, GLTFLoader, DRACOLoader, ColladaLoader };
+            return { THREE, OrbitControls, OBJLoader, STLLoader, FBXLoader, GLTFLoader, DRACOLoader, ColladaLoader, VRMLoaderPlugin };
         };
 
         if (!globalThis.threeDModelLoader.imports) {
@@ -35,6 +36,10 @@
 
         if (!globalThis.threeDModelLoader.imports.three) {
             globalThis.threeDModelLoader.imports.three = async () => await import(`${base_path}/three.module.js`);
+        }
+
+        if (!globalThis.threeDModelLoader.imports.threeVRM) {
+            globalThis.threeDModelLoader.imports.threeVRM = async () => await import(`${base_path}/three-vrm.module.js`);
         }
 
         if (!globalThis.threeDModelLoader.imports.tagLoader) {

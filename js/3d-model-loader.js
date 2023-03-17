@@ -15,9 +15,23 @@ async function _import() {
     }
 }
 
+async function _import_vmr() {
+    if (!globalThis.threeDModelLoader || !globalThis.threeDModelLoader.import) {
+        const VRMLoaderPlugin = await import('three-vrm');
+
+        return { VRMLoaderPlugin };
+    } else {
+        return await globalThis.threeDModelLoader.imports.threeVRM();
+    }
+}
+
 const {
     THREE, OrbitControls, OBJLoader, STLLoader, FBXLoader, GLTFLoader, DRACOLoader, ColladaLoader
 } = await _import();
+
+const {
+    VRMLoaderPlugin
+} = await _import_vmr();
 
 function checkDivVisible(div) {
     if ((div.offsetWidth > 0) && (div.offsetHeight > 0)) {
@@ -119,7 +133,7 @@ function isGLTF1( contents ) {
 function uploadFile() {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = ".obj, .stl, .fbx, .gltf, .glb, .dae";
+    input.accept = ".obj, .stl, .fbx, .gltf, .glb, .dae, .vrm";
 
     input.addEventListener("change", function(e) {
         const file = e.target.files[0];
@@ -258,7 +272,6 @@ function uploadFile() {
                 break;
 
             case 'dae':
-			{
 				reader.addEventListener( 'load', async function ( event ) {
 					const contents = event.target.result;
 
@@ -275,7 +288,33 @@ function uploadFile() {
 
 				break;
 
-			}
+            case 'vrm':
+				reader.addEventListener( 'load', async function ( event ) {
+				    const contents = event.target.result;
+
+					const loader = new GLTFLoader( manager );
+
+					loader.register((parser) => {
+                        return new VRMLoaderPlugin(parser);
+                    });
+
+					loader.parse( contents, '', function ( result ) {
+					    const vrm = result.userData.vrm;
+
+                        const resultScene = vrm.scene;
+
+						resultScene.name = "mainObject";
+
+                        scaleObjectToProper(resultScene);
+
+                        scene.add(resultScene);
+					} );
+
+				}, false );
+				reader.readAsArrayBuffer( file );
+
+				break;
+
         }
     })
     input.click();
