@@ -65,7 +65,6 @@ let canvasWidth;
 let canvasHeight;
 let scene;
 let mainObject;
-let moveORRotateTarget;
 let directionalLight;
 let mixer;
 let action;
@@ -499,25 +498,18 @@ function resetCamera() {
     camera.lookAt(scene.position);
 }
 
-function moveOrRotateTarget(x, y, z) {
-	if (moveORRotateTarget) {
-		if (moveORRotateTarget == "Model") {
-			var object = scene.getObjectByName("mainObject");
-
-			object.rotation.x = Math.PI * x;
-			object.rotation.y = Math.PI * y;
-			object.rotation.z = Math.PI * z;
-		}
-		else if (moveORRotateTarget == "Light") {
-			directionalLight.position.x = x * 50;
-			directionalLight.position.y = y * 50;
-			directionalLight.position.z = z * 50;
-		}
-	}
+function moveLight(x, y, z) {
+    directionalLight.position.x = x;
+    directionalLight.position.y = y;
+    directionalLight.position.z = z;
 }
 
-function setTarget(target) {
-	moveORRotateTarget = target;
+function rotateModel(x, y, z) {
+    let object = scene.getObjectByName("mainObject");
+
+    object.rotation.x = Math.PI * x;
+    object.rotation.y = Math.PI * y;
+    object.rotation.z = Math.PI * z;
 }
 
 function updateModel(modelScale) {
@@ -714,6 +706,6 @@ function sendImage(type, index) {
 
 export {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
-    uploadFile, setLightColor, moveOrRotateTarget, setTarget, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop, setMultiFiles, setEntryType
+    uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
+    playAndPause, stop, setMultiFiles, setEntryType, rotateModel
 };

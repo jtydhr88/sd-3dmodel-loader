@@ -10,8 +10,8 @@ async function _import() {
 
 const {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
-    uploadFile, setLightColor, moveOrRotateTarget, setTarget, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop, setMultiFiles, setEntryType
+    uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
+    playAndPause, stop, setMultiFiles, setEntryType, rotateModel
 } = await _import();
 
 (async function () {
@@ -55,12 +55,8 @@ const {
         setLightColor(gColor);
     };
 
-    window.moveOrRotateTarget3DModel = function(x, y, z) {
-        moveOrRotateTarget(x, y, z);
-    };
-
-    window.setTarget3DModel = function(target) {
-        setTarget(target);
+    window.moveLight3DModel = function(x, y, z) {
+        moveLight(x, y, z);
     };
 
     window.updateModel3DModel = function(modelScale) {
@@ -89,6 +85,10 @@ const {
 
     window.setEntryType3DModel = function(entryType) {
         setEntryType(entryType);
+    };
+
+    window.rotateModel3DModel = function(x, y, z) {
+        rotateModel(x, y, z);
     };
 
 })();

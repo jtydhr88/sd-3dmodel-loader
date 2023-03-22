@@ -30,13 +30,12 @@ def on_ui_tabs():
                             width_page = gr.Slider(label="Width", minimum=64, maximum=2048, value=512, step=64, interactive=True)
                             height_page = gr.Slider(label="Height", minimum=64, maximum=2048, value=512, step=64, interactive=True)
                         with gr.Column():
-                            change_target_radio = gr.Radio(["Light", "Model"], label="Target")
-                            position_rotate_x_page = gr.Slider(
-                                label="Position/Rotate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
-                            position_rotate_y_page = gr.Slider(
-                                label="Position/Rotate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
-                            position_rotate_z_page = gr.Slider(
-                                label="Position/Rotate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
+                            light_position_x_page = gr.Slider(
+                                label="Light Position X", minimum=-100, maximum=100, value=0, step=1, interactive=True)
+                            light_position_y_page = gr.Slider(
+                                label="Light Position Y", minimum=0, maximum=100, value=30, step=1, interactive=True)
+                            light_position_z_page = gr.Slider(
+                                label="Light Position Z", minimum=-100, maximum=100, value=0, step=1, interactive=True)
                     with gr.Row():
                         has_ground_page = gr.Checkbox(label="Show Ground", value=opts.threeDmodel_has_ground)
                         has_ground_grid_page = gr.Checkbox(label="Show Grid", value=opts.threeDmodel_has_ground_grid)
@@ -46,8 +45,17 @@ def on_ui_tabs():
                             ground_color_page = gr.ColorPicker(label="Ground Color", value=opts.threeDmodel_ground_color, elem_id="ground_color")
                             light_color_page = gr.ColorPicker(label="Light Color", value=opts.threeDmodel_ground_color,
                                                                elem_id="Light_color")
-                with gr.Row():
-                    model_scale_page = gr.Slider(label="Model Scale", minimum=0.01, maximum=10, step=0.01, value=1)
+                with gr.Accordion("Model", open=False):
+                    with gr.Row():
+                        model_scale_page = gr.Slider(label="Scale", minimum=0.01, maximum=10, step=0.01, value=1)
+                    with gr.Row():
+                        model_rotate_x_page = gr.Slider(
+                            label="Rotate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
+                        model_rotate_y_page = gr.Slider(
+                            label="Rotate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
+                        model_rotate_z_page = gr.Slider(
+                            label="Rotate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
+
                 with gr.Row():
                     upload_button = gr.Button(value="Load Model", variant="primary")
                 with gr.Accordion("Upload Settings", open=False):
@@ -91,13 +99,19 @@ def on_ui_tabs():
 
                 gr.HTML(value='\n'.join(js_), elem_id=import_id, visible=False)
 
-        position_rotate_x_page.change(None, [position_rotate_x_page, position_rotate_y_page, position_rotate_z_page],
-                                      None, _js="moveOrRotateTarget3DModel")
-        position_rotate_y_page.change(None, [position_rotate_x_page, position_rotate_y_page, position_rotate_z_page],
-                                      None, _js="moveOrRotateTarget3DModel")
-        position_rotate_z_page.change(None, [position_rotate_x_page, position_rotate_y_page, position_rotate_z_page],
-                                      None, _js="moveOrRotateTarget3DModel")
-        change_target_radio.change(None, [change_target_radio], None, _js="setTarget3DModel")
+        model_rotate_x_page.change(None, [model_rotate_x_page, model_rotate_y_page, model_rotate_z_page],
+                                     None, _js="rotateModel3DModel")
+        model_rotate_y_page.change(None, [model_rotate_x_page, model_rotate_y_page, model_rotate_z_page],
+                                     None, _js="rotateModel3DModel")
+        model_rotate_z_page.change(None, [model_rotate_x_page, model_rotate_y_page, model_rotate_z_page],
+                                     None, _js="rotateModel3DModel")
+
+        light_position_x_page.change(None, [light_position_x_page, light_position_y_page, light_position_z_page],
+                                      None, _js="moveLight3DModel")
+        light_position_y_page.change(None, [light_position_x_page, light_position_y_page, light_position_z_page],
+                                      None, _js="moveLight3DModel")
+        light_position_z_page.change(None, [light_position_x_page, light_position_y_page, light_position_z_page],
+                                      None, _js="moveLight3DModel")
         entry_type.change(None, [entry_type], None, _js="setEntryType3DModel")
         width_page.change(None, [width_page, height_page], None, _js="setCanvasSize3DModel")
         height_page.change(None, [width_page, height_page], None, _js="setCanvasSize3DModel")
