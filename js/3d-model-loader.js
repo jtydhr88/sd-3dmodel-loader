@@ -17,11 +17,21 @@ async function _import() {
 
 async function _import_vmr() {
     if (!globalThis.threeDModelLoader || !globalThis.threeDModelLoader.import) {
-        const VRMLoaderPlugin = await import('three-vrm');
+        const {VRMLoaderPlugin, VRMUtils} = await import('three-vrm');
+
+        return { VRMLoaderPlugin, VRMUtils};
+    } else {
+        return await globalThis.threeDModelLoader.imports.threeVRM();
+    }
+}
+
+async function _import_loadMixamoAnimation() {
+    if (!globalThis.threeDModelLoader || !globalThis.threeDModelLoader.import) {
+        const loadMixamoAnimation = await import('loadMixamoAnimation');
 
         return { VRMLoaderPlugin };
     } else {
-        return await globalThis.threeDModelLoader.imports.threeVRM();
+        return await globalThis.threeDModelLoader.imports.loadMixamoAnimation();
     }
 }
 
@@ -30,8 +40,12 @@ const {
 } = await _import();
 
 const {
-    VRMLoaderPlugin
+    VRMLoaderPlugin, VRMUtils
 } = await _import_vmr();
+
+const {
+    loadMixamoAnimation
+} = await _import_loadMixamoAnimation();
 
 function checkDivVisible(div) {
     if ((div.offsetWidth > 0) && (div.offsetHeight > 0)) {
@@ -56,6 +70,17 @@ let directionalLight;
 let mixer;
 let action;
 let isPlay;
+let multiFiles = false;
+let entryType;
+let currentVRM;
+
+function setEntryType(newEntryType) {
+    entryType = newEntryType;
+}
+
+function setMultiFiles(isMultiFiles) {
+    multiFiles = isMultiFiles;
+}
 
 function playAndPause() {
     if (isPlay) {
@@ -131,6 +156,107 @@ function isGLTF1( contents ) {
 }
 
 function uploadFile() {
+    if (multiFiles) {
+        if (entryType) {
+            uploadMultiFiles();
+        }
+    }
+    else {
+        uploadSingleFile();
+    }
+}
+
+function getExtension(filename) {
+  return filename.toLowerCase().split('.').pop();
+}
+
+function findEntryFileByExt(files, ext) {
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+
+        if (getExtension(file.name) === ext) {
+            return file;
+        }
+    }
+
+    return undefined;
+}
+
+function uploadMultiFiles() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.multiple = true;
+
+    input.addEventListener("change", function(e) {
+        const files = e.target.files;
+
+        const entryFile = findEntryFileByExt(files, entryType);
+
+        const entryFileUrl = URL.createObjectURL(entryFile);
+
+        let manager = new THREE.LoadingManager();
+
+        switch (entryType) {
+            case 'vrm':
+                const loader = new GLTFLoader( manager );
+                loader.crossOrigin = 'anonymous';
+                helperRoot.clear();
+
+                loader.register((parser) => {
+                    return new VRMLoaderPlugin(parser);
+                });
+
+                loader.load(
+                    // URL of the VRM you want to load
+                    entryFileUrl,
+
+                    // called when the resource is loaded
+                    ( gltf ) => {
+                        const vrm = gltf.userData.vrm;
+
+                        const resultScene = vrm.scene;
+
+						resultScene.name = "mainObject";
+
+                        scene.add(resultScene);
+
+                        currentVRM = vrm;
+
+                        vrm.scene.traverse( ( obj ) => {
+
+                            obj.frustumCulled = false;
+
+                        } );
+
+
+                        const animationFbxFile = findEntryFileByExt(files, "fbx");
+
+                        if (animationFbxFile) {
+                            const animationFbxFileUrl = URL.createObjectURL(animationFbxFile);
+
+                            mixer = new THREE.AnimationMixer(resultScene);
+
+                            loadMixamoAnimation(animationFbxFileUrl, currentVRM).then((clip) => {
+                                action = mixer.clipAction(clip);
+
+                                action.play();
+
+                                isPlay = true;
+                            });
+                        }
+
+                        VRMUtils.rotateVRM0( vrm );
+                    }
+                );
+
+                break;
+        }
+    });
+
+    input.click();
+}
+
+function uploadSingleFile() {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = ".obj, .stl, .fbx, .gltf, .glb, .dae, .vrm";
@@ -209,6 +335,8 @@ function uploadFile() {
                     scaleObjectToProper(mainObject);
 
                     scene.add(mainObject);
+
+                    isPlay = true;
                 }, false);
 
                 reader.readAsArrayBuffer(file);
@@ -318,7 +446,7 @@ function uploadFile() {
         }
     })
     input.click();
-    isPlay = true;
+
 }
 
 function setGroundVisible(haGround) {
@@ -526,10 +654,14 @@ function init_3d(webGLOutputDiv3DModel) {
         if (checkDivVisible(webGLOutputDiv3DModel)) {
             orbitController3DModel.update();
 
-            var delta = clock3DModel.getDelta();
+            let delta = clock3DModel.getDelta();
 
             if (mixer && isPlay) {
                 mixer.update(delta);
+            }
+
+            if (currentVRM && isPlay) {
+                currentVRM.update( delta );
             }
 
             renderer.render(scene, camera);
@@ -582,5 +714,5 @@ function sendImage(type, index) {
 export {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
     uploadFile, setLightColor, moveOrRotateTarget, setTarget, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop
+    playAndPause, stop, setMultiFiles, setEntryType
 };

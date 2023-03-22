@@ -24,31 +24,35 @@ def on_ui_tabs():
     with gr.Blocks(analytics_enabled=False) as threeDModel_loader:
         with gr.Row():
             with gr.Column():
-                with gr.Row():
-                    with gr.Column():
-                        width_page = gr.Slider(label="Width", minimum=64, maximum=2048, value=512, step=64, interactive=True)
-                        height_page = gr.Slider(label="Height", minimum=64, maximum=2048, value=512, step=64, interactive=True)
-                    with gr.Column():
-                        change_target_radio = gr.Radio(["Light", "Model"], label="Target")
-                        position_rotate_x_page = gr.Slider(
-                            label="Position/Rotate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
-                        position_rotate_y_page = gr.Slider(
-                            label="Position/Rotate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
-                        position_rotate_z_page = gr.Slider(
-                            label="Position/Rotate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
-                with gr.Row():
-                    has_ground_page = gr.Checkbox(label="Show Ground", value=opts.threeDmodel_has_ground)
-                    has_ground_grid_page = gr.Checkbox(label="Show Grid", value=opts.threeDmodel_has_ground_grid)
-                    has_axis_page = gr.Checkbox(label="Show Axis", value=opts.threeDmodel_has_axis)
+                with gr.Accordion("Canvas", open=False):
                     with gr.Row():
-                        color_page = gr.ColorPicker(label="Background Color", value=opts.threeDmodel_bg_color, elem_id="bg_color")
-                        ground_color_page = gr.ColorPicker(label="Ground Color", value=opts.threeDmodel_ground_color, elem_id="ground_color")
-                        light_color_page = gr.ColorPicker(label="Light Color", value=opts.threeDmodel_ground_color,
-                                                           elem_id="Light_color")
+                        with gr.Column():
+                            width_page = gr.Slider(label="Width", minimum=64, maximum=2048, value=512, step=64, interactive=True)
+                            height_page = gr.Slider(label="Height", minimum=64, maximum=2048, value=512, step=64, interactive=True)
+                        with gr.Column():
+                            change_target_radio = gr.Radio(["Light", "Model"], label="Target")
+                            position_rotate_x_page = gr.Slider(
+                                label="Position/Rotate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
+                            position_rotate_y_page = gr.Slider(
+                                label="Position/Rotate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
+                            position_rotate_z_page = gr.Slider(
+                                label="Position/Rotate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True)
+                    with gr.Row():
+                        has_ground_page = gr.Checkbox(label="Show Ground", value=opts.threeDmodel_has_ground)
+                        has_ground_grid_page = gr.Checkbox(label="Show Grid", value=opts.threeDmodel_has_ground_grid)
+                        has_axis_page = gr.Checkbox(label="Show Axis", value=opts.threeDmodel_has_axis)
+                        with gr.Row():
+                            color_page = gr.ColorPicker(label="Background Color", value=opts.threeDmodel_bg_color, elem_id="bg_color")
+                            ground_color_page = gr.ColorPicker(label="Ground Color", value=opts.threeDmodel_ground_color, elem_id="ground_color")
+                            light_color_page = gr.ColorPicker(label="Light Color", value=opts.threeDmodel_ground_color,
+                                                               elem_id="Light_color")
                 with gr.Row():
                     model_scale_page = gr.Slider(label="Model Scale", minimum=0.01, maximum=10, step=0.01, value=1)
                 with gr.Row():
                     upload_button = gr.Button(value="Load Model", variant="primary")
+                    multi_files_checkbox = gr.Checkbox(label="includes additional resource")
+                    entry_type = gr.Dropdown(["vrm"], label="Entry Type", interactive=True, visible=True)
+
                 with gr.Row():
                     reset_btn = gr.Button(value="Reset")
                     send_t2t = gr.Button(value="Send to txt2img")
@@ -89,10 +93,12 @@ def on_ui_tabs():
         position_rotate_z_page.change(None, [position_rotate_x_page, position_rotate_y_page, position_rotate_z_page],
                                       None, _js="moveOrRotateTarget3DModel")
         change_target_radio.change(None, [change_target_radio], None, _js="setTarget3DModel")
+        entry_type.change(None, [entry_type], None, _js="setEntryType3DModel")
         width_page.change(None, [width_page, height_page], None, _js="setCanvasSize3DModel")
         height_page.change(None, [width_page, height_page], None, _js="setCanvasSize3DModel")
         model_scale_page.change(None, [model_scale_page], None, _js="updateModel3DModel")
         has_ground_page.change(None, [has_ground_page], None, _js="setGroundVisible3DModel")
+        multi_files_checkbox.change(None, [multi_files_checkbox], None, _js="setMultiFiles3DModel")
         has_ground_grid_page.change(None, [has_ground_grid_page], None, _js="setGroundGridVisible3DModel")
         has_axis_page.change(None, [has_axis_page], None, _js="setAxisVisible3DModel")
         color_page.change(None, [color_page], None, _js="setBGColor3DModel")

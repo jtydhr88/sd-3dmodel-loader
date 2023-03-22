@@ -42,6 +42,10 @@
             globalThis.threeDModelLoader.imports.threeVRM = async () => await import(`${base_path}/three-vrm.module.js`);
         }
 
+        if (!globalThis.threeDModelLoader.imports.loadMixamoAnimation) {
+            globalThis.threeDModelLoader.imports.loadMixamoAnimation = async () => await import(`${base_path}/loadMixamoAnimation.js`);
+        }
+
         if (!globalThis.threeDModelLoader.imports.tagLoader) {
             globalThis.threeDModelLoader.imports.tagLoader = async () => await import(`${base_path}/TGALoader.js`);
         }

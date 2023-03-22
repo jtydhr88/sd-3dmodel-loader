@@ -11,7 +11,7 @@ async function _import() {
 const {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
     uploadFile, setLightColor, moveOrRotateTarget, setTarget, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop
+    playAndPause, stop, setMultiFiles, setEntryType
 } = await _import();
 
 (async function () {
@@ -81,6 +81,14 @@ const {
 
     window.stop3DModel = function() {
         stop();
+    };
+
+    window.setMultiFiles3DModel = function(isMultiFiles) {
+        setMultiFiles(isMultiFiles);
+    };
+
+    window.setEntryType3DModel = function(entryType) {
+        setEntryType(entryType);
     };
 
 })();
