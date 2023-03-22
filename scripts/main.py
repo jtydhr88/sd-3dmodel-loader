@@ -50,8 +50,13 @@ def on_ui_tabs():
                     model_scale_page = gr.Slider(label="Model Scale", minimum=0.01, maximum=10, step=0.01, value=1)
                 with gr.Row():
                     upload_button = gr.Button(value="Load Model", variant="primary")
-                    multi_files_checkbox = gr.Checkbox(label="includes additional resource")
-                    entry_type = gr.Dropdown(["vrm"], label="Entry Type", interactive=True, visible=True)
+                with gr.Accordion("Upload Settings", open=False):
+                    with gr.Row():
+                        multi_files_checkbox = gr.Checkbox(label="includes additional resource")
+                        entry_type = gr.Dropdown(["vrm"], label="Entry Type", interactive=True, visible=True)
+                    with gr.Row():
+                        gr.HTML("<div>Notice, currently multi files select only supports VRM models combine with FBX "
+                                "animation, other formats support will add later </div>")
 
                 with gr.Row():
                     reset_btn = gr.Button(value="Reset")
