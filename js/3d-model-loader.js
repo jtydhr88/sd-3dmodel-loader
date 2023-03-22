@@ -196,11 +196,12 @@ function uploadMultiFiles() {
 
         let manager = new THREE.LoadingManager();
 
+        removeMainObject();
+
         switch (entryType) {
             case 'vrm':
                 const loader = new GLTFLoader( manager );
                 loader.crossOrigin = 'anonymous';
-                helperRoot.clear();
 
                 loader.register((parser) => {
                     return new VRMLoaderPlugin(parser);
