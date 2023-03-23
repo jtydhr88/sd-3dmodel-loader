@@ -11,7 +11,7 @@ async function _import() {
 const {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
     uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop, setMultiFiles, setEntryType, rotateModel
+    playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime
 } = await _import();
 
 (async function () {
@@ -89,6 +89,10 @@ const {
 
     window.rotateModel3DModel = function(x, y, z) {
         rotateModel(x, y, z);
+    };
+
+    window.setCurrentAnimationTime3DModel = function(currentTime) {
+        setCurrentAnimationTime(currentTime);
     };
 
 })();

@@ -72,6 +72,10 @@ let isPlay;
 let multiFiles = false;
 let entryType;
 let currentVRM;
+let totalTime;
+let currentTime;
+let progress;
+let controlByProgressBar;
 
 function setEntryType(newEntryType) {
     entryType = newEntryType;
@@ -165,6 +169,16 @@ function uploadFile() {
     }
 }
 
+function setCurrentAnimationTime(newCurrentTime) {
+    if (action) {
+        currentTime = newCurrentTime / 100 * totalTime;
+
+        action.time = currentTime;
+
+        controlByProgressBar = true;
+    }
+}
+
 function getExtension(filename) {
   return filename.toLowerCase().split('.').pop();
 }
@@ -240,6 +254,10 @@ function uploadMultiFiles() {
                                 action = mixer.clipAction(clip);
 
                                 action.play();
+
+                                const vrmClip = action.getClip();
+
+                                totalTime = vrmClip.duration;
 
                                 isPlay = true;
                             });
@@ -321,6 +339,10 @@ function uploadSingleFile() {
                         action = mixer.clipAction(mainObject.animations[0]);
 
                         action.play();
+
+                        const clip = action.getClip();
+
+                        totalTime = clip.duration;
                     }
 
                     mainObject.traverse(function(child) {
@@ -649,12 +671,29 @@ function init_3d(webGLOutputDiv3DModel) {
 
             let delta = clock3DModel.getDelta();
 
-            if (mixer && isPlay) {
-                mixer.update(delta);
+            if (mixer && isPlay && !controlByProgressBar) {
+                currentTime = mixer.time > totalTime? mixer.time - totalTime: mixer.time;
+
+                progress = currentTime / totalTime;
+
+                let progressBar = gradioApp().querySelector('#progress_bar_3dmodel');
+
+                //TODO should update progress bar here
+                //progressBar.childNodes[4].value = progress * 100;
             }
 
-            if (currentVRM && isPlay) {
+            if ((mixer && isPlay) || (mixer && controlByProgressBar)) {
+                mixer.update(delta);
+
+                if (!currentVRM) {
+                    controlByProgressBar = false;
+                }
+            }
+
+            if ((currentVRM && isPlay) || (currentVRM && controlByProgressBar)) {
                 currentVRM.update( delta );
+
+                controlByProgressBar = false;
             }
 
             renderer.render(scene, camera);
@@ -707,5 +746,5 @@ function sendImage(type, index) {
 export {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
     uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop, setMultiFiles, setEntryType, rotateModel
+    playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime
 };

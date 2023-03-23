@@ -7,6 +7,7 @@ from modules.shared import opts
 from modules import extensions
 import os
 
+
 class Script(scripts.Script):
     def __init__(self) -> None:
         super().__init__()
@@ -20,6 +21,7 @@ class Script(scripts.Script):
     def ui(self, is_img2img):
         return ()
 
+
 def on_ui_tabs():
     with gr.Blocks(analytics_enabled=False) as threeDModel_loader:
         with gr.Row():
@@ -27,8 +29,10 @@ def on_ui_tabs():
                 with gr.Accordion("Canvas", open=False):
                     with gr.Row():
                         with gr.Column():
-                            width_page = gr.Slider(label="Width", minimum=64, maximum=2048, value=512, step=64, interactive=True)
-                            height_page = gr.Slider(label="Height", minimum=64, maximum=2048, value=512, step=64, interactive=True)
+                            width_page = gr.Slider(label="Width", minimum=64, maximum=2048, value=512, step=64,
+                                                   interactive=True)
+                            height_page = gr.Slider(label="Height", minimum=64, maximum=2048, value=512, step=64,
+                                                    interactive=True)
                         with gr.Column():
                             light_position_x_page = gr.Slider(
                                 label="Light Position X", minimum=-100, maximum=100, value=0, step=1, interactive=True)
@@ -41,10 +45,13 @@ def on_ui_tabs():
                         has_ground_grid_page = gr.Checkbox(label="Show Grid", value=opts.threeDmodel_has_ground_grid)
                         has_axis_page = gr.Checkbox(label="Show Axis", value=opts.threeDmodel_has_axis)
                         with gr.Row():
-                            color_page = gr.ColorPicker(label="Background Color", value=opts.threeDmodel_bg_color, elem_id="bg_color")
-                            ground_color_page = gr.ColorPicker(label="Ground Color", value=opts.threeDmodel_ground_color, elem_id="ground_color")
+                            color_page = gr.ColorPicker(label="Background Color", value=opts.threeDmodel_bg_color,
+                                                        elem_id="bg_color")
+                            ground_color_page = gr.ColorPicker(label="Ground Color",
+                                                               value=opts.threeDmodel_ground_color,
+                                                               elem_id="ground_color")
                             light_color_page = gr.ColorPicker(label="Light Color", value=opts.threeDmodel_ground_color,
-                                                               elem_id="Light_color")
+                                                              elem_id="Light_color")
                 with gr.Accordion("Model", open=False):
                     with gr.Row():
                         model_scale_page = gr.Slider(label="Scale", minimum=0.01, maximum=10, step=0.01, value=1)
@@ -60,11 +67,11 @@ def on_ui_tabs():
                     upload_button = gr.Button(value="Load Model", variant="primary")
                 with gr.Accordion("Upload Settings", open=False):
                     with gr.Row():
-                        multi_files_checkbox = gr.Checkbox(label="includes additional resource")
+                        multi_files_checkbox = gr.Checkbox(label="includes additional resource(multi files select)")
                         entry_type = gr.Dropdown(["vrm"], label="Entry Type", interactive=True, visible=True)
                     with gr.Row():
                         gr.HTML("<div>Notice, currently multi files select only supports VRM models combine with FBX "
-                                "animation, other formats support will add later </div>")
+                                "animation from Mixamo, other formats support will add later </div>")
 
                 with gr.Row():
                     reset_btn = gr.Button(value="Reset")
@@ -79,15 +86,20 @@ def on_ui_tabs():
                     select_target_index = gr.Dropdown([str(i) for i in range(control_net_num)],
                                                       label="Send to", value="0", interactive=True,
                                                       visible=(control_net_num > 1))
-                with gr.Row():
-                    play_pause_button = gr.Button(value="Play/Pause")
-                    stop_button = gr.Button(value="Stop")
+                with gr.Accordion("Animation", open=False):
+                    with gr.Row():
+                        play_pause_button = gr.Button(value="Play/Pause")
+                        stop_button = gr.Button(value="Stop")
+                    with gr.Row():
+                        progress_bar = gr.Slider(label="Progress", minimum=0, maximum=100, value=0, step=0.5,
+                                                 interactive=True, elem_id="progress_bar_3dmodel")
 
             with gr.Column():
-                gr.HTML(f'<div id="WebGL-output-3dmodel" canvas_width="{opts.threeDmodel_canvas_width}" canvas_height="{opts.threeDmodel_canvas_height}" ' +
-                        f'canvas_bg_color="{opts.threeDmodel_bg_color}" canvas_ground_color="{opts.threeDmodel_ground_color}" ' +
-                        f'has_ground="{opts.threeDmodel_has_ground}" has_ground_grid="{opts.threeDmodel_has_ground_grid}" has_axis="{opts.threeDmodel_has_axis}" ' +
-                        f'style="width: {int(opts.threeDmodel_canvas_width) + 2}px; height: {int(opts.threeDmodel_canvas_height) + 2}px; border: 0.5px solid;"></div>')
+                gr.HTML(
+                    f'<div id="WebGL-output-3dmodel" canvas_width="{opts.threeDmodel_canvas_width}" canvas_height="{opts.threeDmodel_canvas_height}" ' +
+                    f'canvas_bg_color="{opts.threeDmodel_bg_color}" canvas_ground_color="{opts.threeDmodel_ground_color}" ' +
+                    f'has_ground="{opts.threeDmodel_has_ground}" has_ground_grid="{opts.threeDmodel_has_ground_grid}" has_axis="{opts.threeDmodel_has_axis}" ' +
+                    f'style="width: {int(opts.threeDmodel_canvas_width) + 2}px; height: {int(opts.threeDmodel_canvas_height) + 2}px; border: 0.5px solid;"></div>')
 
                 import_id = 'WebGL-output-3dmodel-import'
 
@@ -99,19 +111,20 @@ def on_ui_tabs():
 
                 gr.HTML(value='\n'.join(js_), elem_id=import_id, visible=False)
 
+        progress_bar.change(None, [progress_bar], None, _js="setCurrentAnimationTime3DModel")
         model_rotate_x_page.change(None, [model_rotate_x_page, model_rotate_y_page, model_rotate_z_page],
-                                     None, _js="rotateModel3DModel")
+                                   None, _js="rotateModel3DModel")
         model_rotate_y_page.change(None, [model_rotate_x_page, model_rotate_y_page, model_rotate_z_page],
-                                     None, _js="rotateModel3DModel")
+                                   None, _js="rotateModel3DModel")
         model_rotate_z_page.change(None, [model_rotate_x_page, model_rotate_y_page, model_rotate_z_page],
-                                     None, _js="rotateModel3DModel")
+                                   None, _js="rotateModel3DModel")
 
         light_position_x_page.change(None, [light_position_x_page, light_position_y_page, light_position_z_page],
-                                      None, _js="moveLight3DModel")
+                                     None, _js="moveLight3DModel")
         light_position_y_page.change(None, [light_position_x_page, light_position_y_page, light_position_z_page],
-                                      None, _js="moveLight3DModel")
+                                     None, _js="moveLight3DModel")
         light_position_z_page.change(None, [light_position_x_page, light_position_y_page, light_position_z_page],
-                                      None, _js="moveLight3DModel")
+                                     None, _js="moveLight3DModel")
         entry_type.change(None, [entry_type], None, _js="setEntryType3DModel")
         width_page.change(None, [width_page, height_page], None, _js="setCanvasSize3DModel")
         height_page.change(None, [width_page, height_page], None, _js="setCanvasSize3DModel")
@@ -132,6 +145,7 @@ def on_ui_tabs():
 
     return [(threeDModel_loader, "3D Model Loader", "3dmodel_loador")]
 
+
 def get_self_extension():
     if '__file__' in globals():
         filepath = __file__
@@ -142,6 +156,7 @@ def get_self_extension():
         if ext.path in filepath:
             return ext
 
+
 def on_ui_settings():
     section = ('3dmodel', "3D Model")
     shared.opts.add_option("threeDmodel_bg_color", shared.OptionInfo(
@@ -149,15 +164,18 @@ def on_ui_settings():
     shared.opts.add_option("threeDmodel_ground_color", shared.OptionInfo(
         "#ffffff", "Canvas Ground Color", gr.ColorPicker, {"interactive": True}, section=section))
     shared.opts.add_option("threeDmodel_canvas_width", shared.OptionInfo(
-        512, "Canvas Width", gr.Slider, {"minimum": 64, "maximum": 2048, "step": 64, "interactive": True}, section=section))
+        512, "Canvas Width", gr.Slider, {"minimum": 64, "maximum": 2048, "step": 64, "interactive": True},
+        section=section))
     shared.opts.add_option("threeDmodel_canvas_height", shared.OptionInfo(
-        512, "Canvas Height", gr.Slider, {"minimum": 64, "maximum": 2048, "step": 64, "interactive": True}, section=section))
+        512, "Canvas Height", gr.Slider, {"minimum": 64, "maximum": 2048, "step": 64, "interactive": True},
+        section=section))
     shared.opts.add_option("threeDmodel_has_ground", shared.OptionInfo(
         True, "Show Ground", gr.Checkbox, {"interactive": True}, section=section))
     shared.opts.add_option("threeDmodel_has_ground_grid", shared.OptionInfo(
         True, "Show Grid", gr.Checkbox, {"interactive": True}, section=section))
     shared.opts.add_option("threeDmodel_has_axis", shared.OptionInfo(
         True, "Show Axis", gr.Checkbox, {"interactive": True}, section=section))
+
 
 script_callbacks.on_ui_tabs(on_ui_tabs)
 script_callbacks.on_ui_settings(on_ui_settings)
