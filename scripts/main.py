@@ -5,6 +5,7 @@ from modules import script_callbacks
 from modules import shared
 from modules.shared import opts
 from modules import extensions
+
 import os
 
 
@@ -26,6 +27,118 @@ def on_ui_tabs():
     with gr.Blocks(analytics_enabled=False) as threeDModel_loader:
         with gr.Row():
             with gr.Column():
+                with gr.Accordion("Pose", open=False):
+                    with gr.Row():
+                        load_pose_button = gr.Button(value="Load Pose Model", variant="primary")
+                    with gr.Accordion("Body", open=False):
+                        with gr.Row():
+                            neck_x_page = gr.Slider(
+                                label="Neck X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                            neck_y_page = gr.Slider(
+                                label="Neck Y", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                            neck_z_page = gr.Slider(
+                                label="Neck Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                        with gr.Row():
+                            spine_x_page = gr.Slider(
+                                label="Spine X", minimum=-0.1, maximum=0.5, value=0, step=0.01, interactive=True)
+                            spine_y_page = gr.Slider(
+                                label="Spine Y", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                            spine_z_page = gr.Slider(
+                                label="Spine Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                    with gr.Accordion("Left Arm", open=False):
+                        with gr.Row():
+                            left_upper_arm_x_page = gr.Slider(
+                                label="LeftUpperArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                            left_upper_arm_y_page = gr.Slider(
+                                label="LeftUpperArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True)
+                            left_upper_arm_z_page = gr.Slider(
+                                label="LeftUpperArm Z", minimum=-0.4, maximum=0.4, value=0, step=0.01, interactive=True)
+                        with gr.Row():
+                            left_lower_arm_x_page = gr.Slider(
+                                label="LeftLowerArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                            left_lower_arm_y_page = gr.Slider(
+                                label="LeftLowerArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True)
+                            left_lower_arm_z_page = gr.Slider(
+                                label="LeftLowerArm Z", minimum=-0.4, maximum=0.1, value=0, step=0.01, interactive=True)
+                        with gr.Row():
+                            left_hand_x_page = gr.Slider(
+                                label="LeftHand X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                            left_hand_y_page = gr.Slider(
+                                label="LeftHand Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                            left_hand_z_page = gr.Slider(
+                                label="LeftHand Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+
+                    with gr.Accordion("Right Arm", open=False):
+                        with gr.Row():
+                            right_upper_arm_x_page = gr.Slider(
+                                label="RightUpperArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                            right_upper_arm_y_page = gr.Slider(
+                                label="RightUpperArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True)
+                            right_upper_arm_z_page = gr.Slider(
+                                label="RightUpperArm Z", minimum=-0.4, maximum=0.4, value=0, step=0.01, interactive=True)
+                        with gr.Row():
+                            right_lower_arm_x_page = gr.Slider(
+                                label="RightLowerArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                            right_lower_arm_y_page = gr.Slider(
+                                label="RightLowerArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True)
+                            right_lower_arm_z_page = gr.Slider(
+                                label="RightLowerArm Z", minimum=-0.4, maximum=0.1, value=0, step=0.01, interactive=True)
+                        with gr.Row():
+                            right_hand_x_page = gr.Slider(
+                                label="RightHand X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                            right_hand_y_page = gr.Slider(
+                                label="RightHand Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                            right_hand_z_page = gr.Slider(
+                                label="RightHand Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+
+                    with gr.Accordion("Left Leg", open=False):
+                        with gr.Row():
+                            left_upper_leg_x_page = gr.Slider(
+                                label="LeftUpperLeg X", minimum=-0.5, maximum=0.3, value=0, step=0.01, interactive=True)
+                            left_upper_leg_y_page = gr.Slider(
+                                label="LeftUpperLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                            left_upper_leg_z_page = gr.Slider(
+                                label="LeftUpperLeg Z", minimum=-0.1, maximum=0.6, value=0, step=0.01, interactive=True)
+                        with gr.Row():
+                            left_lower_leg_x_page = gr.Slider(
+                                label="LeftLowerLeg X", minimum=-0.05, maximum=0.7, value=0, step=0.01, interactive=True)
+                            left_lower_leg_y_page = gr.Slider(
+                                label="LeftLowerLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                            left_lower_leg_z_page = gr.Slider(
+                                label="LeftLowerLeg Z", minimum=-0.05, maximum=0.05, value=0, step=0.01, interactive=True)
+                        with gr.Row():
+                            left_foot_x_page = gr.Slider(
+                                label="LeftFoot X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                            left_foot_y_page = gr.Slider(
+                                label="LeftFoot Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                            left_foot_z_page = gr.Slider(
+                                label="LeftFoot Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+
+                    with gr.Accordion("Right Leg", open=False):
+                        with gr.Row():
+                            right_upper_leg_x_page = gr.Slider(
+                                label="RightUpperLeg X", minimum=-0.5, maximum=0.3, value=0, step=0.01, interactive=True)
+                            right_upper_leg_y_page = gr.Slider(
+                                label="RightUpperLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                            right_upper_leg_z_page = gr.Slider(
+                                label="RightUpperLeg Z", minimum=-0.1, maximum=0.6, value=0, step=0.01, interactive=True)
+
+                        with gr.Row():
+                            right_lower_leg_x_page = gr.Slider(
+                                label="RightLowerLeg X", minimum=-0.05, maximum=0.7, value=0, step=0.01, interactive=True)
+                            right_lower_leg_y_page = gr.Slider(
+                                label="RightLowerLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                            right_lower_leg_z_page = gr.Slider(
+                                label="RightLowerLeg Z", minimum=-0.05, maximum=0.05, value=0, step=0.01, interactive=True)
+
+                        with gr.Row():
+                            right_foot_x_page = gr.Slider(
+                                label="RightFoot X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                            right_foot_y_page = gr.Slider(
+                                label="RightFoot Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                            right_foot_z_page = gr.Slider(
+                                label="RightFoot Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+
                 with gr.Accordion("Canvas", open=False):
                     with gr.Row():
                         with gr.Column():
@@ -86,6 +199,8 @@ def on_ui_tabs():
                     select_target_index = gr.Dropdown([str(i) for i in range(control_net_num)],
                                                       label="Send to", value="0", interactive=True,
                                                       visible=(control_net_num > 1))
+
+
                 with gr.Accordion("Animation", open=False):
                     with gr.Row():
                         play_pause_button = gr.Button(value="Play/Pause")
@@ -110,6 +225,104 @@ def on_ui_tabs():
                 js_.insert(0, ext.path)
 
                 gr.HTML(value='\n'.join(js_), elem_id=import_id, visible=False)
+
+        load_pose_button.click(None, None, None, _js='loadPoseFile3DModel')
+
+        spine_x_page.change(None, [spine_x_page, spine_y_page, spine_z_page],
+                                 None,
+                                 _js="poseRotateSpine3DModel")
+        spine_y_page.change(None, [spine_x_page, spine_y_page, spine_z_page],
+                                 None,
+                                 _js="poseRotateSpine3DModel")
+        spine_z_page.change(None, [spine_x_page, spine_y_page, spine_z_page],
+                                 None,
+                                 _js="poseRotateSpine3DModel")
+
+        right_foot_x_page.change(None, [right_foot_x_page, right_foot_y_page, right_foot_z_page],
+                                 None,
+                                 _js="poseRotateRightFoot3DModel")
+        right_foot_y_page.change(None, [right_foot_x_page, right_foot_y_page, right_foot_z_page],
+                                 None,
+                                 _js="poseRotateRightFoot3DModel")
+        right_foot_z_page.change(None, [right_foot_x_page, right_foot_y_page, right_foot_z_page],
+                                 None,
+                                 _js="poseRotateRightFoot3DModel")
+
+        left_foot_x_page.change(None, [left_foot_x_page, left_foot_y_page, left_foot_z_page], None,
+                                _js="poseRotateLeftFoot3DModel")
+        left_foot_y_page.change(None, [left_foot_x_page, left_foot_y_page, left_foot_z_page], None,
+                                _js="poseRotateLeftFoot3DModel")
+        left_foot_z_page.change(None, [left_foot_x_page, left_foot_y_page, left_foot_z_page], None,
+                                _js="poseRotateLeftFoot3DModel")
+
+        right_hand_x_page.change(None, [right_hand_x_page, right_hand_y_page, right_hand_z_page],
+                                      None,
+                                      _js="poseRotateRightHand3DModel")
+        right_hand_y_page.change(None, [right_hand_x_page, right_hand_y_page, right_hand_z_page],
+                                      None,
+                                      _js="poseRotateRightHand3DModel")
+        right_hand_z_page.change(None, [right_hand_x_page, right_hand_y_page, right_hand_z_page],
+                                      None,
+                                      _js="poseRotateRightHand3DModel")
+
+        left_hand_x_page.change(None, [left_hand_x_page, left_hand_y_page, left_hand_z_page], None,
+                                     _js="poseRotateLeftHand3DModel")
+        left_hand_y_page.change(None, [left_hand_x_page, left_hand_y_page, left_hand_z_page], None,
+                                     _js="poseRotateLeftHand3DModel")
+        left_hand_z_page.change(None, [left_hand_x_page, left_hand_y_page, left_hand_z_page], None,
+                                     _js="poseRotateLeftHand3DModel")
+
+        right_lower_leg_x_page.change(None, [right_lower_leg_x_page, right_lower_leg_y_page, right_lower_leg_z_page],
+                                      None,
+                                      _js="poseRotateRightLowerLeg3DModel")
+        right_lower_leg_y_page.change(None, [right_lower_leg_x_page, right_lower_leg_y_page, right_lower_leg_z_page],
+                                      None,
+                                      _js="poseRotateRightLowerLeg3DModel")
+        right_lower_leg_z_page.change(None, [right_lower_leg_x_page, right_lower_leg_y_page, right_lower_leg_z_page],
+                                      None,
+                                      _js="poseRotateRightLowerLeg3DModel")
+
+        left_lower_leg_x_page.change(None, [left_lower_leg_x_page, left_lower_leg_y_page, left_lower_leg_z_page], None,
+                                     _js="poseRotateLeftLowerLeg3DModel")
+        left_lower_leg_y_page.change(None, [left_lower_leg_x_page, left_lower_leg_y_page, left_lower_leg_z_page], None,
+                                     _js="poseRotateLeftLowerLeg3DModel")
+        left_lower_leg_z_page.change(None, [left_lower_leg_x_page, left_lower_leg_y_page, left_lower_leg_z_page], None,
+                                     _js="poseRotateLeftLowerLeg3DModel")
+
+        right_upper_leg_x_page.change(None, [right_upper_leg_x_page, right_upper_leg_y_page, right_upper_leg_z_page], None,
+                                     _js="poseRotateRightUpperLeg3DModel")
+        right_upper_leg_y_page.change(None, [right_upper_leg_x_page, right_upper_leg_y_page, right_upper_leg_z_page], None,
+                                     _js="poseRotateRightUpperLeg3DModel")
+        right_upper_leg_z_page.change(None, [right_upper_leg_x_page, right_upper_leg_y_page, right_upper_leg_z_page], None,
+                                     _js="poseRotateRightUpperLeg3DModel")
+
+        left_upper_leg_x_page.change(None, [left_upper_leg_x_page, left_upper_leg_y_page, left_upper_leg_z_page], None,
+                                     _js="poseRotateLeftUpperLeg3DModel")
+        left_upper_leg_y_page.change(None, [left_upper_leg_x_page, left_upper_leg_y_page, left_upper_leg_z_page], None,
+                                     _js="poseRotateLeftUpperLeg3DModel")
+        left_upper_leg_z_page.change(None, [left_upper_leg_x_page, left_upper_leg_y_page, left_upper_leg_z_page], None,
+                                     _js="poseRotateLeftUpperLeg3DModel")
+
+        left_lower_arm_x_page.change(None, [left_lower_arm_x_page, left_lower_arm_y_page, left_lower_arm_z_page], None, _js="poseRotateLeftLowerArm3DModel")
+        left_lower_arm_y_page.change(None, [left_lower_arm_x_page, left_lower_arm_y_page, left_lower_arm_z_page], None, _js="poseRotateLeftLowerArm3DModel")
+        left_lower_arm_z_page.change(None, [left_lower_arm_x_page, left_lower_arm_y_page, left_lower_arm_z_page], None, _js="poseRotateLeftLowerArm3DModel")
+
+        right_lower_arm_x_page.change(None, [right_lower_arm_x_page, right_lower_arm_y_page, right_lower_arm_z_page], None, _js="poseRotateRightLowerArm3DModel")
+        right_lower_arm_y_page.change(None, [right_lower_arm_x_page, right_lower_arm_y_page, right_lower_arm_z_page], None, _js="poseRotateRightLowerArm3DModel")
+        right_lower_arm_z_page.change(None, [right_lower_arm_x_page, right_lower_arm_y_page, right_lower_arm_z_page], None, _js="poseRotateRightLowerArm3DModel")
+
+        left_upper_arm_x_page.change(None, [left_upper_arm_x_page, left_upper_arm_y_page, left_upper_arm_z_page], None, _js="poseRotateLeftUpperArm3DModel")
+        left_upper_arm_y_page.change(None, [left_upper_arm_x_page, left_upper_arm_y_page, left_upper_arm_z_page], None, _js="poseRotateLeftUpperArm3DModel")
+        left_upper_arm_z_page.change(None, [left_upper_arm_x_page, left_upper_arm_y_page, left_upper_arm_z_page], None, _js="poseRotateLeftUpperArm3DModel")
+
+        right_upper_arm_x_page.change(None, [right_upper_arm_x_page, right_upper_arm_y_page, right_upper_arm_z_page], None, _js="poseRotateRightUpperArm3DModel")
+        right_upper_arm_y_page.change(None, [right_upper_arm_x_page, right_upper_arm_y_page, right_upper_arm_z_page], None, _js="poseRotateRightUpperArm3DModel")
+        right_upper_arm_z_page.change(None, [right_upper_arm_x_page, right_upper_arm_y_page, right_upper_arm_z_page], None, _js="poseRotateRightUpperArm3DModel")
+
+        neck_x_page.change(None, [neck_x_page, neck_y_page, neck_z_page], None, _js="poseRotateNeck3DModel")
+        neck_y_page.change(None, [neck_x_page, neck_y_page, neck_z_page], None, _js="poseRotateNeck3DModel")
+        neck_z_page.change(None, [neck_x_page, neck_y_page, neck_z_page], None,
+                                  _js="poseRotateNeck3DModel")
 
         progress_bar.change(None, [progress_bar], None, _js="setCurrentAnimationTime3DModel")
         model_rotate_x_page.change(None, [model_rotate_x_page, model_rotate_y_page, model_rotate_z_page],

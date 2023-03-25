@@ -11,7 +11,11 @@ async function _import() {
 const {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
     uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime
+    playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime, poseRotateNeck,
+    poseRotateLeftUpperArm, poseRotateRightUpperArm, poseRotateLeftLowerArm, poseRotateRightLowerArm,
+    poseRotateLeftUpperLeg, poseRotateRightUpperLeg, poseRotateLeftLowerLeg, poseRotateRightLowerLeg,
+    poseRotateLeftHand, poseRotateRightHand, poseRotateLeftFoot, poseRotateRightFoot, poseRotateSpine,
+    loadPoseFile
 } = await _import();
 
 (async function () {
@@ -93,6 +97,66 @@ const {
 
     window.setCurrentAnimationTime3DModel = function(currentTime) {
         setCurrentAnimationTime(currentTime);
+    };
+
+    window.poseRotateNeck3DModel = function(x, y, z) {
+        poseRotateNeck(x, y, z);
+    };
+
+    window.poseRotateLeftUpperArm3DModel = function(x, y, z) {
+        poseRotateLeftUpperArm(x, y, z);
+    };
+
+    window.poseRotateRightUpperArm3DModel = function(x, y, z) {
+        poseRotateRightUpperArm(x, y, z);
+    };
+
+    window.poseRotateLeftLowerArm3DModel = function(x, y, z) {
+        poseRotateLeftLowerArm(x, y, z);
+    };
+
+    window.poseRotateRightLowerArm3DModel = function(x, y, z) {
+        poseRotateRightLowerArm(x, y, z);
+    };
+
+    window.poseRotateLeftUpperLeg3DModel = function(x, y, z) {
+        poseRotateLeftUpperLeg(x, y, z);
+    };
+
+    window.poseRotateRightUpperLeg3DModel = function(x, y, z) {
+        poseRotateRightUpperLeg(x, y, z);
+    };
+
+    window.poseRotateLeftLowerLeg3DModel = function(x, y, z) {
+        poseRotateLeftLowerLeg(x, y, z);
+    };
+
+    window.poseRotateRightLowerLeg3DModel = function(x, y, z) {
+        poseRotateRightLowerLeg(x, y, z);
+    };
+
+    window.poseRotateLeftHand3DModel = function(x, y, z) {
+        poseRotateLeftHand(x, y, z);
+    };
+
+    window.poseRotateRightHand3DModel = function(x, y, z) {
+        poseRotateRightHand(x, y, z);
+    };
+
+    window.poseRotateLeftFoot3DModel = function(x, y, z) {
+        poseRotateLeftFoot(x, y, z);
+    };
+
+    window.poseRotateRightFoot3DModel = function(x, y, z) {
+        poseRotateRightFoot(x, y, z);
+    };
+
+    window.poseRotateSpine3DModel = function(x, y, z) {
+        poseRotateSpine(x, y, z);
+    };
+
+    window.loadPoseFile3DModel = function() {
+        loadPoseFile();
     };
 
 })();
