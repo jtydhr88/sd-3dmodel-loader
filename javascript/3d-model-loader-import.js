@@ -69,24 +69,8 @@
         return false;
     }
 
-    let executed_webGL_output_3dmodel = false;
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const observer = new MutationObserver((m) => {
-            if (!executed_webGL_output_3dmodel && gradioApp().querySelector('#WebGL-output-3dmodel')) {
-                executed_webGL_output_3dmodel = true;
-
-                webGLOutputDiv3DModel = gradioApp().querySelector('#WebGL-output-3dmodel-import');
-
-                load(webGLOutputDiv3DModel);
-
-                observer.disconnect();
-            }
-        });
-
-        observer.observe(gradioApp(), {
-            childList: true,
-            subtree: true
-        });
+    onUiLoaded(function() {
+        webGLOutputDiv3DModel = gradioApp().querySelector('#WebGL-output-3dmodel-import');
+        load(webGLOutputDiv3DModel);
     })
 })();
