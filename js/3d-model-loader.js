@@ -106,6 +106,14 @@ function scaleObjectToProper(object) {
 
     boundingBox.setFromObject(object);
 
+    if (object.geometry) {
+        const center = new THREE.Vector3();
+
+        boundingBox.getCenter(center);
+
+        object.geometry.translate(-center.x, -center.y, -center.z);
+    }
+
     const expectRadius = 20;
 
     const radius = boundingBox.getBoundingSphere(new THREE.Sphere()).radius;
