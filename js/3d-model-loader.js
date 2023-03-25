@@ -77,6 +77,158 @@ let currentTime;
 let progress;
 let controlByProgressBar;
 
+function loadPoseFile() {
+    let manager = new THREE.LoadingManager();
+
+    removeMainObject();
+
+    const loader = new GLTFLoader( manager );
+    loader.crossOrigin = 'anonymous';
+
+    loader.register((parser) => {
+        return new VRMLoaderPlugin(parser);
+    });
+
+    let path = "/file=extensions/sd-3dmodel-loader/models/pose.vrm";
+
+    loader.load(
+        path,
+        ( gltf ) => {
+            const vrm = gltf.userData.vrm;
+
+            const resultScene = vrm.scene;
+
+            resultScene.name = "mainObject";
+
+            scaleObjectToProper(resultScene);
+
+            scene.add(resultScene);
+
+            currentVRM = vrm;
+
+            vrm.scene.traverse( ( obj ) => {
+
+                obj.frustumCulled = false;
+
+            } );
+
+            VRMUtils.rotateVRM0( vrm );
+        }
+    )
+}
+
+function poseRotateNeck(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'neck' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'neck' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'neck' ).rotation.z = Math.PI * z;
+    }
+}
+
+function poseRotateSpine(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'spine' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'spine' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'spine' ).rotation.z = Math.PI * z;
+    }
+}
+
+function poseRotateLeftUpperArm(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperArm' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperArm' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperArm' ).rotation.z = Math.PI * z;
+    }
+}
+
+function poseRotateRightUpperArm(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperArm' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperArm' ).rotation.y = -1 * Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperArm' ).rotation.z = -1 * Math.PI * z;
+    }
+}
+
+function poseRotateLeftLowerArm(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerArm' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerArm' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerArm' ).rotation.z = Math.PI * z;
+    }
+}
+
+function poseRotateRightLowerArm(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerArm' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerArm' ).rotation.y = -1 * Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerArm' ).rotation.z = -1 * Math.PI * z;
+    }
+}
+
+function poseRotateLeftUpperLeg(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperLeg' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperLeg' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperLeg' ).rotation.z = Math.PI * z;
+    }
+}
+
+function poseRotateRightUpperLeg(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperLeg' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperLeg' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperLeg' ).rotation.z = -1 * Math.PI * z;
+    }
+}
+
+function poseRotateLeftLowerLeg(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerLeg' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerLeg' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerLeg' ).rotation.z = Math.PI * z;
+    }
+}
+
+function poseRotateRightLowerLeg(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerLeg' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerLeg' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerLeg' ).rotation.z = -1 * Math.PI * z;
+    }
+}
+
+function poseRotateLeftHand(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftHand' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftHand' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftHand' ).rotation.z = Math.PI * z;
+    }
+}
+
+function poseRotateRightHand(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightHand' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightHand' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightHand' ).rotation.z = -1 * Math.PI * z;
+    }
+}
+
+function poseRotateLeftFoot(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftFoot' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftFoot' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'leftFoot' ).rotation.z = Math.PI * z;
+    }
+}
+
+function poseRotateRightFoot(x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.x = Math.PI * x;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.y = Math.PI * y;
+        currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.z = -1 * Math.PI * z;
+    }
+}
+
 function setEntryType(newEntryType) {
     entryType = newEntryType;
 }
@@ -459,6 +611,8 @@ function uploadSingleFile() {
 					loader.parse( contents, '', function ( result ) {
 					    const vrm = result.userData.vrm;
 
+                        currentVRM = vrm;
+
                         const resultScene = vrm.scene;
 
 						resultScene.name = "mainObject";
@@ -771,5 +925,9 @@ function updateGradioImage (element, dt) {
 export {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
     uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime
+    playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime, poseRotateNeck,
+    poseRotateLeftUpperArm, poseRotateRightUpperArm, poseRotateLeftLowerArm, poseRotateRightLowerArm,
+    poseRotateLeftUpperLeg, poseRotateRightUpperLeg, poseRotateLeftLowerLeg, poseRotateRightLowerLeg,
+    poseRotateLeftHand, poseRotateRightHand, poseRotateLeftFoot, poseRotateRightFoot, poseRotateSpine,
+    loadPoseFile
 };
