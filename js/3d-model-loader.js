@@ -898,9 +898,44 @@ function sendImage(type, index) {
                 return
             }
         }
+
         const imageElems = element.querySelectorAll('div[data-testid="image"]')
 
-        updateGradioImage(imageElems[Number(index)], dt)
+        if (!imageElems[Number(index)]) {
+            let accordion = element.querySelector('.icon');
+
+            if (accordion) {
+                accordion.click();
+
+                let controlNetAppeared = false;
+
+                let observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                    if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+                        for (let i = 0; i < mutation.addedNodes.length; i++) {
+                            if (mutation.addedNodes[i].tagName === "INPUT") {
+
+                                controlNetAppeared = true;
+
+                                const imageElems2 = element.querySelectorAll('div[data-testid="image"]');
+
+                                updateGradioImage(imageElems2[Number(index)], dt);
+
+                                observer.disconnect();
+
+                                return;
+                            }
+                        }
+                    }
+                    });
+                });
+
+                observer.observe(element, { childList: true, subtree: true });
+            }
+        }
+        else {
+            updateGradioImage(imageElems[Number(index)], dt);
+        }
     });
 }
 
