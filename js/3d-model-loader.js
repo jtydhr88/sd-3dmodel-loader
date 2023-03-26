@@ -714,7 +714,7 @@ function sendImage(type, index) {
         const file = new File([blob], "pose.png")
         const dt = new DataTransfer();
         dt.items.add(file);
-        const list = dt.files;
+
         const selector = type === "txt2img" ? "#txt2img_script_container" : "#img2img_script_container";
 
         if (type === "txt2img") {
@@ -723,33 +723,49 @@ function sendImage(type, index) {
             switch_to_img2img();
         }
 
-        const accordion = gradioApp().querySelector(selector).querySelector("#controlnet .transition");
-        
-        if (accordion && accordion.classList.contains("rotate-90")) {
-            accordion.click();
-        }
+        let container = gradioApp().querySelector(selector);
 
-        const tabs = gradioApp().querySelector(selector).querySelectorAll("#controlnet > div:nth-child(2) > .tabs > .tabitem, #controlnet > div:nth-child(2) > div:not(.tabs)");
-        const tab = tabs[index];
-        if (tab.classList.contains("tabitem")) {
-            tab.parentElement.firstElementChild.querySelector(`:nth-child(${Number(index) + 1})`).click();
-        }
-        const input = tab.querySelector("input[type='file']");
-        try {
-            if (input.previousElementSibling.previousElementSibling) {
-                input.previousElementSibling.previousElementSibling.querySelector("button[aria-label='Clear']").click();
+        let element = container.querySelector('#controlnet');
+
+        if (!element) {
+            for (const spans of container.querySelectorAll<HTMLSpanElement>(
+                '.cursor-pointer > span'
+            )) {
+                if (!spans.textContent?.includes('ControlNet')) {
+                    continue
+                }
+                if (spans.textContent?.includes('M2M')) {
+                    continue
+                }
+                element = spans.parentElement?.parentElement
             }
-        } catch (e) {
-            console.error(e);
+            if (!element) {
+                console.error('ControlNet element not found')
+                return
+            }
         }
-        input.value = "";
-        input.files = list;
-        const event = new Event('change', {
-            'bubbles': true,
-            "composed": true
-        });
-        input.dispatchEvent(event);
+        const imageElems = element.querySelectorAll('div[data-testid="image"]')
+
+        updateGradioImage(imageElems[Number(index)], dt)
     });
+}
+
+function updateGradioImage (element, dt) {
+    let clearButton = element.querySelector("button[aria-label='Clear']");
+
+    if (clearButton) {
+        clearButton.click();
+    }
+
+    const input = element.querySelector("input[type='file']");
+    input.value = ''
+    input.files = dt.files
+    input.dispatchEvent(
+        new Event('change', {
+            bubbles: true,
+            composed: true,
+        })
+    )
 }
 
 export {
