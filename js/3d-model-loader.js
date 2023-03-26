@@ -724,7 +724,8 @@ function sendImage(type, index) {
         }
 
         const accordion = gradioApp().querySelector(selector).querySelector("#controlnet .transition");
-        if (accordion.classList.contains("rotate-90")) {
+        
+        if (accordion && accordion.classList.contains("rotate-90")) {
             accordion.click();
         }
 
