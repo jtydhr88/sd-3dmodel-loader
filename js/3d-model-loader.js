@@ -182,6 +182,186 @@ function savePoseAsJson() {
                           "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.y,
                           "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.z
                       },
+                      {
+                          "boneName": "leftThumbMetacarpal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftThumbMetacarpal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftThumbMetacarpal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftThumbMetacarpal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftThumbProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftThumbProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftThumbProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftThumbProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftThumbDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftThumbDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftThumbDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftThumbDistal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftIndexIntermediate",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftIndexIntermediate' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftIndexIntermediate' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftIndexIntermediate' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftIndexProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftIndexProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftIndexProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftIndexProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftIndexDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftIndexDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftIndexDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftIndexDistal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftMiddleIntermediate",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftMiddleIntermediate' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftMiddleIntermediate' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftMiddleIntermediate' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftMiddleProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftMiddleProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftMiddleProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftMiddleProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftMiddleDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftMiddleDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftMiddleDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftMiddleDistal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftRingIntermediate",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftRingIntermediate' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftRingIntermediate' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftRingIntermediate' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftRingProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftRingProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftRingProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftRingProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftRingDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftRingDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftRingDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftRingDistal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftLittleIntermediate",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftLittleIntermediate' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftLittleIntermediate' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftLittleIntermediate' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftLittleProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftLittleProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftLittleProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftLittleProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftLittleDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftLittleDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftLittleDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftLittleDistal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightThumbMetacarpal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightThumbMetacarpal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightThumbMetacarpal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightThumbMetacarpal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightThumbProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightThumbProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightThumbProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightThumbProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightThumbDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightThumbDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightThumbDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightThumbDistal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightIndexIntermediate",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightIndexIntermediate' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightIndexIntermediate' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightIndexIntermediate' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightIndexProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightIndexProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightIndexProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightIndexProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightIndexDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightIndexDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightIndexDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightIndexDistal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightMiddleIntermediate",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightMiddleIntermediate' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightMiddleIntermediate' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightMiddleIntermediate' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightMiddleProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightMiddleProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightMiddleProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightMiddleProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightMiddleDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightMiddleDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightMiddleDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightMiddleDistal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightRingIntermediate",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightRingIntermediate' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightRingIntermediate' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightRingIntermediate' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightRingProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightRingProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightRingProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightRingProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightRingDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightRingDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightRingDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightRingDistal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightLittleIntermediate",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightLittleIntermediate' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightLittleIntermediate' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightLittleIntermediate' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightLittleProximal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightLittleProximal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightLittleProximal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightLittleProximal' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightLittleDistal",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightLittleDistal' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightLittleDistal' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightLittleDistal' ).rotation.z
+                      },
                   ]
               }
           ]
@@ -250,6 +430,128 @@ function poseRotate(boneName, x, y, z) {
         currentVRM.humanoid.getNormalizedBoneNode( boneName ).rotation.z = z;
     }
 }
+
+function poseRotateLeftThumbMetacarpal(x, y, z) {
+    poseRotate("leftThumbMetacarpal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftThumbProximal(x, y, z) {
+    poseRotate("leftThumbProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftThumbDistal(x, y, z) {
+    poseRotate("leftThumbDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftIndexIntermediate(x, y, z) {
+    poseRotate("leftIndexIntermediate", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftIndexProximal(x, y, z) {
+    poseRotate("leftIndexProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftIndexDistal(x, y, z) {
+    poseRotate("leftIndexDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftMiddleIntermediate(x, y, z) {
+    poseRotate("leftMiddleIntermediate", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftMiddleProximal(x, y, z) {
+    poseRotate("leftMiddleProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftMiddleDistal(x, y, z) {
+    poseRotate("leftMiddleDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftRingIntermediate(x, y, z) {
+    poseRotate("leftRingIntermediate", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftRingProximal(x, y, z) {
+    poseRotate("leftRingProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftRingDistal(x, y, z) {
+    poseRotate("leftRingDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftLittleIntermediate(x, y, z) {
+    poseRotate("leftLittleIntermediate", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftLittleProximal(x, y, z) {
+    poseRotate("leftLittleProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateLeftLittleDistal(x, y, z) {
+    poseRotate("leftLittleDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+
+function poseRotateRightThumbMetacarpal(x, y, z) {
+    poseRotate("rightThumbMetacarpal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightThumbProximal(x, y, z) {
+    poseRotate("rightThumbProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightThumbDistal(x, y, z) {
+    poseRotate("rightThumbDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightIndexIntermediate(x, y, z) {
+    poseRotate("rightIndexIntermediate", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightIndexProximal(x, y, z) {
+    poseRotate("rightIndexProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightIndexDistal(x, y, z) {
+    poseRotate("rightIndexDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightMiddleIntermediate(x, y, z) {
+    poseRotate("rightMiddleIntermediate", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightMiddleProximal(x, y, z) {
+    poseRotate("rightMiddleProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightMiddleDistal(x, y, z) {
+    poseRotate("rightMiddleDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightRingIntermediate(x, y, z) {
+    poseRotate("rightRingIntermediate", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightRingProximal(x, y, z) {
+    poseRotate("rightRingProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightRingDistal(x, y, z) {
+    poseRotate("rightRingDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightLittleIntermediate(x, y, z) {
+    poseRotate("rightLittleIntermediate", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightLittleProximal(x, y, z) {
+    poseRotate("rightLittleProximal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
+function poseRotateRightLittleDistal(x, y, z) {
+    poseRotate("rightLittleDistal", Math.PI * x, Math.PI * y, Math.PI * z)
+}
+
 
 function loadPoseFile() {
     let manager = new THREE.LoadingManager();
@@ -1138,5 +1440,15 @@ export {
     poseRotateLeftUpperArm, poseRotateRightUpperArm, poseRotateLeftLowerArm, poseRotateRightLowerArm,
     poseRotateLeftUpperLeg, poseRotateRightUpperLeg, poseRotateLeftLowerLeg, poseRotateRightLowerLeg,
     poseRotateLeftHand, poseRotateRightHand, poseRotateLeftFoot, poseRotateRightFoot, poseRotateSpine,
-    loadPoseFile, savePoseAsJson, loadPoseFromJson
+    loadPoseFile, savePoseAsJson, loadPoseFromJson, poseRotateLeftThumbMetacarpal, poseRotateLeftThumbProximal,
+    poseRotateLeftThumbDistal, poseRotateLeftIndexProximal, poseRotateLeftIndexIntermediate,
+    poseRotateLeftIndexDistal, poseRotateLeftMiddleProximal, poseRotateLeftMiddleIntermediate,
+    poseRotateLeftMiddleDistal, poseRotateLeftRingProximal, poseRotateLeftRingIntermediate,
+    poseRotateLeftRingDistal, poseRotateLeftLittleProximal, poseRotateLeftLittleIntermediate,
+    poseRotateLeftLittleDistal, poseRotateRightThumbMetacarpal, poseRotateRightThumbProximal,
+    poseRotateRightThumbDistal, poseRotateRightIndexProximal, poseRotateRightIndexIntermediate,
+    poseRotateRightIndexDistal, poseRotateRightMiddleProximal, poseRotateRightMiddleIntermediate,
+    poseRotateRightMiddleDistal, poseRotateRightRingProximal, poseRotateRightRingIntermediate,
+    poseRotateRightRingDistal, poseRotateRightLittleProximal, poseRotateRightLittleIntermediate,
+    poseRotateRightLittleDistal
 };
