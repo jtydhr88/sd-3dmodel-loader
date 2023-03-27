@@ -40,104 +40,104 @@ def on_ui_tabs():
                                 label="Neck Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_neck_z")
                         with gr.Row():
                             spine_x_page = gr.Slider(
-                                label="Spine X", minimum=-0.1, maximum=0.5, value=0, step=0.01, interactive=True)
+                                label="Spine X", minimum=-0.1, maximum=0.5, value=0, step=0.01, interactive=True, elem_id="pose_spine_x")
                             spine_y_page = gr.Slider(
-                                label="Spine Y", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                                label="Spine Y", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True, elem_id="pose_spine_y")
                             spine_z_page = gr.Slider(
-                                label="Spine Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="Spine Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_spine_z")
                     with gr.Accordion("Left Arm", open=False):
                         with gr.Row():
                             left_upper_arm_x_page = gr.Slider(
-                                label="LeftUpperArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                                label="LeftUpperArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True, elem_id="pose_leftUpperArm_x")
                             left_upper_arm_y_page = gr.Slider(
-                                label="LeftUpperArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="LeftUpperArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_leftUpperArm_y")
                             left_upper_arm_z_page = gr.Slider(
-                                label="LeftUpperArm Z", minimum=-0.4, maximum=0.4, value=0, step=0.01, interactive=True)
+                                label="LeftUpperArm Z", minimum=-0.4, maximum=0.4, value=0, step=0.01, interactive=True, elem_id="pose_leftUpperArm_z")
                         with gr.Row():
                             left_lower_arm_x_page = gr.Slider(
-                                label="LeftLowerArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                                label="LeftLowerArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True, elem_id="pose_leftLowerArm_x")
                             left_lower_arm_y_page = gr.Slider(
-                                label="LeftLowerArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="LeftLowerArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_leftLowerArm_y")
                             left_lower_arm_z_page = gr.Slider(
-                                label="LeftLowerArm Z", minimum=-0.4, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="LeftLowerArm Z", minimum=-0.4, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_leftLowerArm_z")
                         with gr.Row():
                             left_hand_x_page = gr.Slider(
-                                label="LeftHand X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="LeftHand X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_leftHand_x")
                             left_hand_y_page = gr.Slider(
-                                label="LeftHand Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="LeftHand Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_leftHand_y")
                             left_hand_z_page = gr.Slider(
-                                label="LeftHand Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="LeftHand Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_leftHand_z")
 
                     with gr.Accordion("Right Arm", open=False):
                         with gr.Row():
                             right_upper_arm_x_page = gr.Slider(
-                                label="RightUpperArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                                label="RightUpperArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True, elem_id="pose_rightUpperArm_x")
                             right_upper_arm_y_page = gr.Slider(
-                                label="RightUpperArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="RightUpperArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_rightUpperArm_y")
                             right_upper_arm_z_page = gr.Slider(
-                                label="RightUpperArm Z", minimum=-0.4, maximum=0.4, value=0, step=0.01, interactive=True)
+                                label="RightUpperArm Z", minimum=-0.4, maximum=0.4, value=0, step=0.01, interactive=True, elem_id="pose_rightUpperArm_z")
                         with gr.Row():
                             right_lower_arm_x_page = gr.Slider(
-                                label="RightLowerArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                                label="RightLowerArm X", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True, elem_id="pose_rightLowerArm_x")
                             right_lower_arm_y_page = gr.Slider(
-                                label="RightLowerArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="RightLowerArm Y", minimum=-0.5, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_rightLowerArm_y")
                             right_lower_arm_z_page = gr.Slider(
-                                label="RightLowerArm Z", minimum=-0.4, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="RightLowerArm Z", minimum=-0.4, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_rightLowerArm_z")
                         with gr.Row():
                             right_hand_x_page = gr.Slider(
-                                label="RightHand X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="RightHand X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_rightHand_x")
                             right_hand_y_page = gr.Slider(
-                                label="RightHand Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="RightHand Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_rightHand_y")
                             right_hand_z_page = gr.Slider(
-                                label="RightHand Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="RightHand Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_rightHand_z")
 
                     with gr.Accordion("Left Leg", open=False):
                         with gr.Row():
                             left_upper_leg_x_page = gr.Slider(
-                                label="LeftUpperLeg X", minimum=-0.5, maximum=0.3, value=0, step=0.01, interactive=True)
+                                label="LeftUpperLeg X", minimum=-0.5, maximum=0.3, value=0, step=0.01, interactive=True, elem_id="pose_leftUpperLeg_x")
                             left_upper_leg_y_page = gr.Slider(
-                                label="LeftUpperLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="LeftUpperLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_leftUpperLeg_y")
                             left_upper_leg_z_page = gr.Slider(
-                                label="LeftUpperLeg Z", minimum=-0.1, maximum=0.6, value=0, step=0.01, interactive=True)
+                                label="LeftUpperLeg Z", minimum=-0.1, maximum=0.6, value=0, step=0.01, interactive=True, elem_id="pose_leftUpperLeg_z")
                         with gr.Row():
                             left_lower_leg_x_page = gr.Slider(
-                                label="LeftLowerLeg X", minimum=-0.05, maximum=0.7, value=0, step=0.01, interactive=True)
+                                label="LeftLowerLeg X", minimum=-0.05, maximum=0.7, value=0, step=0.01, interactive=True, elem_id="pose_leftLowerLeg_x")
                             left_lower_leg_y_page = gr.Slider(
-                                label="LeftLowerLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="LeftLowerLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_leftLowerLeg_y")
                             left_lower_leg_z_page = gr.Slider(
-                                label="LeftLowerLeg Z", minimum=-0.05, maximum=0.05, value=0, step=0.01, interactive=True)
+                                label="LeftLowerLeg Z", minimum=-0.05, maximum=0.05, value=0, step=0.01, interactive=True, elem_id="pose_leftLowerLeg_z")
                         with gr.Row():
                             left_foot_x_page = gr.Slider(
-                                label="LeftFoot X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="LeftFoot X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_leftFoot_x")
                             left_foot_y_page = gr.Slider(
-                                label="LeftFoot Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="LeftFoot Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_leftFoot_y")
                             left_foot_z_page = gr.Slider(
-                                label="LeftFoot Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="LeftFoot Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_leftFoot_z")
 
                     with gr.Accordion("Right Leg", open=False):
                         with gr.Row():
                             right_upper_leg_x_page = gr.Slider(
-                                label="RightUpperLeg X", minimum=-0.5, maximum=0.3, value=0, step=0.01, interactive=True)
+                                label="RightUpperLeg X", minimum=-0.5, maximum=0.3, value=0, step=0.01, interactive=True, elem_id="pose_rightUpperLeg_x")
                             right_upper_leg_y_page = gr.Slider(
-                                label="RightUpperLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="RightUpperLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_rightUpperLeg_y")
                             right_upper_leg_z_page = gr.Slider(
-                                label="RightUpperLeg Z", minimum=-0.1, maximum=0.6, value=0, step=0.01, interactive=True)
+                                label="RightUpperLeg Z", minimum=-0.1, maximum=0.6, value=0, step=0.01, interactive=True, elem_id="pose_rightUpperLeg_z")
 
                         with gr.Row():
                             right_lower_leg_x_page = gr.Slider(
-                                label="RightLowerLeg X", minimum=-0.05, maximum=0.7, value=0, step=0.01, interactive=True)
+                                label="RightLowerLeg X", minimum=-0.05, maximum=0.7, value=0, step=0.01, interactive=True, elem_id="pose_rightLowerLeg_x")
                             right_lower_leg_y_page = gr.Slider(
-                                label="RightLowerLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="RightLowerLeg Y", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_rightLowerLeg_y")
                             right_lower_leg_z_page = gr.Slider(
-                                label="RightLowerLeg Z", minimum=-0.05, maximum=0.05, value=0, step=0.01, interactive=True)
+                                label="RightLowerLeg Z", minimum=-0.05, maximum=0.05, value=0, step=0.01, interactive=True, elem_id="pose_rightLowerLeg_z")
 
                         with gr.Row():
                             right_foot_x_page = gr.Slider(
-                                label="RightFoot X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="RightFoot X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_rightFoot_x")
                             right_foot_y_page = gr.Slider(
-                                label="RightFoot Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="RightFoot Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_rightFoot_y")
                             right_foot_z_page = gr.Slider(
-                                label="RightFoot Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
+                                label="RightFoot Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_rightFoot_z")
                     with gr.Row():
                         save_pose_as_json_button = gr.Button(value="Save Pose as json")
                         load_pose_from_json_button = gr.Button(value="Load Pose from json")
