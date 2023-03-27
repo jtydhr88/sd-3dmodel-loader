@@ -77,6 +77,20 @@ let currentTime;
 let progress;
 let controlByProgressBar;
 
+function updateSliderValue(queryId, newValue) {
+    const sliderDiv = gradioApp().querySelector(queryId);
+
+    if (sliderDiv) {
+        const sliderInputs = sliderDiv.querySelectorAll("input");
+
+        for (let i = 0; i < sliderInputs.length; i++) {
+            const sliderInput = sliderInputs[i];
+
+            sliderInput.value = newValue.toFixed(2);
+        }
+    }
+}
+
 function savePoseAsJson() {
     if (currentVRM) {
         const poseData = {
@@ -213,6 +227,12 @@ function loadPoseFromJson() {
                           const pd = pose.poseData[t];
 
                           poseRotate(pd.boneName, pd.x, pd.y, pd.z)
+
+                          const queryId = "#pose_" + pd.boneName + "_";
+
+                          updateSliderValue(queryId + "x", Number(pd.x) / Math.PI);
+                          updateSliderValue(queryId + "y", Number(pd.y) / Math.PI);
+                          updateSliderValue(queryId + "z", Number(pd.z) / Math.PI);
                       }
                   }
 

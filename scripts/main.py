@@ -33,11 +33,11 @@ def on_ui_tabs():
                     with gr.Accordion("Body", open=False):
                         with gr.Row():
                             neck_x_page = gr.Slider(
-                                label="Neck X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="Neck X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_neck_x")
                             neck_y_page = gr.Slider(
-                                label="Neck Y", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True)
+                                label="Neck Y", minimum=-0.3, maximum=0.3, value=0, step=0.01, interactive=True, elem_id="pose_neck_y")
                             neck_z_page = gr.Slider(
-                                label="Neck Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True)
+                                label="Neck Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_neck_z")
                         with gr.Row():
                             spine_x_page = gr.Slider(
                                 label="Spine X", minimum=-0.1, maximum=0.5, value=0, step=0.01, interactive=True)
