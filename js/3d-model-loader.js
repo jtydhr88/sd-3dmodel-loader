@@ -77,6 +77,160 @@ let currentTime;
 let progress;
 let controlByProgressBar;
 
+function savePoseAsJson() {
+    if (currentVRM) {
+        const poseData = {
+          "poses": [
+              {
+                  "name": "pose1",
+                  "poseData": [
+                      {
+                          "boneName": "neck",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'neck' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'neck' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'neck' ).rotation.z
+                      },
+                      {
+                          "boneName": "spine",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'spine' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'spine' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'spine' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftUpperArm",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperArm' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperArm' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperArm' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightUpperArm",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperArm' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperArm' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperArm' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftLowerArm",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerArm' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerArm' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerArm' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightLowerArm",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerArm' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerArm' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerArm' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftUpperLeg",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperLeg' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperLeg' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperLeg' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightUpperLeg",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperLeg' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperLeg' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperLeg' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftLowerLeg",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerLeg' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerLeg' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerLeg' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightLowerLeg",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerLeg' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerLeg' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerLeg' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftHand",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftHand' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftHand' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftHand' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightHand",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightHand' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightHand' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightHand' ).rotation.z
+                      },
+                      {
+                          "boneName": "leftFoot",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'leftFoot' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'leftFoot' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'leftFoot' ).rotation.z
+                      },
+                      {
+                          "boneName": "rightFoot",
+                          "x": currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.x,
+                          "y": currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.y,
+                          "z": currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.z
+                      },
+                  ]
+              }
+          ]
+        };
+
+        const jsonData = JSON.stringify(poseData);
+
+        const blob = new Blob([jsonData], { type: "application/json" });
+
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "poseData.json";
+
+        document.body.appendChild(link);
+
+        link.click();
+    }
+}
+
+function loadPoseFromJson() {
+    if (currentVRM) {
+        const input = document.createElement("input");
+        input.type = "file";
+
+        input.accept = ".json";
+
+        input.addEventListener("change", function(e) {
+            const file = e.target.files[0];
+
+            const reader = new FileReader();
+              reader.readAsText(file);
+              reader.onload = function() {
+                  const jsonData = JSON.parse(reader.result);
+
+                  const posesData = jsonData.poses;
+
+                  for (let i = 0; i < posesData.length; i++) {
+                      const pose = posesData[i];
+
+                      for (let t = 0; t < pose.poseData.length; t++){
+                          const pd = pose.poseData[t];
+
+                          poseRotate(pd.boneName, pd.x, pd.y, pd.z)
+                      }
+                  }
+
+              };
+
+        });
+        input.click();
+    }
+}
+
+function poseRotate(boneName, x, y, z) {
+    if (currentVRM) {
+        currentVRM.humanoid.getNormalizedBoneNode( boneName ).rotation.x = x;
+        currentVRM.humanoid.getNormalizedBoneNode( boneName ).rotation.y = y;
+        currentVRM.humanoid.getNormalizedBoneNode( boneName ).rotation.z = z;
+    }
+}
+
 function loadPoseFile() {
     let manager = new THREE.LoadingManager();
 
@@ -964,5 +1118,5 @@ export {
     poseRotateLeftUpperArm, poseRotateRightUpperArm, poseRotateLeftLowerArm, poseRotateRightLowerArm,
     poseRotateLeftUpperLeg, poseRotateRightUpperLeg, poseRotateLeftLowerLeg, poseRotateRightLowerLeg,
     poseRotateLeftHand, poseRotateRightHand, poseRotateLeftFoot, poseRotateRightFoot, poseRotateSpine,
-    loadPoseFile
+    loadPoseFile, savePoseAsJson, loadPoseFromJson
 };

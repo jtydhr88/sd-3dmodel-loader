@@ -15,7 +15,7 @@ const {
     poseRotateLeftUpperArm, poseRotateRightUpperArm, poseRotateLeftLowerArm, poseRotateRightLowerArm,
     poseRotateLeftUpperLeg, poseRotateRightUpperLeg, poseRotateLeftLowerLeg, poseRotateRightLowerLeg,
     poseRotateLeftHand, poseRotateRightHand, poseRotateLeftFoot, poseRotateRightFoot, poseRotateSpine,
-    loadPoseFile
+    loadPoseFile, savePoseAsJson, loadPoseFromJson
 } = await _import();
 
 (async function () {
@@ -157,6 +157,14 @@ const {
 
     window.loadPoseFile3DModel = function() {
         loadPoseFile();
+    };
+
+    window.savePoseAsJson3DModel = function() {
+        savePoseAsJson();
+    };
+
+    window.loadPoseFromJson3DModel = function() {
+        loadPoseFromJson();
     };
 
 })();

@@ -138,7 +138,9 @@ def on_ui_tabs():
                                 label="RightFoot Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
                             right_foot_z_page = gr.Slider(
                                 label="RightFoot Z", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True)
-
+                    with gr.Row():
+                        save_pose_as_json_button = gr.Button(value="Save Pose as json")
+                        load_pose_from_json_button = gr.Button(value="Load Pose from json")
                 with gr.Accordion("Canvas", open=False):
                     with gr.Row():
                         with gr.Column():
@@ -225,6 +227,9 @@ def on_ui_tabs():
                 js_.insert(0, ext.path)
 
                 gr.HTML(value='\n'.join(js_), elem_id=import_id, visible=False)
+
+        save_pose_as_json_button.click(None, None, None, _js='savePoseAsJson3DModel')
+        load_pose_from_json_button.click(None, None, None, _js='loadPoseFromJson3DModel')
 
         load_pose_button.click(None, None, None, _js='loadPoseFile3DModel')
 
