@@ -1,5 +1,5 @@
-# Stable Diffusion WebUI 3D Model Loader
-A custom extension for [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) that allows you to load your local 3D model/animation inside webui, then send screenshot to txt2img or img2img as your ControlNet's reference image.  
+# Stable Diffusion WebUI 3D Model&Pose Loader
+A custom extension for [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) that allows you to load your local 3D model/animation inside webui, or edit pose as well, then send screenshot to txt2img or img2img as your ControlNet's reference image.  
 ![1.png](doc/images/1.png)
 ![controlnet.png](doc/images/controlnet.png)
 
@@ -23,6 +23,13 @@ Right now Multi Files mode only support vrm, more formats suport will add later.
 But it has potential to support more, since threejs does.
 So if you want other formats such as cmt, just feel free to open an issue, I will add it later.  
 (I upload two models, **male02.obj** and **Sanba Dancing.fbx**, as your test, you can find them under **/models** folder)
+
+## Pose support
+Even there are several extension for webui to edit pose, such as [openpose-editor](https://github.com/fkunn1326/openpose-editor), [posex](https://github.com/hnmr293/posex), [3d-open-pose-editor](https://github.com/nonnonstop/sd-webui-3d-open-pose-editor), but almost of them are implemented with openpose.  
+I want to provide you alternative solution to do so in this extension (this is the reason I changed the name to **3D Model/Pose Loader**).  
+In the pose panel, if you don't have vrm model, you can just click **Load Pose Model** to load the embedded model, and use **Save Pose as Json** or **Load Pose from Json** to restore your work.  
+![pose.png](doc/images/pose.png)
+I would like to implement some default poses later in a pose library.
 
 ## Installation
 Just like you install other extension of webui:
@@ -49,11 +56,12 @@ After you change any configurations, do not **only** Apply Settings, you also ne
 
 ## Settings from page
 You can also configure the canvas, model or animation from the main tab page, the default values would read from settings, but no need to reload if configured here.
-There are 4 panels and several buttons on the page:
-1. Canvas Panel - control the canvas properties, such as width, height, light position, color and so on. ![canvasPanel.png](doc/images/canvasPanel.png)
-2. Model - scale or rotate the model. ![modelPanel.png](doc/images/modelPanel.png)
-3. Upload Settings - set multi file support along with entry type up here, see Support Format section. ![uploadSettingsPanel.png](doc/images/uploadSettingsPanel.png)
-4. Animation - control the FBX animation playing with progress bar here. ![animationPanel.png](doc/images/animationPanel.png)
+There are 5 panels and several buttons on the page:
+1. Pose - allow you to edit pose basing on embedded vrm model. ![pose.png](doc/images/pose.png)
+2. Canvas - control the canvas properties, such as width, height, light position, color and so on. ![canvasPanel.png](doc/images/canvasPanel.png)
+3. Model - scale or rotate the model. ![modelPanel.png](doc/images/modelPanel.png)
+4. Upload Settings - set multi file support along with entry type up here, see Support Format section. ![uploadSettingsPanel.png](doc/images/uploadSettingsPanel.png)
+5. Animation - control the FBX animation playing with progress bar here. ![animationPanel.png](doc/images/animationPanel.png)
 
 there are several buttons on the page:
 1. **Upload Model** -> upload your 3D model file

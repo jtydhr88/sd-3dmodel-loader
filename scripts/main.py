@@ -14,7 +14,7 @@ class Script(scripts.Script):
         super().__init__()
 
     def title(self):
-        return "3D Model Loader"
+        return "3D Model&Pose Loader"
 
     def show(self, is_img2img):
         return scripts.AlwaysVisible
@@ -1124,7 +1124,7 @@ def on_ui_tabs():
         reset_btn.click(None, [], None, _js="restCanvasAndCamera3DModel")
         upload_button.click(None, None, None, _js="uploadFile3DModel")
 
-    return [(threeDModel_loader, "3D Model Loader", "3dmodel_loador")]
+    return [(threeDModel_loader, "3D Model&Pose Loader", "3dmodel_loador")]
 
 
 def get_self_extension():
@@ -1139,7 +1139,7 @@ def get_self_extension():
 
 
 def on_ui_settings():
-    section = ('3dmodel', "3D Model")
+    section = ('3dmodel', "3D Model&Pose")
     shared.opts.add_option("threeDmodel_bg_color", shared.OptionInfo(
         "#ffffff", "Canvas Background Color", gr.ColorPicker, {"interactive": True}, section=section))
     shared.opts.add_option("threeDmodel_ground_color", shared.OptionInfo(
