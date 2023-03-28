@@ -89,4 +89,5 @@ Thus this extension will focus on user experience to give you better reference i
 ## Credits
 Created by [jtydhr88](https://github.com/jtydhr88) and special thanks to other contributors:
 - [missionfloyd](https://github.com/missionfloyd)
+- [chucktobbes](https://github.com/chucktobbes)
 - Everyone who gives feedback
