@@ -500,6 +500,22 @@ def on_ui_tabs():
                                     interactive=True,
                                     elem_id="pose_rightLittleDistal_z")
 
+                    pose_name_neck = gr.Text(value="neck", visible=False)
+                    pose_name_spine = gr.Text(value="spine", visible=False)
+                    pose_name_leftUpperArm = gr.Text(value="leftUpperArm", visible=False)
+                    pose_name_leftLowerArm = gr.Text(value="leftLowerArm", visible=False)
+                    pose_name_leftHand = gr.Text(value="leftHand", visible=False)
+                    pose_name_rightUpperArm = gr.Text(value="rightUpperArm", visible=False)
+                    pose_name_rightLowerArm = gr.Text(value="rightLowerArm", visible=False)
+                    pose_name_rightHand = gr.Text(value="rightHand", visible=False)
+                    pose_name_leftUpperLeg = gr.Text(value="leftUpperLeg", visible=False)
+                    pose_name_leftLowerLeg = gr.Text(value="leftLowerLeg", visible=False)
+                    pose_name_leftFoot = gr.Text(value="leftFoot", visible=False)
+                    pose_name_rightUpperLeg = gr.Text(value="rightUpperLeg", visible=False)
+                    pose_name_rightLowerLeg = gr.Text(value="rightLowerLeg", visible=False)
+                    pose_name_rightFoot = gr.Text(value="rightFoot", visible=False)
+                    positive_one = gr.Text(value="1", visible=False)
+                    negative_one = gr.Text(value="-1", visible=False)
 
                     with gr.Row():
                         save_pose_as_json_button = gr.Button(value="Save Pose as json")
@@ -996,101 +1012,102 @@ def on_ui_tabs():
 
         load_pose_button.click(None, None, None, _js='loadPoseFile3DModel')
 
-        spine_x_page.change(None, [spine_x_page, spine_y_page, spine_z_page],
+        spine_x_page.change(None, [pose_name_spine, spine_x_page, spine_y_page, spine_z_page, positive_one, positive_one, positive_one],
                                  None,
-                                 _js="poseRotateSpine3DModel")
-        spine_y_page.change(None, [spine_x_page, spine_y_page, spine_z_page],
+                                 _js="poseRotate3DModel")
+        spine_y_page.change(None, [pose_name_spine, spine_x_page, spine_y_page, spine_z_page, positive_one, positive_one, positive_one],
                                  None,
-                                 _js="poseRotateSpine3DModel")
-        spine_z_page.change(None, [spine_x_page, spine_y_page, spine_z_page],
+                                 _js="poseRotate3DModel")
+        spine_z_page.change(None, [pose_name_spine, spine_x_page, spine_y_page, spine_z_page, positive_one, positive_one, positive_one],
                                  None,
-                                 _js="poseRotateSpine3DModel")
+                                 _js="poseRotate3DModel")
 
-        right_foot_x_page.change(None, [right_foot_x_page, right_foot_y_page, right_foot_z_page],
+        right_foot_x_page.change(None, [pose_name_rightFoot, right_foot_x_page, right_foot_y_page, right_foot_z_page, positive_one, positive_one, negative_one],
                                  None,
-                                 _js="poseRotateRightFoot3DModel")
-        right_foot_y_page.change(None, [right_foot_x_page, right_foot_y_page, right_foot_z_page],
+                                 _js="poseRotate3DModel")
+        right_foot_y_page.change(None, [pose_name_rightFoot, right_foot_x_page, right_foot_y_page, right_foot_z_page, positive_one, positive_one, negative_one],
                                  None,
-                                 _js="poseRotateRightFoot3DModel")
-        right_foot_z_page.change(None, [right_foot_x_page, right_foot_y_page, right_foot_z_page],
+                                 _js="poseRotate3DModel")
+        right_foot_z_page.change(None, [pose_name_rightFoot, right_foot_x_page, right_foot_y_page, right_foot_z_page, positive_one, positive_one, negative_one],
                                  None,
-                                 _js="poseRotateRightFoot3DModel")
+                                 _js="poseRotate3DModel")
 
-        left_foot_x_page.change(None, [left_foot_x_page, left_foot_y_page, left_foot_z_page], None,
-                                _js="poseRotateLeftFoot3DModel")
-        left_foot_y_page.change(None, [left_foot_x_page, left_foot_y_page, left_foot_z_page], None,
-                                _js="poseRotateLeftFoot3DModel")
-        left_foot_z_page.change(None, [left_foot_x_page, left_foot_y_page, left_foot_z_page], None,
-                                _js="poseRotateLeftFoot3DModel")
+        left_foot_x_page.change(None, [pose_name_leftFoot, left_foot_x_page, left_foot_y_page, left_foot_z_page, positive_one, positive_one, positive_one], None,
+                                _js="poseRotate3DModel")
+        left_foot_y_page.change(None, [pose_name_leftFoot, left_foot_x_page, left_foot_y_page, left_foot_z_page, positive_one, positive_one, positive_one], None,
+                                _js="poseRotate3DModel")
+        left_foot_z_page.change(None, [pose_name_leftFoot, left_foot_x_page, left_foot_y_page, left_foot_z_page, positive_one, positive_one, positive_one], None,
+                                _js="poseRotate3DModel")
 
-        right_hand_x_page.change(None, [right_hand_x_page, right_hand_y_page, right_hand_z_page],
+        right_hand_x_page.change(None, [pose_name_rightHand, right_hand_x_page, right_hand_y_page, right_hand_z_page, positive_one, positive_one, negative_one],
                                       None,
-                                      _js="poseRotateRightHand3DModel")
-        right_hand_y_page.change(None, [right_hand_x_page, right_hand_y_page, right_hand_z_page],
+                                      _js="poseRotate3DModel")
+        right_hand_y_page.change(None, [pose_name_rightHand, right_hand_x_page, right_hand_y_page, right_hand_z_page, positive_one, positive_one, negative_one],
                                       None,
-                                      _js="poseRotateRightHand3DModel")
-        right_hand_z_page.change(None, [right_hand_x_page, right_hand_y_page, right_hand_z_page],
+                                      _js="poseRotate3DModel")
+        right_hand_z_page.change(None, [pose_name_rightHand, right_hand_x_page, right_hand_y_page, right_hand_z_page, positive_one, positive_one, negative_one],
                                       None,
-                                      _js="poseRotateRightHand3DModel")
+                                      _js="poseRotate3DModel")
 
-        left_hand_x_page.change(None, [left_hand_x_page, left_hand_y_page, left_hand_z_page], None,
-                                     _js="poseRotateLeftHand3DModel")
-        left_hand_y_page.change(None, [left_hand_x_page, left_hand_y_page, left_hand_z_page], None,
-                                     _js="poseRotateLeftHand3DModel")
-        left_hand_z_page.change(None, [left_hand_x_page, left_hand_y_page, left_hand_z_page], None,
-                                     _js="poseRotateLeftHand3DModel")
+        left_hand_x_page.change(None, [pose_name_leftHand, left_hand_x_page, left_hand_y_page, left_hand_z_page, positive_one, positive_one, positive_one], None,
+                                     _js="poseRotate3DModel")
+        left_hand_y_page.change(None, [pose_name_leftHand, left_hand_x_page, left_hand_y_page, left_hand_z_page, positive_one, positive_one, positive_one], None,
+                                     _js="poseRotate3DModel")
+        left_hand_z_page.change(None, [pose_name_leftHand, left_hand_x_page, left_hand_y_page, left_hand_z_page, positive_one, positive_one, positive_one], None,
+                                     _js="poseRotate3DModel")
 
-        right_lower_leg_x_page.change(None, [right_lower_leg_x_page, right_lower_leg_y_page, right_lower_leg_z_page],
+        right_lower_leg_x_page.change(None, [pose_name_rightLowerLeg, right_lower_leg_x_page, right_lower_leg_y_page, right_lower_leg_z_page, positive_one, positive_one, negative_one],
                                       None,
-                                      _js="poseRotateRightLowerLeg3DModel")
-        right_lower_leg_y_page.change(None, [right_lower_leg_x_page, right_lower_leg_y_page, right_lower_leg_z_page],
+                                      _js="poseRotate3DModel")
+        right_lower_leg_y_page.change(None, [pose_name_rightLowerLeg, right_lower_leg_x_page, right_lower_leg_y_page, right_lower_leg_z_page, positive_one, positive_one, negative_one],
                                       None,
-                                      _js="poseRotateRightLowerLeg3DModel")
-        right_lower_leg_z_page.change(None, [right_lower_leg_x_page, right_lower_leg_y_page, right_lower_leg_z_page],
+                                      _js="poseRotate3DModel")
+        right_lower_leg_z_page.change(None, [pose_name_rightLowerLeg, right_lower_leg_x_page, right_lower_leg_y_page, right_lower_leg_z_page, positive_one, positive_one, negative_one],
                                       None,
-                                      _js="poseRotateRightLowerLeg3DModel")
+                                      _js="poseRotate3DModel")
 
-        left_lower_leg_x_page.change(None, [left_lower_leg_x_page, left_lower_leg_y_page, left_lower_leg_z_page], None,
-                                     _js="poseRotateLeftLowerLeg3DModel")
-        left_lower_leg_y_page.change(None, [left_lower_leg_x_page, left_lower_leg_y_page, left_lower_leg_z_page], None,
-                                     _js="poseRotateLeftLowerLeg3DModel")
-        left_lower_leg_z_page.change(None, [left_lower_leg_x_page, left_lower_leg_y_page, left_lower_leg_z_page], None,
-                                     _js="poseRotateLeftLowerLeg3DModel")
+        left_lower_leg_x_page.change(None, [pose_name_leftLowerLeg, left_lower_leg_x_page, left_lower_leg_y_page, left_lower_leg_z_page, positive_one, positive_one, positive_one], None,
+                                     _js="poseRotate3DModel")
+        left_lower_leg_y_page.change(None, [pose_name_leftLowerLeg, left_lower_leg_x_page, left_lower_leg_y_page, left_lower_leg_z_page, positive_one, positive_one, positive_one], None,
+                                     _js="poseRotate3DModel")
+        left_lower_leg_z_page.change(None, [pose_name_leftLowerLeg, left_lower_leg_x_page, left_lower_leg_y_page, left_lower_leg_z_page, positive_one, positive_one, positive_one], None,
+                                     _js="poseRotate3DModel")
 
-        right_upper_leg_x_page.change(None, [right_upper_leg_x_page, right_upper_leg_y_page, right_upper_leg_z_page], None,
-                                     _js="poseRotateRightUpperLeg3DModel")
-        right_upper_leg_y_page.change(None, [right_upper_leg_x_page, right_upper_leg_y_page, right_upper_leg_z_page], None,
-                                     _js="poseRotateRightUpperLeg3DModel")
-        right_upper_leg_z_page.change(None, [right_upper_leg_x_page, right_upper_leg_y_page, right_upper_leg_z_page], None,
-                                     _js="poseRotateRightUpperLeg3DModel")
+        right_upper_leg_x_page.change(None, [pose_name_rightUpperLeg, right_upper_leg_x_page, right_upper_leg_y_page, right_upper_leg_z_page, positive_one, positive_one, negative_one], None,
+                                     _js="poseRotate3DModel")
+        right_upper_leg_y_page.change(None, [pose_name_rightUpperLeg, right_upper_leg_x_page, right_upper_leg_y_page, right_upper_leg_z_page, positive_one, positive_one, negative_one], None,
+                                     _js="poseRotate3DModel")
+        right_upper_leg_z_page.change(None, [pose_name_rightUpperLeg, right_upper_leg_x_page, right_upper_leg_y_page, right_upper_leg_z_page, positive_one, positive_one, negative_one], None,
+                                     _js="poseRotate3DModel")
 
-        left_upper_leg_x_page.change(None, [left_upper_leg_x_page, left_upper_leg_y_page, left_upper_leg_z_page], None,
-                                     _js="poseRotateLeftUpperLeg3DModel")
-        left_upper_leg_y_page.change(None, [left_upper_leg_x_page, left_upper_leg_y_page, left_upper_leg_z_page], None,
-                                     _js="poseRotateLeftUpperLeg3DModel")
-        left_upper_leg_z_page.change(None, [left_upper_leg_x_page, left_upper_leg_y_page, left_upper_leg_z_page], None,
-                                     _js="poseRotateLeftUpperLeg3DModel")
+        left_upper_leg_x_page.change(None, [pose_name_leftUpperLeg, left_upper_leg_x_page, left_upper_leg_y_page, left_upper_leg_z_page, positive_one, positive_one, positive_one], None,
+                                     _js="poseRotate3DModel")
+        left_upper_leg_y_page.change(None, [pose_name_leftUpperLeg, left_upper_leg_x_page, left_upper_leg_y_page, left_upper_leg_z_page, positive_one, positive_one, positive_one], None,
+                                     _js="poseRotate3DModel")
+        left_upper_leg_z_page.change(None, [pose_name_leftUpperLeg, left_upper_leg_x_page, left_upper_leg_y_page, left_upper_leg_z_page, positive_one, positive_one, positive_one], None,
+                                     _js="poseRotate3DModel")
 
-        left_lower_arm_x_page.change(None, [left_lower_arm_x_page, left_lower_arm_y_page, left_lower_arm_z_page], None, _js="poseRotateLeftLowerArm3DModel")
-        left_lower_arm_y_page.change(None, [left_lower_arm_x_page, left_lower_arm_y_page, left_lower_arm_z_page], None, _js="poseRotateLeftLowerArm3DModel")
-        left_lower_arm_z_page.change(None, [left_lower_arm_x_page, left_lower_arm_y_page, left_lower_arm_z_page], None, _js="poseRotateLeftLowerArm3DModel")
+        left_lower_arm_x_page.change(None, [pose_name_leftLowerArm, left_lower_arm_x_page, left_lower_arm_y_page, left_lower_arm_z_page, positive_one, positive_one, positive_one], None, _js="poseRotate3DModel")
+        left_lower_arm_y_page.change(None, [pose_name_leftLowerArm, left_lower_arm_x_page, left_lower_arm_y_page, left_lower_arm_z_page, positive_one, positive_one, positive_one], None, _js="poseRotate3DModel")
+        left_lower_arm_z_page.change(None, [pose_name_leftLowerArm, left_lower_arm_x_page, left_lower_arm_y_page, left_lower_arm_z_page, positive_one, positive_one, positive_one], None, _js="poseRotate3DModel")
 
-        right_lower_arm_x_page.change(None, [right_lower_arm_x_page, right_lower_arm_y_page, right_lower_arm_z_page], None, _js="poseRotateRightLowerArm3DModel")
-        right_lower_arm_y_page.change(None, [right_lower_arm_x_page, right_lower_arm_y_page, right_lower_arm_z_page], None, _js="poseRotateRightLowerArm3DModel")
-        right_lower_arm_z_page.change(None, [right_lower_arm_x_page, right_lower_arm_y_page, right_lower_arm_z_page], None, _js="poseRotateRightLowerArm3DModel")
+        right_lower_arm_x_page.change(None, [pose_name_rightLowerArm, right_lower_arm_x_page, right_lower_arm_y_page, right_lower_arm_z_page, positive_one, negative_one, negative_one], None, _js="poseRotate3DModel")
+        right_lower_arm_y_page.change(None, [pose_name_rightLowerArm, right_lower_arm_x_page, right_lower_arm_y_page, right_lower_arm_z_page, positive_one, negative_one, negative_one], None, _js="poseRotate3DModel")
+        right_lower_arm_z_page.change(None, [pose_name_rightLowerArm, right_lower_arm_x_page, right_lower_arm_y_page, right_lower_arm_z_page, positive_one, negative_one, negative_one], None, _js="poseRotate3DModel")
 
-        left_upper_arm_x_page.change(None, [left_upper_arm_x_page, left_upper_arm_y_page, left_upper_arm_z_page], None, _js="poseRotateLeftUpperArm3DModel")
-        left_upper_arm_y_page.change(None, [left_upper_arm_x_page, left_upper_arm_y_page, left_upper_arm_z_page], None, _js="poseRotateLeftUpperArm3DModel")
-        left_upper_arm_z_page.change(None, [left_upper_arm_x_page, left_upper_arm_y_page, left_upper_arm_z_page], None, _js="poseRotateLeftUpperArm3DModel")
+        left_upper_arm_x_page.change(None, [pose_name_leftUpperArm, left_upper_arm_x_page, left_upper_arm_y_page, left_upper_arm_z_page, positive_one, positive_one, positive_one], None, _js="poseRotate3DModel")
+        left_upper_arm_y_page.change(None, [pose_name_leftUpperArm, left_upper_arm_x_page, left_upper_arm_y_page, left_upper_arm_z_page, positive_one, positive_one, positive_one], None, _js="poseRotate3DModel")
+        left_upper_arm_z_page.change(None, [pose_name_leftUpperArm, left_upper_arm_x_page, left_upper_arm_y_page, left_upper_arm_z_page, positive_one, positive_one, positive_one], None, _js="poseRotate3DModel")
 
-        right_upper_arm_x_page.change(None, [right_upper_arm_x_page, right_upper_arm_y_page, right_upper_arm_z_page], None, _js="poseRotateRightUpperArm3DModel")
-        right_upper_arm_y_page.change(None, [right_upper_arm_x_page, right_upper_arm_y_page, right_upper_arm_z_page], None, _js="poseRotateRightUpperArm3DModel")
-        right_upper_arm_z_page.change(None, [right_upper_arm_x_page, right_upper_arm_y_page, right_upper_arm_z_page], None, _js="poseRotateRightUpperArm3DModel")
+        right_upper_arm_x_page.change(None, [pose_name_rightUpperArm, right_upper_arm_x_page, right_upper_arm_y_page, right_upper_arm_z_page, positive_one, negative_one, negative_one], None, _js="poseRotate3DModel")
+        right_upper_arm_y_page.change(None, [pose_name_rightUpperArm, right_upper_arm_x_page, right_upper_arm_y_page, right_upper_arm_z_page, positive_one, negative_one, negative_one], None, _js="poseRotate3DModel")
+        right_upper_arm_z_page.change(None, [pose_name_rightUpperArm, right_upper_arm_x_page, right_upper_arm_y_page, right_upper_arm_z_page, positive_one, negative_one, negative_one], None, _js="poseRotate3DModel")
 
-        neck_x_page.change(None, [neck_x_page, neck_y_page, neck_z_page], None, _js="poseRotateNeck3DModel")
-        neck_y_page.change(None, [neck_x_page, neck_y_page, neck_z_page], None, _js="poseRotateNeck3DModel")
-        neck_z_page.change(None, [neck_x_page, neck_y_page, neck_z_page], None,
-                                  _js="poseRotateNeck3DModel")
+
+        neck_x_page.change(None, [pose_name_neck, neck_x_page, neck_y_page, neck_z_page, positive_one, positive_one, positive_one], None, _js="poseRotate3DModel")
+        neck_y_page.change(None, [pose_name_neck, neck_x_page, neck_y_page, neck_z_page, positive_one, positive_one, positive_one], None, _js="poseRotate3DModel")
+        neck_z_page.change(None, [pose_name_neck, neck_x_page, neck_y_page, neck_z_page, positive_one, positive_one, positive_one], None,
+                                  _js="poseRotate3DModel")
 
         progress_bar.change(None, [progress_bar], None, _js="setCurrentAnimationTime3DModel")
         model_rotate_x_page.change(None, [model_rotate_x_page, model_rotate_y_page, model_rotate_z_page],

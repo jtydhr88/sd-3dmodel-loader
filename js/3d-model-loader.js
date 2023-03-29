@@ -593,118 +593,6 @@ function loadPoseFile() {
     )
 }
 
-function poseRotateNeck(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'neck' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'neck' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'neck' ).rotation.z = Math.PI * z;
-    }
-}
-
-function poseRotateSpine(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'spine' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'spine' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'spine' ).rotation.z = Math.PI * z;
-    }
-}
-
-function poseRotateLeftUpperArm(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperArm' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperArm' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperArm' ).rotation.z = Math.PI * z;
-    }
-}
-
-function poseRotateRightUpperArm(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperArm' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperArm' ).rotation.y = -1 * Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperArm' ).rotation.z = -1 * Math.PI * z;
-    }
-}
-
-function poseRotateLeftLowerArm(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerArm' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerArm' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerArm' ).rotation.z = Math.PI * z;
-    }
-}
-
-function poseRotateRightLowerArm(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerArm' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerArm' ).rotation.y = -1 * Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerArm' ).rotation.z = -1 * Math.PI * z;
-    }
-}
-
-function poseRotateLeftUpperLeg(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperLeg' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperLeg' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftUpperLeg' ).rotation.z = Math.PI * z;
-    }
-}
-
-function poseRotateRightUpperLeg(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperLeg' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperLeg' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightUpperLeg' ).rotation.z = -1 * Math.PI * z;
-    }
-}
-
-function poseRotateLeftLowerLeg(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerLeg' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerLeg' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftLowerLeg' ).rotation.z = Math.PI * z;
-    }
-}
-
-function poseRotateRightLowerLeg(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerLeg' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerLeg' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightLowerLeg' ).rotation.z = -1 * Math.PI * z;
-    }
-}
-
-function poseRotateLeftHand(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftHand' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftHand' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftHand' ).rotation.z = Math.PI * z;
-    }
-}
-
-function poseRotateRightHand(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightHand' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightHand' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightHand' ).rotation.z = -1 * Math.PI * z;
-    }
-}
-
-function poseRotateLeftFoot(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftFoot' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftFoot' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'leftFoot' ).rotation.z = Math.PI * z;
-    }
-}
-
-function poseRotateRightFoot(x, y, z) {
-    if (currentVRM) {
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.x = Math.PI * x;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.y = Math.PI * y;
-        currentVRM.humanoid.getNormalizedBoneNode( 'rightFoot' ).rotation.z = -1 * Math.PI * z;
-    }
-}
-
 function setEntryType(newEntryType) {
     entryType = newEntryType;
 }
@@ -1436,10 +1324,7 @@ function updateGradioImage (element, dt) {
 export {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
     uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime, poseRotateNeck,
-    poseRotateLeftUpperArm, poseRotateRightUpperArm, poseRotateLeftLowerArm, poseRotateRightLowerArm,
-    poseRotateLeftUpperLeg, poseRotateRightUpperLeg, poseRotateLeftLowerLeg, poseRotateRightLowerLeg,
-    poseRotateLeftHand, poseRotateRightHand, poseRotateLeftFoot, poseRotateRightFoot, poseRotateSpine,
+    playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime,
     loadPoseFile, savePoseAsJson, loadPoseFromJson, poseRotateLeftThumbMetacarpal, poseRotateLeftThumbProximal,
     poseRotateLeftThumbDistal, poseRotateLeftIndexProximal, poseRotateLeftIndexIntermediate,
     poseRotateLeftIndexDistal, poseRotateLeftMiddleProximal, poseRotateLeftMiddleIntermediate,
@@ -1450,5 +1335,5 @@ export {
     poseRotateRightIndexDistal, poseRotateRightMiddleProximal, poseRotateRightMiddleIntermediate,
     poseRotateRightMiddleDistal, poseRotateRightRingProximal, poseRotateRightRingIntermediate,
     poseRotateRightRingDistal, poseRotateRightLittleProximal, poseRotateRightLittleIntermediate,
-    poseRotateRightLittleDistal
+    poseRotateRightLittleDistal, poseRotate
 };
