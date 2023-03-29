@@ -514,6 +514,47 @@ def on_ui_tabs():
                     pose_name_rightUpperLeg = gr.Text(value="rightUpperLeg", visible=False)
                     pose_name_rightLowerLeg = gr.Text(value="rightLowerLeg", visible=False)
                     pose_name_rightFoot = gr.Text(value="rightFoot", visible=False)
+
+                    pose_name_leftThumbMetacarpal = gr.Text(value="leftThumbMetacarpal", visible=False)
+                    pose_name_leftThumbProximal = gr.Text(value="leftThumbProximal", visible=False)
+                    pose_name_leftThumbDistal = gr.Text(value="leftThumbDistal", visible=False)
+
+                    pose_name_leftIndexProximal = gr.Text(value="leftIndexProximal", visible=False)
+                    pose_name_leftIndexIntermediate = gr.Text(value="leftIndexIntermediate", visible=False)
+                    pose_name_leftIndexDistal = gr.Text(value="leftIndexDistal", visible=False)
+
+                    pose_name_leftMiddleProximal = gr.Text(value="leftMiddleProximal", visible=False)
+                    pose_name_leftMiddleIntermediate = gr.Text(value="leftMiddleIntermediate", visible=False)
+                    pose_name_leftMiddleDistal = gr.Text(value="leftMiddleDistal", visible=False)
+
+                    pose_name_leftRingProximal = gr.Text(value="leftRingProximal", visible=False)
+                    pose_name_leftRingIntermediate = gr.Text(value="leftRingIntermediate", visible=False)
+                    pose_name_leftRingDistal = gr.Text(value="leftRingDistal", visible=False)
+
+                    pose_name_leftLittleProximal = gr.Text(value="leftLittleProximal", visible=False)
+                    pose_name_leftLittleIntermediate = gr.Text(value="leftLittleIntermediate", visible=False)
+                    pose_name_leftLittleDistal = gr.Text(value="leftLittleDistal", visible=False)
+
+                    pose_name_rightThumbMetacarpal = gr.Text(value="rightThumbMetacarpal", visible=False)
+                    pose_name_rightThumbProximal = gr.Text(value="rightThumbProximal", visible=False)
+                    pose_name_rightThumbDistal = gr.Text(value="rightThumbDistal", visible=False)
+
+                    pose_name_rightIndexProximal = gr.Text(value="rightIndexProximal", visible=False)
+                    pose_name_rightIndexIntermediate = gr.Text(value="rightIndexIntermediate", visible=False)
+                    pose_name_rightIndexDistal = gr.Text(value="rightIndexDistal", visible=False)
+
+                    pose_name_rightMiddleProximal = gr.Text(value="rightMiddleProximal", visible=False)
+                    pose_name_rightMiddleIntermediate = gr.Text(value="rightMiddleIntermediate", visible=False)
+                    pose_name_rightMiddleDistal = gr.Text(value="rightMiddleDistal", visible=False)
+
+                    pose_name_rightRingProximal = gr.Text(value="rightRingProximal", visible=False)
+                    pose_name_rightRingIntermediate = gr.Text(value="rightRingIntermediate", visible=False)
+                    pose_name_rightRingDistal = gr.Text(value="rightRingDistal", visible=False)
+
+                    pose_name_rightLittleProximal = gr.Text(value="rightLittleProximal", visible=False)
+                    pose_name_rightLittleIntermediate = gr.Text(value="rightLittleIntermediate", visible=False)
+                    pose_name_rightLittleDistal = gr.Text(value="rightLittleDistal", visible=False)
+                    
                     positive_one = gr.Text(value="1", visible=False)
                     negative_one = gr.Text(value="-1", visible=False)
 
@@ -607,404 +648,404 @@ def on_ui_tabs():
 
                 gr.HTML(value='\n'.join(js_), elem_id=import_id, visible=False)
 
-        right_little_proximal_x_page.change(None, [right_little_proximal_x_page, right_little_proximal_y_page,
-                                                  right_little_proximal_z_page],
+        right_little_proximal_x_page.change(None, [pose_name_rightLittleProximal, right_little_proximal_x_page, right_little_proximal_y_page,
+                                                  right_little_proximal_z_page, positive_one, positive_one, positive_one],
                                            None,
-                                           _js="poseRotateRightLittleProximal3DModel")
-        right_little_proximal_y_page.change(None, [right_little_proximal_x_page, right_little_proximal_y_page,
-                                                  right_little_proximal_z_page],
+                                           _js="poseRotate3DModel")
+        right_little_proximal_y_page.change(None, [pose_name_rightLittleProximal, right_little_proximal_x_page, right_little_proximal_y_page,
+                                                  right_little_proximal_z_page, positive_one, positive_one, positive_one],
                                            None,
-                                           _js="poseRotateRightLittleProximal3DModel")
-        right_little_proximal_z_page.change(None, [right_little_proximal_x_page, right_little_proximal_y_page,
-                                                  right_little_proximal_z_page],
+                                           _js="poseRotate3DModel")
+        right_little_proximal_z_page.change(None, [pose_name_rightLittleProximal, right_little_proximal_x_page, right_little_proximal_y_page,
+                                                  right_little_proximal_z_page, positive_one, positive_one, positive_one],
                                            None,
-                                           _js="poseRotateRightLittleProximal3DModel")
+                                           _js="poseRotate3DModel")
 
-        right_little_intermediate_x_page.change(None, [right_little_intermediate_x_page, right_little_intermediate_y_page,
-                                                      right_little_intermediate_z_page],
+        right_little_intermediate_x_page.change(None, [pose_name_rightLittleIntermediate, right_little_intermediate_x_page, right_little_intermediate_y_page,
+                                                      right_little_intermediate_z_page, positive_one, positive_one, positive_one],
                                                None,
-                                               _js="poseRotateRightLittleIntermediate3DModel")
-        right_little_intermediate_y_page.change(None, [right_little_intermediate_x_page, right_little_intermediate_y_page,
-                                                      right_little_intermediate_z_page],
+                                               _js="poseRotate3DModel")
+        right_little_intermediate_y_page.change(None, [pose_name_rightLittleIntermediate, right_little_intermediate_x_page, right_little_intermediate_y_page,
+                                                      right_little_intermediate_z_page, positive_one, positive_one, positive_one],
                                                None,
-                                               _js="poseRotateRightLittleIntermediate3DModel")
-        right_little_intermediate_z_page.change(None, [right_little_intermediate_x_page, right_little_intermediate_y_page,
-                                                      right_little_intermediate_z_page],
+                                               _js="poseRotate3DModel")
+        right_little_intermediate_z_page.change(None, [pose_name_rightLittleIntermediate, right_little_intermediate_x_page, right_little_intermediate_y_page,
+                                                      right_little_intermediate_z_page, positive_one, positive_one, positive_one],
                                                None,
-                                               _js="poseRotateRightLittleIntermediate3DModel")
+                                               _js="poseRotate3DModel")
 
-        right_little_distal_x_page.change(None, [right_little_distal_x_page, right_little_distal_y_page,
-                                                right_little_distal_z_page],
+        right_little_distal_x_page.change(None, [pose_name_rightLittleDistal, right_little_distal_x_page, right_little_distal_y_page,
+                                                right_little_distal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateRightLittleDistal3DModel")
-        right_little_distal_y_page.change(None, [right_little_distal_x_page, right_little_distal_y_page,
-                                                right_little_distal_z_page],
+                                         _js="poseRotate3DModel")
+        right_little_distal_y_page.change(None, [pose_name_rightLittleDistal, right_little_distal_x_page, right_little_distal_y_page,
+                                                right_little_distal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateRightLittleDistal3DModel")
-        right_little_distal_z_page.change(None, [right_little_distal_x_page, right_little_distal_y_page,
-                                                right_little_distal_z_page],
+                                         _js="poseRotate3DModel")
+        right_little_distal_z_page.change(None, [pose_name_rightLittleDistal, right_little_distal_x_page, right_little_distal_y_page,
+                                                right_little_distal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateRightLittleDistal3DModel")
+                                         _js="poseRotate3DModel")
 
-        right_ring_proximal_x_page.change(None, [right_ring_proximal_x_page, right_ring_proximal_y_page,
-                                                right_ring_proximal_z_page],
+        right_ring_proximal_x_page.change(None, [pose_name_rightRingProximal, right_ring_proximal_x_page, right_ring_proximal_y_page,
+                                                right_ring_proximal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateRightRingProximal3DModel")
-        right_ring_proximal_y_page.change(None, [right_ring_proximal_x_page, right_ring_proximal_y_page,
-                                                right_ring_proximal_z_page],
+                                         _js="poseRotate3DModel")
+        right_ring_proximal_y_page.change(None, [pose_name_rightRingProximal, right_ring_proximal_x_page, right_ring_proximal_y_page,
+                                                right_ring_proximal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateRightRingProximal3DModel")
-        right_ring_proximal_z_page.change(None, [right_ring_proximal_x_page, right_ring_proximal_y_page,
-                                                right_ring_proximal_z_page],
+                                         _js="poseRotate3DModel")
+        right_ring_proximal_z_page.change(None, [pose_name_rightRingProximal, right_ring_proximal_x_page, right_ring_proximal_y_page,
+                                                right_ring_proximal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateRightRingProximal3DModel")
+                                         _js="poseRotate3DModel")
 
-        right_ring_intermediate_x_page.change(None, [right_ring_intermediate_x_page, right_ring_intermediate_y_page,
-                                                    right_ring_intermediate_z_page],
+        right_ring_intermediate_x_page.change(None, [pose_name_rightRingIntermediate, right_ring_intermediate_x_page, right_ring_intermediate_y_page,
+                                                    right_ring_intermediate_z_page, positive_one, positive_one, positive_one],
                                              None,
-                                             _js="poseRotateRightRingIntermediate3DModel")
-        right_ring_intermediate_y_page.change(None, [right_ring_intermediate_x_page, right_ring_intermediate_y_page,
-                                                    right_ring_intermediate_z_page],
+                                             _js="poseRotate3DModel")
+        right_ring_intermediate_y_page.change(None, [pose_name_rightRingIntermediate, right_ring_intermediate_x_page, right_ring_intermediate_y_page,
+                                                    right_ring_intermediate_z_page, positive_one, positive_one, positive_one],
                                              None,
-                                             _js="poseRotateRightRingIntermediate3DModel")
-        right_ring_intermediate_z_page.change(None, [right_ring_intermediate_x_page, right_ring_intermediate_y_page,
-                                                    right_ring_intermediate_z_page],
+                                             _js="poseRotate3DModel")
+        right_ring_intermediate_z_page.change(None, [pose_name_rightRingIntermediate, right_ring_intermediate_x_page, right_ring_intermediate_y_page,
+                                                    right_ring_intermediate_z_page, positive_one, positive_one, positive_one],
                                              None,
-                                             _js="poseRotateRightRingIntermediate3DModel")
+                                             _js="poseRotate3DModel")
 
-        right_ring_distal_x_page.change(None, [right_ring_distal_x_page, right_ring_distal_y_page,
-                                              right_ring_distal_z_page],
+        right_ring_distal_x_page.change(None, [pose_name_rightRingDistal, right_ring_distal_x_page, right_ring_distal_y_page,
+                                              right_ring_distal_z_page, positive_one, positive_one, positive_one],
                                        None,
-                                       _js="poseRotateRightRingDistal3DModel")
-        right_ring_distal_y_page.change(None, [right_ring_distal_x_page, right_ring_distal_y_page,
-                                              right_ring_distal_z_page],
+                                       _js="poseRotate3DModel")
+        right_ring_distal_y_page.change(None, [pose_name_rightRingDistal, right_ring_distal_x_page, right_ring_distal_y_page,
+                                              right_ring_distal_z_page, positive_one, positive_one, positive_one],
                                        None,
-                                       _js="poseRotateRightRingDistal3DModel")
-        right_ring_distal_z_page.change(None, [right_ring_distal_x_page, right_ring_distal_y_page,
-                                              right_ring_distal_z_page],
+                                       _js="poseRotate3DModel")
+        right_ring_distal_z_page.change(None, [pose_name_rightRingDistal, right_ring_distal_x_page, right_ring_distal_y_page,
+                                              right_ring_distal_z_page, positive_one, positive_one, positive_one],
                                        None,
-                                       _js="poseRotateRightRingDistal3DModel")
+                                       _js="poseRotate3DModel")
 
-        right_middle_proximal_x_page.change(None, [right_middle_proximal_x_page, right_middle_proximal_y_page,
-                                                  right_middle_proximal_z_page],
+        right_middle_proximal_x_page.change(None, [pose_name_rightMiddleProximal, right_middle_proximal_x_page, right_middle_proximal_y_page,
+                                                  right_middle_proximal_z_page, positive_one, positive_one, positive_one],
                                            None,
-                                           _js="poseRotateRightMiddleProximal3DModel")
-        right_middle_proximal_y_page.change(None, [right_middle_proximal_x_page, right_middle_proximal_y_page,
-                                                  right_middle_proximal_z_page],
+                                           _js="poseRotate3DModel")
+        right_middle_proximal_y_page.change(None, [pose_name_rightMiddleProximal, right_middle_proximal_x_page, right_middle_proximal_y_page,
+                                                  right_middle_proximal_z_page, positive_one, positive_one, positive_one],
                                            None,
-                                           _js="poseRotateRightMiddleProximal3DModel")
-        right_middle_proximal_z_page.change(None, [right_middle_proximal_x_page, right_middle_proximal_y_page,
-                                                  right_middle_proximal_z_page],
+                                           _js="poseRotate3DModel")
+        right_middle_proximal_z_page.change(None, [pose_name_rightMiddleProximal, right_middle_proximal_x_page, right_middle_proximal_y_page,
+                                                  right_middle_proximal_z_page, positive_one, positive_one, positive_one],
                                            None,
-                                           _js="poseRotateRightMiddleProximal3DModel")
+                                           _js="poseRotate3DModel")
 
-        right_middle_intermediate_x_page.change(None, [right_middle_intermediate_x_page, right_middle_intermediate_y_page,
-                                                      right_middle_intermediate_z_page],
+        right_middle_intermediate_x_page.change(None, [pose_name_rightMiddleIntermediate, right_middle_intermediate_x_page, right_middle_intermediate_y_page,
+                                                      right_middle_intermediate_z_page, positive_one, positive_one, positive_one],
                                                None,
-                                               _js="poseRotateRightMiddleIntermediate3DModel")
-        right_middle_intermediate_y_page.change(None, [right_middle_intermediate_x_page, right_middle_intermediate_y_page,
-                                                      right_middle_intermediate_z_page],
+                                               _js="poseRotate3DModel")
+        right_middle_intermediate_y_page.change(None, [pose_name_rightMiddleIntermediate, right_middle_intermediate_x_page, right_middle_intermediate_y_page,
+                                                      right_middle_intermediate_z_page, positive_one, positive_one, positive_one],
                                                None,
-                                               _js="poseRotateRightMiddleIntermediate3DModel")
-        right_middle_intermediate_z_page.change(None, [right_middle_intermediate_x_page, right_middle_intermediate_y_page,
-                                                      right_middle_intermediate_z_page],
+                                               _js="poseRotate3DModel")
+        right_middle_intermediate_z_page.change(None, [pose_name_rightMiddleIntermediate, right_middle_intermediate_x_page, right_middle_intermediate_y_page,
+                                                      right_middle_intermediate_z_page, positive_one, positive_one, positive_one],
                                                None,
-                                               _js="poseRotateRightMiddleIntermediate3DModel")
+                                               _js="poseRotate3DModel")
 
-        right_middle_distal_x_page.change(None, [right_middle_distal_x_page, right_middle_distal_y_page,
-                                                right_middle_distal_z_page],
+        right_middle_distal_x_page.change(None, [pose_name_rightMiddleDistal, right_middle_distal_x_page, right_middle_distal_y_page,
+                                                right_middle_distal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateRightMiddleDistal3DModel")
-        right_middle_distal_y_page.change(None, [right_middle_distal_x_page, right_middle_distal_y_page,
-                                                right_middle_distal_z_page],
+                                         _js="poseRotate3DModel")
+        right_middle_distal_y_page.change(None, [pose_name_rightMiddleDistal, right_middle_distal_x_page, right_middle_distal_y_page,
+                                                right_middle_distal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateRightMiddleDistal3DModel")
-        right_middle_distal_z_page.change(None, [right_middle_distal_x_page, right_middle_distal_y_page,
-                                                right_middle_distal_z_page],
+                                         _js="poseRotate3DModel")
+        right_middle_distal_z_page.change(None, [pose_name_rightMiddleDistal, right_middle_distal_x_page, right_middle_distal_y_page,
+                                                right_middle_distal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateRightMiddleDistal3DModel")
+                                         _js="poseRotate3DModel")
 
-        right_index_proximal_x_page.change(None, [right_index_proximal_x_page, right_index_proximal_y_page,
-                                                 right_index_proximal_z_page],
+        right_index_proximal_x_page.change(None, [pose_name_rightIndexProximal, right_index_proximal_x_page, right_index_proximal_y_page,
+                                                 right_index_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateRightIndexProximal3DModel")
-        right_index_proximal_y_page.change(None, [right_index_proximal_x_page, right_index_proximal_y_page,
-                                                 right_index_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        right_index_proximal_y_page.change(None, [pose_name_rightIndexProximal, right_index_proximal_x_page, right_index_proximal_y_page,
+                                                 right_index_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateRightIndexProximal3DModel")
-        right_index_proximal_z_page.change(None, [right_index_proximal_x_page, right_index_proximal_y_page,
-                                                 right_index_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        right_index_proximal_z_page.change(None, [pose_name_rightIndexProximal, right_index_proximal_x_page, right_index_proximal_y_page,
+                                                 right_index_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateRightIndexProximal3DModel")
+                                          _js="poseRotate3DModel")
 
-        right_index_intermediate_x_page.change(None, [right_index_intermediate_x_page, right_index_intermediate_y_page,
-                                                     right_index_intermediate_z_page],
+        right_index_intermediate_x_page.change(None, [pose_name_rightIndexIntermediate, right_index_intermediate_x_page, right_index_intermediate_y_page,
+                                                     right_index_intermediate_z_page, positive_one, positive_one, positive_one],
                                               None,
-                                              _js="poseRotateRightIndexIntermediate3DModel")
-        right_index_intermediate_y_page.change(None, [right_index_intermediate_x_page, right_index_intermediate_y_page,
-                                                     right_index_intermediate_z_page],
+                                              _js="poseRotate3DModel")
+        right_index_intermediate_y_page.change(None, [pose_name_rightIndexIntermediate, right_index_intermediate_x_page, right_index_intermediate_y_page,
+                                                     right_index_intermediate_z_page, positive_one, positive_one, positive_one],
                                               None,
-                                              _js="poseRotateRightIndexIntermediate3DModel")
-        right_index_intermediate_z_page.change(None, [right_index_intermediate_x_page, right_index_intermediate_y_page,
-                                                     right_index_intermediate_z_page],
+                                              _js="poseRotate3DModel")
+        right_index_intermediate_z_page.change(None, [pose_name_rightIndexIntermediate, right_index_intermediate_x_page, right_index_intermediate_y_page,
+                                                     right_index_intermediate_z_page, positive_one, positive_one, positive_one],
                                               None,
-                                              _js="poseRotateRightIndexIntermediate3DModel")
+                                              _js="poseRotate3DModel")
 
-        right_index_distal_x_page.change(None, [right_index_distal_x_page, right_index_distal_y_page,
-                                               right_index_distal_z_page],
+        right_index_distal_x_page.change(None, [pose_name_rightIndexDistal, right_index_distal_x_page, right_index_distal_y_page,
+                                               right_index_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateRightIndexDistal3DModel")
-        right_index_distal_y_page.change(None, [right_index_distal_x_page, right_index_distal_y_page,
-                                               right_index_distal_z_page],
+                                        _js="poseRotate3DModel")
+        right_index_distal_y_page.change(None, [pose_name_rightIndexDistal, right_index_distal_x_page, right_index_distal_y_page,
+                                               right_index_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateRightIndexDistal3DModel")
-        right_index_distal_z_page.change(None, [right_index_distal_x_page, right_index_distal_y_page,
-                                               right_index_distal_z_page],
+                                        _js="poseRotate3DModel")
+        right_index_distal_z_page.change(None, [pose_name_rightIndexDistal, right_index_distal_x_page, right_index_distal_y_page,
+                                               right_index_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateRightIndexDistal3DModel")
+                                        _js="poseRotate3DModel")
 
-        right_thumb_metacarpal_x_page.change(None, [right_thumb_metacarpal_x_page, right_thumb_metacarpal_y_page,
-                                                   right_thumb_metacarpal_z_page],
+        right_thumb_metacarpal_x_page.change(None, [pose_name_rightThumbMetacarpal, right_thumb_metacarpal_x_page, right_thumb_metacarpal_y_page,
+                                                   right_thumb_metacarpal_z_page, positive_one, positive_one, positive_one],
                                             None,
-                                            _js="poseRotateRightThumbMetacarpal3DModel")
-        right_thumb_metacarpal_y_page.change(None, [right_thumb_metacarpal_x_page, right_thumb_metacarpal_y_page,
-                                                   right_thumb_metacarpal_z_page],
+                                            _js="poseRotate3DModel")
+        right_thumb_metacarpal_y_page.change(None, [pose_name_rightThumbMetacarpal, right_thumb_metacarpal_x_page, right_thumb_metacarpal_y_page,
+                                                   right_thumb_metacarpal_z_page, positive_one, positive_one, positive_one],
                                             None,
-                                            _js="poseRotateRightThumbMetacarpal3DModel")
-        right_thumb_metacarpal_z_page.change(None, [right_thumb_metacarpal_x_page, right_thumb_metacarpal_y_page,
-                                                   right_thumb_metacarpal_z_page],
+                                            _js="poseRotate3DModel")
+        right_thumb_metacarpal_z_page.change(None, [pose_name_rightThumbMetacarpal, right_thumb_metacarpal_x_page, right_thumb_metacarpal_y_page,
+                                                   right_thumb_metacarpal_z_page, positive_one, positive_one, positive_one],
                                             None,
-                                            _js="poseRotateRightThumbMetacarpal3DModel")
+                                            _js="poseRotate3DModel")
 
-        right_thumb_proximal_x_page.change(None, [right_thumb_proximal_x_page, right_thumb_proximal_y_page,
-                                                 right_thumb_proximal_z_page],
+        right_thumb_proximal_x_page.change(None, [pose_name_rightThumbProximal, right_thumb_proximal_x_page, right_thumb_proximal_y_page,
+                                                 right_thumb_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateRightThumbProximal3DModel")
-        right_thumb_proximal_y_page.change(None, [right_thumb_proximal_x_page, right_thumb_proximal_y_page,
-                                                 right_thumb_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        right_thumb_proximal_y_page.change(None, [pose_name_rightThumbProximal, right_thumb_proximal_x_page, right_thumb_proximal_y_page,
+                                                 right_thumb_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateRightThumbProximal3DModel")
-        right_thumb_proximal_z_page.change(None, [right_thumb_proximal_x_page, right_thumb_proximal_y_page,
-                                                 right_thumb_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        right_thumb_proximal_z_page.change(None, [pose_name_rightThumbProximal, right_thumb_proximal_x_page, right_thumb_proximal_y_page,
+                                                 right_thumb_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateRightThumbProximal3DModel")
+                                          _js="poseRotate3DModel")
 
-        right_thumb_distal_x_page.change(None, [right_thumb_distal_x_page, right_thumb_distal_y_page,
-                                               right_thumb_distal_z_page],
+        right_thumb_distal_x_page.change(None, [pose_name_rightThumbDistal, right_thumb_distal_x_page, right_thumb_distal_y_page,
+                                               right_thumb_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateRightThumbDistal3DModel")
-        right_thumb_distal_y_page.change(None, [right_thumb_distal_x_page, right_thumb_distal_y_page,
-                                               right_thumb_distal_z_page],
+                                        _js="poseRotate3DModel")
+        right_thumb_distal_y_page.change(None, [pose_name_rightThumbDistal, right_thumb_distal_x_page, right_thumb_distal_y_page,
+                                               right_thumb_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateRightThumbDistal3DModel")
-        right_thumb_distal_z_page.change(None, [right_thumb_distal_x_page, right_thumb_distal_y_page,
-                                               right_thumb_distal_z_page],
+                                        _js="poseRotate3DModel")
+        right_thumb_distal_z_page.change(None, [pose_name_rightThumbDistal, right_thumb_distal_x_page, right_thumb_distal_y_page,
+                                               right_thumb_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateRightThumbDistal3DModel")
+                                        _js="poseRotate3DModel")
 
 
 
 
 
-        left_little_proximal_x_page.change(None, [left_little_proximal_x_page, left_little_proximal_y_page,
-                                                left_little_proximal_z_page],
+        left_little_proximal_x_page.change(None, [pose_name_leftLittleProximal, left_little_proximal_x_page, left_little_proximal_y_page,
+                                                left_little_proximal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateLeftLittleProximal3DModel")
-        left_little_proximal_y_page.change(None, [left_little_proximal_x_page, left_little_proximal_y_page,
-                                                left_little_proximal_z_page],
+                                         _js="poseRotate3DModel")
+        left_little_proximal_y_page.change(None, [pose_name_leftLittleProximal, left_little_proximal_x_page, left_little_proximal_y_page,
+                                                left_little_proximal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateLeftLittleProximal3DModel")
-        left_little_proximal_z_page.change(None, [left_little_proximal_x_page, left_little_proximal_y_page,
-                                                left_little_proximal_z_page],
+                                         _js="poseRotate3DModel")
+        left_little_proximal_z_page.change(None, [pose_name_leftLittleProximal, left_little_proximal_x_page, left_little_proximal_y_page,
+                                                left_little_proximal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateLeftLittleProximal3DModel")
+                                         _js="poseRotate3DModel")
 
-        left_little_intermediate_x_page.change(None, [left_little_intermediate_x_page, left_little_intermediate_y_page,
-                                                    left_little_intermediate_z_page],
+        left_little_intermediate_x_page.change(None, [pose_name_leftLittleIntermediate, left_little_intermediate_x_page, left_little_intermediate_y_page,
+                                                    left_little_intermediate_z_page, positive_one, positive_one, positive_one],
                                              None,
-                                             _js="poseRotateLeftLittleIntermediate3DModel")
-        left_little_intermediate_y_page.change(None, [left_little_intermediate_x_page, left_little_intermediate_y_page,
-                                                    left_little_intermediate_z_page],
+                                             _js="poseRotate3DModel")
+        left_little_intermediate_y_page.change(None, [pose_name_leftLittleIntermediate, left_little_intermediate_x_page, left_little_intermediate_y_page,
+                                                    left_little_intermediate_z_page, positive_one, positive_one, positive_one],
                                              None,
-                                             _js="poseRotateLeftLittleIntermediate3DModel")
-        left_little_intermediate_z_page.change(None, [left_little_intermediate_x_page, left_little_intermediate_y_page,
-                                                    left_little_intermediate_z_page],
+                                             _js="poseRotate3DModel")
+        left_little_intermediate_z_page.change(None, [pose_name_leftLittleIntermediate, left_little_intermediate_x_page, left_little_intermediate_y_page,
+                                                    left_little_intermediate_z_page, positive_one, positive_one, positive_one],
                                              None,
-                                             _js="poseRotateLeftLittleIntermediate3DModel")
+                                             _js="poseRotate3DModel")
 
-        left_little_distal_x_page.change(None, [left_little_distal_x_page, left_little_distal_y_page,
-                                              left_little_distal_z_page],
+        left_little_distal_x_page.change(None, [pose_name_leftLittleDistal, left_little_distal_x_page, left_little_distal_y_page,
+                                              left_little_distal_z_page, positive_one, positive_one, positive_one],
                                        None,
-                                       _js="poseRotateLeftLittleDistal3DModel")
-        left_little_distal_y_page.change(None, [left_little_distal_x_page, left_little_distal_y_page,
-                                              left_little_distal_z_page],
+                                       _js="poseRotate3DModel")
+        left_little_distal_y_page.change(None, [pose_name_leftLittleDistal, left_little_distal_x_page, left_little_distal_y_page,
+                                              left_little_distal_z_page, positive_one, positive_one, positive_one],
                                        None,
-                                       _js="poseRotateLeftLittleDistal3DModel")
-        left_little_distal_z_page.change(None, [left_little_distal_x_page, left_little_distal_y_page,
-                                              left_little_distal_z_page],
+                                       _js="poseRotate3DModel")
+        left_little_distal_z_page.change(None, [pose_name_leftLittleDistal, left_little_distal_x_page, left_little_distal_y_page,
+                                              left_little_distal_z_page, positive_one, positive_one, positive_one],
                                        None,
-                                       _js="poseRotateLeftLittleDistal3DModel")
+                                       _js="poseRotate3DModel")
 
 
 
-        left_ring_proximal_x_page.change(None, [left_ring_proximal_x_page, left_ring_proximal_y_page,
-                                                  left_ring_proximal_z_page],
+        left_ring_proximal_x_page.change(None, [pose_name_leftRingProximal, left_ring_proximal_x_page, left_ring_proximal_y_page,
+                                                  left_ring_proximal_z_page, positive_one, positive_one, positive_one],
                                            None,
-                                           _js="poseRotateLeftRingProximal3DModel")
-        left_ring_proximal_y_page.change(None, [left_ring_proximal_x_page, left_ring_proximal_y_page,
-                                                  left_ring_proximal_z_page],
+                                           _js="poseRotate3DModel")
+        left_ring_proximal_y_page.change(None, [pose_name_leftRingProximal, left_ring_proximal_x_page, left_ring_proximal_y_page,
+                                                  left_ring_proximal_z_page, positive_one, positive_one, positive_one],
                                            None,
-                                           _js="poseRotateLeftRingProximal3DModel")
-        left_ring_proximal_z_page.change(None, [left_ring_proximal_x_page, left_ring_proximal_y_page,
-                                                  left_ring_proximal_z_page],
+                                           _js="poseRotate3DModel")
+        left_ring_proximal_z_page.change(None, [pose_name_leftRingProximal, left_ring_proximal_x_page, left_ring_proximal_y_page,
+                                                  left_ring_proximal_z_page, positive_one, positive_one, positive_one],
                                            None,
-                                           _js="poseRotateLeftRingProximal3DModel")
+                                           _js="poseRotate3DModel")
 
-        left_ring_intermediate_x_page.change(None, [left_ring_intermediate_x_page, left_ring_intermediate_y_page,
-                                                      left_ring_intermediate_z_page],
+        left_ring_intermediate_x_page.change(None, [pose_name_leftRingIntermediate, left_ring_intermediate_x_page, left_ring_intermediate_y_page,
+                                                      left_ring_intermediate_z_page, positive_one, positive_one, positive_one],
                                                None,
-                                               _js="poseRotateLeftRingIntermediate3DModel")
-        left_ring_intermediate_y_page.change(None, [left_ring_intermediate_x_page, left_ring_intermediate_y_page,
-                                                      left_ring_intermediate_z_page],
+                                               _js="poseRotate3DModel")
+        left_ring_intermediate_y_page.change(None, [pose_name_leftRingIntermediate, left_ring_intermediate_x_page, left_ring_intermediate_y_page,
+                                                      left_ring_intermediate_z_page, positive_one, positive_one, positive_one],
                                                None,
-                                               _js="poseRotateLeftRingIntermediate3DModel")
-        left_ring_intermediate_z_page.change(None, [left_ring_intermediate_x_page, left_ring_intermediate_y_page,
-                                                      left_ring_intermediate_z_page],
+                                               _js="poseRotate3DModel")
+        left_ring_intermediate_z_page.change(None, [pose_name_leftRingIntermediate, left_ring_intermediate_x_page, left_ring_intermediate_y_page,
+                                                      left_ring_intermediate_z_page, positive_one, positive_one, positive_one],
                                                None,
-                                               _js="poseRotateLeftRingIntermediate3DModel")
+                                               _js="poseRotate3DModel")
 
-        left_ring_distal_x_page.change(None, [left_ring_distal_x_page, left_ring_distal_y_page,
-                                                left_ring_distal_z_page],
+        left_ring_distal_x_page.change(None, [pose_name_leftRingDistal, left_ring_distal_x_page, left_ring_distal_y_page,
+                                                left_ring_distal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateLeftRingDistal3DModel")
-        left_ring_distal_y_page.change(None, [left_ring_distal_x_page, left_ring_distal_y_page,
-                                                left_ring_distal_z_page],
+                                         _js="poseRotate3DModel")
+        left_ring_distal_y_page.change(None, [pose_name_leftRingDistal, left_ring_distal_x_page, left_ring_distal_y_page,
+                                                left_ring_distal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateLeftRingDistal3DModel")
-        left_ring_distal_z_page.change(None, [left_ring_distal_x_page, left_ring_distal_y_page,
-                                                left_ring_distal_z_page],
+                                         _js="poseRotate3DModel")
+        left_ring_distal_z_page.change(None, [pose_name_leftRingDistal, left_ring_distal_x_page, left_ring_distal_y_page,
+                                                left_ring_distal_z_page, positive_one, positive_one, positive_one],
                                          None,
-                                         _js="poseRotateLeftRingDistal3DModel")
+                                         _js="poseRotate3DModel")
 
 
 
 
-        left_middle_proximal_x_page.change(None, [left_middle_proximal_x_page, left_middle_proximal_y_page,
-                                                 left_middle_proximal_z_page],
+        left_middle_proximal_x_page.change(None, [pose_name_leftMiddleProximal, left_middle_proximal_x_page, left_middle_proximal_y_page,
+                                                 left_middle_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateLeftMiddleProximal3DModel")
-        left_middle_proximal_y_page.change(None, [left_middle_proximal_x_page, left_middle_proximal_y_page,
-                                                 left_middle_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        left_middle_proximal_y_page.change(None, [pose_name_leftMiddleProximal, left_middle_proximal_x_page, left_middle_proximal_y_page,
+                                                 left_middle_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateLeftMiddleProximal3DModel")
-        left_middle_proximal_z_page.change(None, [left_middle_proximal_x_page, left_middle_proximal_y_page,
-                                                 left_middle_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        left_middle_proximal_z_page.change(None, [pose_name_leftMiddleProximal, left_middle_proximal_x_page, left_middle_proximal_y_page,
+                                                 left_middle_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateLeftMiddleProximal3DModel")
+                                          _js="poseRotate3DModel")
 
-        left_middle_intermediate_x_page.change(None, [left_middle_intermediate_x_page, left_middle_intermediate_y_page,
-                                                     left_middle_intermediate_z_page],
+        left_middle_intermediate_x_page.change(None, [pose_name_leftMiddleIntermediate, left_middle_intermediate_x_page, left_middle_intermediate_y_page,
+                                                     left_middle_intermediate_z_page, positive_one, positive_one, positive_one],
                                               None,
-                                              _js="poseRotateLeftMiddleIntermediate3DModel")
-        left_middle_intermediate_y_page.change(None, [left_middle_intermediate_x_page, left_middle_intermediate_y_page,
-                                                     left_middle_intermediate_z_page],
+                                              _js="poseRotate3DModel")
+        left_middle_intermediate_y_page.change(None, [pose_name_leftMiddleIntermediate, left_middle_intermediate_x_page, left_middle_intermediate_y_page,
+                                                     left_middle_intermediate_z_page, positive_one, positive_one, positive_one],
                                               None,
-                                              _js="poseRotateLeftMiddleIntermediate3DModel")
-        left_middle_intermediate_z_page.change(None, [left_middle_intermediate_x_page, left_middle_intermediate_y_page,
-                                                     left_middle_intermediate_z_page],
+                                              _js="poseRotate3DModel")
+        left_middle_intermediate_z_page.change(None, [pose_name_leftMiddleIntermediate, left_middle_intermediate_x_page, left_middle_intermediate_y_page,
+                                                     left_middle_intermediate_z_page, positive_one, positive_one, positive_one],
                                               None,
-                                              _js="poseRotateLeftMiddleIntermediate3DModel")
+                                              _js="poseRotate3DModel")
 
-        left_middle_distal_x_page.change(None, [left_middle_distal_x_page, left_middle_distal_y_page,
-                                               left_middle_distal_z_page],
+        left_middle_distal_x_page.change(None, [pose_name_leftMiddleDistal, left_middle_distal_x_page, left_middle_distal_y_page,
+                                               left_middle_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateLeftMiddleDistal3DModel")
-        left_middle_distal_y_page.change(None, [left_middle_distal_x_page, left_middle_distal_y_page,
-                                               left_middle_distal_z_page],
+                                        _js="poseRotate3DModel")
+        left_middle_distal_y_page.change(None, [pose_name_leftMiddleDistal, left_middle_distal_x_page, left_middle_distal_y_page,
+                                               left_middle_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateLeftMiddleDistal3DModel")
-        left_middle_distal_z_page.change(None, [left_middle_distal_x_page, left_middle_distal_y_page,
-                                               left_middle_distal_z_page],
+                                        _js="poseRotate3DModel")
+        left_middle_distal_z_page.change(None, [pose_name_leftMiddleDistal, left_middle_distal_x_page, left_middle_distal_y_page,
+                                               left_middle_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateLeftMiddleDistal3DModel")
+                                        _js="poseRotate3DModel")
 
-        left_index_proximal_x_page.change(None, [left_index_proximal_x_page, left_index_proximal_y_page,
-                                                 left_index_proximal_z_page],
+        left_index_proximal_x_page.change(None, [pose_name_leftIndexProximal, left_index_proximal_x_page, left_index_proximal_y_page,
+                                                 left_index_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateLeftIndexProximal3DModel")
-        left_index_proximal_y_page.change(None, [left_index_proximal_x_page, left_index_proximal_y_page,
-                                                 left_index_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        left_index_proximal_y_page.change(None, [pose_name_leftIndexProximal, left_index_proximal_x_page, left_index_proximal_y_page,
+                                                 left_index_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateLeftIndexProximal3DModel")
-        left_index_proximal_z_page.change(None, [left_index_proximal_x_page, left_index_proximal_y_page,
-                                                 left_index_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        left_index_proximal_z_page.change(None, [pose_name_leftIndexProximal, left_index_proximal_x_page, left_index_proximal_y_page,
+                                                 left_index_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateLeftIndexProximal3DModel")
+                                          _js="poseRotate3DModel")
 
-        left_index_intermediate_x_page.change(None, [left_index_intermediate_x_page, left_index_intermediate_y_page,
-                                                   left_index_intermediate_z_page],
+        left_index_intermediate_x_page.change(None, [pose_name_leftIndexIntermediate, left_index_intermediate_x_page, left_index_intermediate_y_page,
+                                                   left_index_intermediate_z_page, positive_one, positive_one, positive_one],
                                             None,
-                                            _js="poseRotateLeftIndexIntermediate3DModel")
-        left_index_intermediate_y_page.change(None, [left_index_intermediate_x_page, left_index_intermediate_y_page,
-                                                   left_index_intermediate_z_page],
+                                            _js="poseRotate3DModel")
+        left_index_intermediate_y_page.change(None, [pose_name_leftIndexIntermediate, left_index_intermediate_x_page, left_index_intermediate_y_page,
+                                                   left_index_intermediate_z_page, positive_one, positive_one, positive_one],
                                             None,
-                                            _js="poseRotateLeftIndexIntermediate3DModel")
-        left_index_intermediate_z_page.change(None, [left_index_intermediate_x_page, left_index_intermediate_y_page,
-                                                   left_index_intermediate_z_page],
+                                            _js="poseRotate3DModel")
+        left_index_intermediate_z_page.change(None, [pose_name_leftIndexIntermediate, left_index_intermediate_x_page, left_index_intermediate_y_page,
+                                                   left_index_intermediate_z_page, positive_one, positive_one, positive_one],
                                             None,
-                                            _js="poseRotateLeftIndexIntermediate3DModel")
+                                            _js="poseRotate3DModel")
 
-        left_index_distal_x_page.change(None, [left_index_distal_x_page, left_index_distal_y_page,
-                                               left_index_distal_z_page],
+        left_index_distal_x_page.change(None, [pose_name_leftIndexDistal, left_index_distal_x_page, left_index_distal_y_page,
+                                               left_index_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateLeftIndexDistal3DModel")
-        left_index_distal_y_page.change(None, [left_index_distal_x_page, left_index_distal_y_page,
-                                               left_index_distal_z_page],
+                                        _js="poseRotate3DModel")
+        left_index_distal_y_page.change(None, [pose_name_leftIndexDistal, left_index_distal_x_page, left_index_distal_y_page,
+                                               left_index_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateLeftIndexDistal3DModel")
-        left_index_distal_z_page.change(None, [left_index_distal_x_page, left_index_distal_y_page,
-                                               left_index_distal_z_page],
+                                        _js="poseRotate3DModel")
+        left_index_distal_z_page.change(None, [pose_name_leftIndexDistal, left_index_distal_x_page, left_index_distal_y_page,
+                                               left_index_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateLeftIndexDistal3DModel")
+                                        _js="poseRotate3DModel")
 
-        left_thumb_metacarpal_x_page.change(None, [left_thumb_metacarpal_x_page, left_thumb_metacarpal_y_page,
-                                                   left_thumb_metacarpal_z_page],
+        left_thumb_metacarpal_x_page.change(None, [pose_name_leftThumbMetacarpal, left_thumb_metacarpal_x_page, left_thumb_metacarpal_y_page,
+                                                   left_thumb_metacarpal_z_page, positive_one, positive_one, positive_one],
                                             None,
-                                            _js="poseRotateLeftThumbMetacarpal3DModel")
-        left_thumb_metacarpal_y_page.change(None, [left_thumb_metacarpal_x_page, left_thumb_metacarpal_y_page,
-                                                   left_thumb_metacarpal_z_page],
+                                            _js="poseRotate3DModel")
+        left_thumb_metacarpal_y_page.change(None, [pose_name_leftThumbMetacarpal, left_thumb_metacarpal_x_page, left_thumb_metacarpal_y_page,
+                                                   left_thumb_metacarpal_z_page, positive_one, positive_one, positive_one],
                                             None,
-                                            _js="poseRotateLeftThumbMetacarpal3DModel")
-        left_thumb_metacarpal_z_page.change(None, [left_thumb_metacarpal_x_page, left_thumb_metacarpal_y_page,
-                                                   left_thumb_metacarpal_z_page],
+                                            _js="poseRotate3DModel")
+        left_thumb_metacarpal_z_page.change(None, [pose_name_leftThumbMetacarpal, left_thumb_metacarpal_x_page, left_thumb_metacarpal_y_page,
+                                                   left_thumb_metacarpal_z_page, positive_one, positive_one, positive_one],
                                             None,
-                                            _js="poseRotateLeftThumbMetacarpal3DModel")
+                                            _js="poseRotate3DModel")
 
-        left_thumb_proximal_x_page.change(None, [left_thumb_proximal_x_page, left_thumb_proximal_y_page,
-                                                 left_thumb_proximal_z_page],
+        left_thumb_proximal_x_page.change(None, [pose_name_leftThumbProximal, left_thumb_proximal_x_page, left_thumb_proximal_y_page,
+                                                 left_thumb_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateLeftThumbProximal3DModel")
-        left_thumb_proximal_y_page.change(None, [left_thumb_proximal_x_page, left_thumb_proximal_y_page,
-                                                 left_thumb_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        left_thumb_proximal_y_page.change(None, [pose_name_leftThumbProximal, left_thumb_proximal_x_page, left_thumb_proximal_y_page,
+                                                 left_thumb_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateLeftThumbProximal3DModel")
-        left_thumb_proximal_z_page.change(None, [left_thumb_proximal_x_page, left_thumb_proximal_y_page,
-                                                 left_thumb_proximal_z_page],
+                                          _js="poseRotate3DModel")
+        left_thumb_proximal_z_page.change(None, [pose_name_leftThumbProximal, left_thumb_proximal_x_page, left_thumb_proximal_y_page,
+                                                 left_thumb_proximal_z_page, positive_one, positive_one, positive_one],
                                           None,
-                                          _js="poseRotateLeftThumbProximal3DModel")
+                                          _js="poseRotate3DModel")
 
-        left_thumb_distal_x_page.change(None, [left_thumb_distal_x_page, left_thumb_distal_y_page,
-                                               left_thumb_distal_z_page],
+        left_thumb_distal_x_page.change(None, [pose_name_leftThumbDistal, left_thumb_distal_x_page, left_thumb_distal_y_page,
+                                               left_thumb_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateLeftThumbDistal3DModel")
-        left_thumb_distal_y_page.change(None, [left_thumb_distal_x_page, left_thumb_distal_y_page,
-                                               left_thumb_distal_z_page],
+                                        _js="poseRotate3DModel")
+        left_thumb_distal_y_page.change(None, [pose_name_leftThumbDistal, left_thumb_distal_x_page, left_thumb_distal_y_page,
+                                               left_thumb_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateLeftThumbDistal3DModel")
-        left_thumb_distal_z_page.change(None, [left_thumb_distal_x_page, left_thumb_distal_y_page,
-                                               left_thumb_distal_z_page],
+                                        _js="poseRotate3DModel")
+        left_thumb_distal_z_page.change(None, [pose_name_leftThumbDistal, left_thumb_distal_x_page, left_thumb_distal_y_page,
+                                               left_thumb_distal_z_page, positive_one, positive_one, positive_one],
                                         None,
-                                        _js="poseRotateLeftThumbDistal3DModel")
+                                        _js="poseRotate3DModel")
 
 
         save_pose_as_json_button.click(None, None, None, _js='savePoseAsJson3DModel')
