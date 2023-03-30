@@ -77,6 +77,61 @@ let currentTime;
 let progress;
 let controlByProgressBar;
 
+const boneMap = {
+	'hips': "mixamorigHips",
+	'spine': "mixamorigSpine",
+    'chest': 'mixamorigSpine1',
+	'upperChest':'mixamorigSpine2',
+	'neck':'mixamorigNeck',
+	'head':'mixamorigHead',
+	'leftShoulder':'mixamorigLeftShoulder',
+	'leftUpperArm':'mixamorigLeftArm',
+	'leftLowerArm':'mixamorigLeftForeArm',
+	'leftHand':'mixamorigLeftHand',
+	'leftThumbMetacarpal':'mixamorigLeftHandThumb1',
+	'leftThumbProximal':'mixamorigLeftHandThumb2',
+	'leftThumbDistal':'mixamorigLeftHandThumb3',
+	'leftIndexProximal':'mixamorigLeftHandIndex1',
+	'leftIndexIntermediate':'mixamorigLeftHandIndex2',
+	'leftIndexDistal':'mixamorigLeftHandIndex3',
+	'leftMiddleProximal':'mixamorigLeftHandMiddle1',
+	'leftMiddleIntermediate':'mixamorigLeftHandMiddle2',
+	'leftMiddleDistal':'mixamorigLeftHandMiddle3',
+	'leftRingProximal':'mixamorigLeftHandRing1',
+	'leftRingIntermediate':'mixamorigLeftHandRing2',
+	'leftRingDistal':'mixamorigLeftHandRing3',
+	'leftLittleProximal':'mixamorigLeftHandPinky1',
+	'leftLittleIntermediate':'mixamorigLeftHandPinky2',
+	'leftLittleDistal':'mixamorigLeftHandPinky3',
+	'rightShoulder':'mixamorigRightShoulder',
+	'rightUpperArm':'mixamorigRightArm',
+	'rightLowerArm':'mixamorigRightForeArm',
+	'rightHand':'mixamorigRightHand',
+	'rightLittleProximal':'mixamorigRightHandPinky1',
+	'rightLittleIntermediate':'mixamorigRightHandPinky2',
+	'rightLittleDistal':'mixamorigRightHandPinky3',
+	'rightRingProximal':'mixamorigRightHandRing1',
+	'rightRingIntermediate':'mixamorigRightHandRing2',
+	'rightRingDistal':'mixamorigRightHandRing3',
+	'rightMiddleProximal':'mixamorigRightHandMiddle1',
+	'rightMiddleIntermediate':'mixamorigRightHandMiddle2',
+	'rightMiddleDistal':'mixamorigRightHandMiddle3',
+	'rightIndexProximal':'mixamorigRightHandIndex1',
+	'rightIndexIntermediate':'mixamorigRightHandIndex2',
+	'rightIndexDistal':'mixamorigRightHandIndex3',
+	'rightThumbMetacarpal':'mixamorigRightHandThumb1',
+	'rightThumbProximal':'mixamorigRightHandThumb2',
+	'rightThumbDistal':'mixamorigRightHandThumb3',
+	'leftUpperLeg':'mixamorigLeftUpLeg',
+	'leftLowerLeg':'mixamorigLeftLeg',
+	'leftFoot':'mixamorigLeftFoot',
+	'leftToes':'mixamorigLeftToeBase',
+	'rightUpperLeg':'mixamorigRightUpLeg',
+	'rightLowerLeg':'mixamorigRightLeg',
+	'rightFoot':'mixamorigRightFoot',
+	'rightToes':'mixamorigRightToeBase',
+};
+
 function updateSliderValue(queryId, newValue) {
     const sliderDiv = gradioApp().querySelector(queryId);
 
@@ -428,6 +483,15 @@ function poseRotate(boneName, x, y, z) {
         currentVRM.humanoid.getNormalizedBoneNode( boneName ).rotation.x = x;
         currentVRM.humanoid.getNormalizedBoneNode( boneName ).rotation.y = y;
         currentVRM.humanoid.getNormalizedBoneNode( boneName ).rotation.z = z;
+    }
+    else if (mainObject) {
+        const bone = mainObject.getObjectByName(boneMap[boneName]);
+
+        if (bone) {
+            bone.rotation.x = x;
+            bone.rotation.y = y;
+            bone.rotation.z = z;
+        }
     }
 }
 
