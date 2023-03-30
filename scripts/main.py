@@ -143,178 +143,178 @@ def on_ui_tabs():
                         with gr.Accordion("Thumb", open=False):
                             with gr.Row():
                                 left_thumb_metacarpal_x_page = gr.Slider(
-                                    label="LeftThumbMetacarpal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True, elem_id="pose_leftThumbMetacarpal_x")
+                                    label="LeftThumbMetacarpal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_leftThumbMetacarpal_x")
                                 left_thumb_metacarpal_y_page = gr.Slider(
-                                    label="LeftThumbMetacarpal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True, elem_id="pose_leftThumbMetacarpal_y")
+                                    label="LeftThumbMetacarpal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_leftThumbMetacarpal_y")
                                 left_thumb_metacarpal_z_page = gr.Slider(
-                                    label="LeftThumbMetacarpal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True, elem_id="pose_leftThumbMetacarpal_z")
+                                    label="LeftThumbMetacarpal Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_leftThumbMetacarpal_z")
                             with gr.Row():
                                 left_thumb_proximal_x_page = gr.Slider(
-                                    label="LeftThumbProximal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftThumbProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftThumbProximal_x")
                                 left_thumb_proximal_y_page = gr.Slider(
-                                    label="LeftThumbProximal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftThumbProximal Y", minimum=-0.4, maximum=0.4, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftThumbProximal_y")
                                 left_thumb_proximal_z_page = gr.Slider(
-                                    label="LeftThumbProximal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftThumbProximal Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftThumbProximal_z")
                             with gr.Row():
                                 left_thumb_distal_x_page = gr.Slider(
-                                    label="LeftThumbDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftThumbDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftThumbDistal_x")
                                 left_thumb_distal_y_page = gr.Slider(
-                                    label="LeftThumbDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftThumbDistal Y", minimum=-0.4, maximum=0.4, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftThumbDistal_y")
                                 left_thumb_distal_z_page = gr.Slider(
-                                    label="LeftThumbDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftThumbDistal Z", minimum=-0.4, maximum=0.4, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftThumbDistal_z")
 
                         with gr.Accordion("Index", open=False):
                             with gr.Row():
                                 left_index_proximal_x_page = gr.Slider(
-                                    label="LeftIndexProximal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftIndexProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftIndexProximal_x")
                                 left_index_proximal_y_page = gr.Slider(
-                                    label="LeftIndexProximal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftIndexProximal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftIndexProximal_y")
                                 left_index_proximal_z_page = gr.Slider(
-                                    label="LeftIndexProximal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftIndexProximal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftIndexProximal_z")
                             with gr.Row():
                                 left_index_intermediate_x_page = gr.Slider(
-                                    label="LeftIndexIntermediate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftIndexIntermediate X", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftIndexIntermediate_x")
                                 left_index_intermediate_y_page = gr.Slider(
-                                    label="LeftIndexIntermediate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftIndexIntermediate Y", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftIndexIntermediate_y")
                                 left_index_intermediate_z_page = gr.Slider(
-                                    label="LeftIndexIntermediate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftIndexIntermediate Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftIndexIntermediate_z")
                             with gr.Row():
                                 left_index_distal_x_page = gr.Slider(
-                                    label="LeftIndexDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftIndexDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftIndexDistal_x")
                                 left_index_distal_y_page = gr.Slider(
-                                    label="LeftIndexDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftIndexDistal Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftIndexDistal_y")
                                 left_index_distal_z_page = gr.Slider(
-                                    label="LeftIndexDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftIndexDistal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftIndexDistal_z")
 
                         with gr.Accordion("Middle", open=False):
                             with gr.Row():
                                 left_middle_proximal_x_page = gr.Slider(
-                                    label="LeftMiddleProximal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftMiddleProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftMiddleProximal_x")
                                 left_middle_proximal_y_page = gr.Slider(
-                                    label="LeftMiddleProximal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftMiddleProximal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftMiddleProximal_y")
                                 left_middle_proximal_z_page = gr.Slider(
-                                    label="LeftMiddleProximal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftMiddleProximal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftMiddleProximal_z")
                             with gr.Row():
                                 left_middle_intermediate_x_page = gr.Slider(
-                                    label="LeftMiddleIntermediate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftMiddleIntermediate X", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftMiddleIntermediate_x")
                                 left_middle_intermediate_y_page = gr.Slider(
-                                    label="LeftMiddleIntermediate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftMiddleIntermediate Y", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftMiddleIntermediate_y")
                                 left_middle_intermediate_z_page = gr.Slider(
-                                    label="LeftMiddleIntermediate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftMiddleIntermediate Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftMiddleIntermediate_z")
                             with gr.Row():
                                 left_middle_distal_x_page = gr.Slider(
-                                    label="LeftMiddleDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftMiddleDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftMiddleDistal_x")
                                 left_middle_distal_y_page = gr.Slider(
-                                    label="LeftMiddleDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftMiddleDistal Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftMiddleDistal_y")
                                 left_middle_distal_z_page = gr.Slider(
-                                    label="LeftMiddleDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftMiddleDistal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftMiddleDistal_z")
 
                         with gr.Accordion("Ring", open=False):
                             with gr.Row():
                                 left_ring_proximal_x_page = gr.Slider(
-                                    label="LeftRingProximal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftRingProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftRingProximal_x")
                                 left_ring_proximal_y_page = gr.Slider(
-                                    label="LeftRingProximal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftRingProximal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftRingProximal_y")
                                 left_ring_proximal_z_page = gr.Slider(
-                                    label="LeftRingProximal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftRingProximal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftRingProximal_z")
                             with gr.Row():
                                 left_ring_intermediate_x_page = gr.Slider(
-                                    label="LeftRingIntermediate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftRingIntermediate X", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftRingIntermediate_x")
                                 left_ring_intermediate_y_page = gr.Slider(
-                                    label="LeftRingIntermediate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftRingIntermediate Y", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftRingIntermediate_y")
                                 left_ring_intermediate_z_page = gr.Slider(
-                                    label="LeftRingIntermediate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="LeftRingIntermediate Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_leftRingIntermediate_z")
                             with gr.Row():
                                 left_ring_distal_x_page = gr.Slider(
-                                    label="LeftRingDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftRingDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftRingDistal_x")
                                 left_ring_distal_y_page = gr.Slider(
-                                    label="LeftRingDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftRingDistal Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftRingDistal_y")
                                 left_ring_distal_z_page = gr.Slider(
-                                    label="LeftRingDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftRingDistal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftRingDistal_z")
 
                         with gr.Accordion("Little", open=False):
                             with gr.Row():
                                 left_little_proximal_x_page = gr.Slider(
-                                    label="LeftLittleProximal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftLittleProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftLittleProximal_x")
                                 left_little_proximal_y_page = gr.Slider(
-                                    label="LeftLittleProximal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftLittleProximal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftLittleProximal_y")
                                 left_little_proximal_z_page = gr.Slider(
-                                    label="LeftLittleProximal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftLittleProximal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftLittleProximal_z")
                             with gr.Row():
                                 left_little_intermediate_x_page = gr.Slider(
-                                    label="LeftLittleIntermediate X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftLittleIntermediate X", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftLittleIntermediate_x")
                                 left_little_intermediate_y_page = gr.Slider(
-                                    label="LeftLittleIntermediate Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftLittleIntermediate Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftLittleIntermediate_y")
                                 left_little_intermediate_z_page = gr.Slider(
-                                    label="LeftLittleIntermediate Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftLittleIntermediate Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftLittleIntermediate_z")
                             with gr.Row():
                                 left_little_distal_x_page = gr.Slider(
-                                    label="LeftLittleDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftLittleDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftLittleDistal_x")
                                 left_little_distal_y_page = gr.Slider(
-                                    label="LeftLittleDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftLittleDistal Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftLittleDistal_y")
                                 left_little_distal_z_page = gr.Slider(
-                                    label="LeftLittleDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="LeftLittleDistal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_leftLittleDistal_z")
 
@@ -322,181 +322,181 @@ def on_ui_tabs():
                         with gr.Accordion("Thumb", open=False):
                             with gr.Row():
                                 right_thumb_metacarpal_x_page = gr.Slider(
-                                    label="RightThumbMetacarpal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightThumbMetacarpal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightThumbMetacarpal_x")
                                 right_thumb_metacarpal_y_page = gr.Slider(
-                                    label="RightThumbMetacarpal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightThumbMetacarpal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightThumbMetacarpal_y")
                                 right_thumb_metacarpal_z_page = gr.Slider(
-                                    label="RightThumbMetacarpal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightThumbMetacarpal Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightThumbMetacarpal_z")
                             with gr.Row():
                                 right_thumb_proximal_x_page = gr.Slider(
-                                    label="RightThumbProximal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightThumbProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightThumbProximal_x")
                                 right_thumb_proximal_y_page = gr.Slider(
-                                    label="RightThumbProximal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightThumbProximal Y", minimum=-0.4, maximum=0.4, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightThumbProximal_y")
                                 right_thumb_proximal_z_page = gr.Slider(
-                                    label="RightThumbProximal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightThumbProximal Z", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightThumbProximal_z")
                             with gr.Row():
                                 right_thumb_distal_x_page = gr.Slider(
-                                    label="RightThumbDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightThumbDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightThumbDistal_x")
                                 right_thumb_distal_y_page = gr.Slider(
-                                    label="RightThumbDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightThumbDistal Y", minimum=-0.4, maximum=0.4, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightThumbDistal_y")
                                 right_thumb_distal_z_page = gr.Slider(
-                                    label="RightThumbDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightThumbDistal Z", minimum=-0.4, maximum=0.4, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightThumbDistal_z")
 
                         with gr.Accordion("Index", open=False):
                             with gr.Row():
                                 right_index_proximal_x_page = gr.Slider(
-                                    label="RightIndexProximal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightIndexProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightIndexProximal_x")
                                 right_index_proximal_y_page = gr.Slider(
-                                    label="RightIndexProximal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightIndexProximal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightIndexProximal_y")
                                 right_index_proximal_z_page = gr.Slider(
-                                    label="RightIndexProximal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightIndexProximal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightIndexProximal_z")
                             with gr.Row():
                                 right_index_intermediate_x_page = gr.Slider(
-                                    label="RightIndexIntermediate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightIndexIntermediate X", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightIndexIntermediate_x")
                                 right_index_intermediate_y_page = gr.Slider(
-                                    label="RightIndexIntermediate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightIndexIntermediate Y", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightIndexIntermediate_y")
                                 right_index_intermediate_z_page = gr.Slider(
-                                    label="RightIndexIntermediate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightIndexIntermediate Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightIndexIntermediate_z")
                             with gr.Row():
                                 right_index_distal_x_page = gr.Slider(
-                                    label="RightIndexDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightIndexDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightIndexDistal_x")
                                 right_index_distal_y_page = gr.Slider(
-                                    label="RightIndexDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightIndexDistal Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightIndexDistal_y")
                                 right_index_distal_z_page = gr.Slider(
-                                    label="RightIndexDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightIndexDistal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightIndexDistal_z")
 
                         with gr.Accordion("Middle", open=False):
                             with gr.Row():
                                 right_middle_proximal_x_page = gr.Slider(
-                                    label="RightMiddleProximal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightMiddleProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightMiddleProximal_x")
                                 right_middle_proximal_y_page = gr.Slider(
-                                    label="RightMiddleProximal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightMiddleProximal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightMiddleProximal_y")
                                 right_middle_proximal_z_page = gr.Slider(
-                                    label="RightMiddleProximal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightMiddleProximal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightMiddleProximal_z")
                             with gr.Row():
                                 right_middle_intermediate_x_page = gr.Slider(
-                                    label="RightMiddleIntermediate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightMiddleIntermediate X", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightMiddleIntermediate_x")
                                 right_middle_intermediate_y_page = gr.Slider(
-                                    label="RightMiddleIntermediate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightMiddleIntermediate Y", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightMiddleIntermediate_y")
                                 right_middle_intermediate_z_page = gr.Slider(
-                                    label="RightMiddleIntermediate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightMiddleIntermediate Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightMiddleIntermediate_z")
                             with gr.Row():
                                 right_middle_distal_x_page = gr.Slider(
-                                    label="RightMiddleDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightMiddleDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightMiddleDistal_x")
                                 right_middle_distal_y_page = gr.Slider(
-                                    label="RightMiddleDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightMiddleDistal Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightMiddleDistal_y")
                                 right_middle_distal_z_page = gr.Slider(
-                                    label="RightMiddleDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightMiddleDistal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightMiddleDistal_z")
 
                         with gr.Accordion("Ring", open=False):
                             with gr.Row():
                                 right_ring_proximal_x_page = gr.Slider(
-                                    label="RightRingProximal X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightRingProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightRingProximal_x")
                                 right_ring_proximal_y_page = gr.Slider(
-                                    label="RightRingProximal Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightRingProximal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightRingProximal_y")
                                 right_ring_proximal_z_page = gr.Slider(
-                                    label="RightRingProximal Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightRingProximal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightRingProximal_z")
                             with gr.Row():
                                 right_ring_intermediate_x_page = gr.Slider(
-                                    label="RightRingIntermediate X", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightRingIntermediate X", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightRingIntermediate_x")
                                 right_ring_intermediate_y_page = gr.Slider(
-                                    label="RightRingIntermediate Y", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightRingIntermediate Y", minimum=-0.02, maximum=0.02, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightRingIntermediate_y")
                                 right_ring_intermediate_z_page = gr.Slider(
-                                    label="RightRingIntermediate Z", minimum=-1, maximum=1, value=0, step=0.01, interactive=True,
+                                    label="RightRingIntermediate Z", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True,
                                     elem_id="pose_rightRingIntermediate_z")
                             with gr.Row():
                                 right_ring_distal_x_page = gr.Slider(
-                                    label="RightRingDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightRingDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightRingDistal_x")
                                 right_ring_distal_y_page = gr.Slider(
-                                    label="RightRingDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightRingDistal Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightRingDistal_y")
                                 right_ring_distal_z_page = gr.Slider(
-                                    label="RightRingDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightRingDistal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightRingDistal_z")
 
                         with gr.Accordion("Little", open=False):
                             with gr.Row():
                                 right_little_proximal_x_page = gr.Slider(
-                                    label="RightLittleProximal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightLittleProximal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightLittleProximal_x")
                                 right_little_proximal_y_page = gr.Slider(
-                                    label="RightLittleProximal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightLittleProximal Y", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightLittleProximal_y")
                                 right_little_proximal_z_page = gr.Slider(
-                                    label="RightLittleProximal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightLittleProximal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightLittleProximal_z")
                             with gr.Row():
                                 right_little_intermediate_x_page = gr.Slider(
-                                    label="RightLittleIntermediate X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightLittleIntermediate X", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightLittleIntermediate_x")
                                 right_little_intermediate_y_page = gr.Slider(
-                                    label="RightLittleIntermediate Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightLittleIntermediate Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightLittleIntermediate_y")
                                 right_little_intermediate_z_page = gr.Slider(
-                                    label="RightLittleIntermediate Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightLittleIntermediate Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightLittleIntermediate_z")
                             with gr.Row():
                                 right_little_distal_x_page = gr.Slider(
-                                    label="RightLittleDistal X", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightLittleDistal X", minimum=-0.1, maximum=0.1, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightLittleDistal_x")
                                 right_little_distal_y_page = gr.Slider(
-                                    label="RightLittleDistal Y", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightLittleDistal Y", minimum=-0.02, maximum=0.02, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightLittleDistal_y")
                                 right_little_distal_z_page = gr.Slider(
-                                    label="RightLittleDistal Z", minimum=-1, maximum=1, value=0, step=0.01,
+                                    label="RightLittleDistal Z", minimum=-0.5, maximum=0.5, value=0, step=0.01,
                                     interactive=True,
                                     elem_id="pose_rightLittleDistal_z")
 
