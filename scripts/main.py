@@ -62,7 +62,7 @@ def on_ui_tabs():
                                 label="LeftLowerArm Z", minimum=-0.4, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_leftLowerArm_z")
                         with gr.Row():
                             left_hand_x_page = gr.Slider(
-                                label="LeftHand X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_leftHand_x")
+                                label="LeftHand X", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True, elem_id="pose_leftHand_x")
                             left_hand_y_page = gr.Slider(
                                 label="LeftHand Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_leftHand_y")
                             left_hand_z_page = gr.Slider(
@@ -85,7 +85,7 @@ def on_ui_tabs():
                                 label="RightLowerArm Z", minimum=-0.4, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_rightLowerArm_z")
                         with gr.Row():
                             right_hand_x_page = gr.Slider(
-                                label="RightHand X", minimum=-0.2, maximum=0.2, value=0, step=0.01, interactive=True, elem_id="pose_rightHand_x")
+                                label="RightHand X", minimum=-0.5, maximum=0.5, value=0, step=0.01, interactive=True, elem_id="pose_rightHand_x")
                             right_hand_y_page = gr.Slider(
                                 label="RightHand Y", minimum=-0.1, maximum=0.1, value=0, step=0.01, interactive=True, elem_id="pose_rightHand_y")
                             right_hand_z_page = gr.Slider(
