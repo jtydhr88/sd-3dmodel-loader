@@ -30,6 +30,9 @@ def on_ui_tabs():
                 with gr.Accordion("Pose", open=False):
                     with gr.Row():
                         load_pose_button = gr.Button(value="Load Pose Model", variant="primary")
+                        pose_model_dropdown = gr.Dropdown(
+                            ["pose.vrm", "Samba Dancing.fbx"], value="pose.vrm", label="Pose Model", interactive=True
+                        )
                     with gr.Accordion("Body", open=False):
                         with gr.Row():
                             neck_x_page = gr.Slider(
@@ -1051,7 +1054,7 @@ def on_ui_tabs():
         save_pose_as_json_button.click(None, None, None, _js='savePoseAsJson3DModel')
         load_pose_from_json_button.click(None, None, None, _js='loadPoseFromJson3DModel')
 
-        load_pose_button.click(None, None, None, _js='loadPoseFile3DModel')
+        load_pose_button.click(None, pose_model_dropdown, None, _js='loadPoseFile3DModel')
 
         spine_x_page.change(None, [pose_name_spine, spine_x_page, spine_y_page, spine_z_page, positive_one, positive_one, positive_one],
                                  None,

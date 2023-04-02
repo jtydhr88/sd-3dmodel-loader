@@ -495,44 +495,76 @@ function poseRotate(boneName, x, y, z) {
     }
 }
 
-function loadPoseFile() {
+function loadPoseFile(fileName) {
     let manager = new THREE.LoadingManager();
 
     removeMainObject();
 
-    const loader = new GLTFLoader( manager );
-    loader.crossOrigin = 'anonymous';
+    let path = "/file=extensions/sd-3dmodel-loader/models/" + fileName;
 
-    loader.register((parser) => {
-        return new VRMLoaderPlugin(parser);
-    });
+    const ext = getExtension(fileName);
 
-    let path = "/file=extensions/sd-3dmodel-loader/models/pose.vrm";
+    switch (ext) {
+        case "vrm": {
+            const loader = new GLTFLoader( manager );
+            loader.crossOrigin = 'anonymous';
 
-    loader.load(
-        path,
-        ( gltf ) => {
-            const vrm = gltf.userData.vrm;
+            loader.register((parser) => {
+                return new VRMLoaderPlugin(parser);
+            });
 
-            const resultScene = vrm.scene;
+            loader.load(
+                path,
+                ( gltf ) => {
+                    const vrm = gltf.userData.vrm;
 
-            resultScene.name = "mainObject";
+                    const resultScene = vrm.scene;
 
-            scaleObjectToProper(resultScene);
+                    resultScene.name = "mainObject";
 
-            scene.add(resultScene);
+                    scaleObjectToProper(resultScene);
 
-            currentVRM = vrm;
+                    scene.add(resultScene);
 
-            vrm.scene.traverse( ( obj ) => {
+                    currentVRM = vrm;
 
-                obj.frustumCulled = false;
+                    vrm.scene.traverse( ( obj ) => {
 
-            } );
+                        obj.frustumCulled = false;
 
-            VRMUtils.rotateVRM0( vrm );
+                    } );
+
+                    VRMUtils.rotateVRM0( vrm );
+                }
+            )
+            break;
         }
-    )
+        case "fbx": {
+            const loader = new FBXLoader(manager);
+            loader.load(path, (object) => {
+                mainObject = object;
+
+                mainObject.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                });
+
+                mainObject.name = "mainObject";
+
+                scaleObjectToProper(mainObject);
+
+                scene.add(mainObject);
+            });
+
+
+
+            break;
+        }
+    }
+
+
 }
 
 function setEntryType(newEntryType) {

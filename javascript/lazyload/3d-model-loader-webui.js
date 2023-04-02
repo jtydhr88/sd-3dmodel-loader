@@ -96,8 +96,8 @@ const {
         setCurrentAnimationTime(currentTime);
     };
 
-    window.loadPoseFile3DModel = function() {
-        loadPoseFile();
+    window.loadPoseFile3DModel = function(fileName) {
+        loadPoseFile(fileName);
     };
 
     window.savePoseAsJson3DModel = function() {
