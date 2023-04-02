@@ -619,6 +619,10 @@ function removeMainObject() {
     if (object) {
         scene.remove(object);
     }
+
+    if (currentVRM) {
+        currentVRM = undefined;
+    }
 }
 
 function isGLTF1( contents ) {
