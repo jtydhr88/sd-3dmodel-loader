@@ -187,6 +187,70 @@ const boneNameList = [
 	'rightToes',
 ];
 
+function changePoseLib(fileName) {
+    let path = "/file=extensions/sd-3dmodel-loader/poses/" + fileName;
+
+    const fileLoader = new THREE.FileLoader();
+
+    const select = document.getElementById("poseLibSubPose");
+
+    let posesData;
+
+    select.addEventListener("change", function() {
+        if (posesData) {
+            const selectedValue = select.value;
+
+            for (let i = 0; i < posesData.length; i++) {
+                const pose = posesData[i];
+
+                if (pose.name === selectedValue) {
+                    for (let t = 0; t < pose.poseData.length; t++) {
+                        const pd = pose.poseData[t];
+
+                        poseRotate(pd.boneName, pd.x, pd.y, pd.z)
+
+                        const queryId = "#pose_" + pd.boneName + "_";
+
+                        updateSliderValue(queryId + "x", Number(pd.x) / Math.PI);
+                        updateSliderValue(queryId + "y", Number(pd.y) / Math.PI);
+                        updateSliderValue(queryId + "z", Number(pd.z) / Math.PI);
+                    }
+
+                    break;
+                }
+            }
+        }
+    });
+
+    fileLoader.load(path, function ( text ) {
+        const jsonData = JSON.parse(text);
+
+        posesData = jsonData.poses;
+
+        while (select.options.length > 0) {
+            select.remove(0);
+        }
+
+        const option = document.createElement("option");
+
+        option.text = "";
+        option.value = "";
+
+        select.add(option);
+
+        for (let i = 0; i < posesData.length; i++) {
+            const pose = posesData[i];
+
+            const option = document.createElement("option");
+
+            option.text = pose['name'];
+            option.value = pose['name'];
+
+            select.add(option);
+        }
+    });
+}
+
 function updateSliderValue(queryId, newValue) {
     const sliderDiv = gradioApp().querySelector(queryId);
 
@@ -1130,5 +1194,5 @@ export {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
     uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
     playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime,
-    loadPoseFile, savePoseAsJson, loadPoseFromJson, poseRotate
+    loadPoseFile, savePoseAsJson, loadPoseFromJson, poseRotate, changePoseLib
 };

@@ -564,6 +564,14 @@ def on_ui_tabs():
                     with gr.Row():
                         save_pose_as_json_button = gr.Button(value="Save Pose as json")
                         load_pose_from_json_button = gr.Button(value="Load Pose from json")
+                    with gr.Row():
+                        with gr.Column():
+                            pose_json_dropdown = gr.Dropdown(
+                                ["kneel.json"], value="", label="Pose Lib Json", interactive=True
+                            )
+                        with gr.Column():
+                            gr.HTML("<div><select id='poseLibSubPose'></select></div>")
+
                 with gr.Accordion("Canvas", open=False):
                     with gr.Row():
                         with gr.Column():
@@ -650,6 +658,8 @@ def on_ui_tabs():
                 js_.insert(0, ext.path)
 
                 gr.HTML(value='\n'.join(js_), elem_id=import_id, visible=False)
+
+        pose_json_dropdown.change(None, pose_json_dropdown, None, _js="changePoseLib3DModel")
 
         right_little_proximal_x_page.change(None, [pose_name_rightLittleProximal, right_little_proximal_x_page, right_little_proximal_y_page,
                                                   right_little_proximal_z_page, positive_one, positive_one, positive_one],

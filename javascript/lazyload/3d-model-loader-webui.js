@@ -12,7 +12,7 @@ const {
     init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
     uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
     playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime,
-    loadPoseFile, savePoseAsJson, loadPoseFromJson, poseRotate
+    loadPoseFile, savePoseAsJson, loadPoseFromJson, poseRotate, changePoseLib
 } = await _import();
 
 (async function () {
@@ -110,5 +110,9 @@ const {
 
     window.poseRotate3DModel = function(name, x, y, z, i1, i2, i3) {
         poseRotate(name, Math.PI * x * i1, Math.PI * y * i2, Math.PI * z * i3 )
+    };
+
+    window.changePoseLib3DModel = function(fileName) {
+        changePoseLib(fileName);
     };
 })();
