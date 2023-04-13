@@ -91,3 +91,6 @@ Created by [jtydhr88](https://github.com/jtydhr88) and special thanks to other c
 - [missionfloyd](https://github.com/missionfloyd)
 - [chucktobbes](https://github.com/chucktobbes)
 - Everyone who gives feedback
+
+## My other extension for Stable diffusion webui
+- [Canvas Editor](https://github.com/jtydhr88/sd-canvas-editor) A custom extension for AUTOMATIC1111/stable-diffusion-webui that integrated a full capability canvas editor which you can use layer, text, image, elements and so on, then send to ControlNet, basing on Polotno.
