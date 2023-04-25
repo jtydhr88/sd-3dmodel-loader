@@ -8,111 +8,109 @@ async function _import() {
     }
 }
 
-const {
-    init_3d, setAxisVisible, setGroundVisible, setGridVisible, setBGColor, setGroundColor, setCanvasSize,
-    uploadFile, setLightColor, moveLight, updateModel, restCanvasAndCamera, sendImage,
-    playAndPause, stop, setMultiFiles, setEntryType, rotateModel, setCurrentAnimationTime,
-    loadPoseFile, savePoseAsJson, loadPoseFromJson, poseRotate, changePoseLib
-} = await _import();
+await _import();
 
 (async function () {
+    const container = gradioApp().querySelector('#threeDModelLoader-container');
+
+    const parent = container.parentNode;
+    parent.classList.remove("prose");
+
+    const controlNetNumInput = gradioApp().querySelector('#threeDModelLoader-control-net-num');
+    const controlNetNum = controlNetNumInput.value;
+
     async function init_canvas() {
+        create3dmodelLoaderApp({container: container, controlNetNum: controlNetNum});
 
-        init_3d(gradioApp().querySelector('#WebGL-output-3dmodel'));
-
+        setSendImageFunc3dmodel(sendImage);
     }
 
     await init_canvas();
 
-    window.setAxisVisible3DModel = function(hasAxis) {
-        setAxisVisible(hasAxis);
-    };
+    function sendImage(type, index, dt) {
+        const selector = type === "txt2img" ? "#txt2img_script_container" : "#img2img_script_container";
 
-    window.setGroundVisible3DModel = function(hasGround) {
-        setGroundVisible(hasGround);
-    };
+        if (type === "txt2img") {
+            switch_to_txt2img();
+        } else if (type === "img2img") {
+            switch_to_img2img();
+        }
 
-    window.setGroundGridVisible3DModel = function(hasGroundGrid) {
-        setGridVisible(hasGroundGrid);
-    };
+        let container = gradioApp().querySelector(selector);
 
-    window.setBGColor3DModel = function(gColor) {
-        setBGColor(gColor);
-    };
+        let element = container.querySelector('#controlnet');
 
-    window.setGroundColor3DModel = function(gColor) {
-        setGroundColor(gColor);
-    };
+        if (!element) {
+            for (const spans of container.querySelectorAll < HTMLSpanElement > (
+                '.cursor-pointer > span'
+            )) {
+                if (!spans.textContent?.includes('ControlNet')) {
+                    continue
+                }
+                if (spans.textContent?.includes('M2M')) {
+                    continue
+                }
+                element = spans.parentElement?.parentElement
+            }
+            if (!element) {
+                console.error('ControlNet element not found')
+                return
+            }
+        }
 
-    window.setCanvasSize3DModel = function(width, height) {
-        setCanvasSize(width, height);
-    };
+        const imageElems = element.querySelectorAll('div[data-testid="image"]')
 
-    window.uploadFile3DModel = function() {
-        uploadFile();
-    };
+        if (!imageElems[Number(index)]) {
+            let accordion = element.querySelector('.icon');
 
-    window.setLightColor3DModel = function(gColor) {
-        setLightColor(gColor);
-    };
+            if (accordion) {
+                accordion.click();
 
-    window.moveLight3DModel = function(x, y, z) {
-        moveLight(x, y, z);
-    };
+                let controlNetAppeared = false;
 
-    window.updateModel3DModel = function(modelScale) {
-        updateModel(modelScale);
-    };
+                let observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+                            for (let i = 0; i < mutation.addedNodes.length; i++) {
+                                if (mutation.addedNodes[i].tagName === "INPUT") {
 
-    window.restCanvasAndCamera3DModel = function() {
-        restCanvasAndCamera();
-    };
+                                    controlNetAppeared = true;
 
-    window.sendImage3DModel = function(type, index) {
-        sendImage(type, index);
-    };
+                                    const imageElems2 = element.querySelectorAll('div[data-testid="image"]');
 
-    window.playAndPause3DModel = function() {
-        playAndPause();
-    };
+                                    updateGradioImage(imageElems2[Number(index)], dt);
 
-    window.stop3DModel = function() {
-        stop();
-    };
+                                    observer.disconnect();
 
-    window.setMultiFiles3DModel = function(isMultiFiles) {
-        setMultiFiles(isMultiFiles);
-    };
+                                    return;
+                                }
+                            }
+                        }
+                    });
+                });
 
-    window.setEntryType3DModel = function(entryType) {
-        setEntryType(entryType);
-    };
+                observer.observe(element, {childList: true, subtree: true});
+            }
+        } else {
+            updateGradioImage(imageElems[Number(index)], dt);
+        }
+    }
 
-    window.rotateModel3DModel = function(x, y, z) {
-        rotateModel(x, y, z);
-    };
+    function updateGradioImage(element, dt) {
+        let clearButton = element.querySelector("button[aria-label='Clear']");
 
-    window.setCurrentAnimationTime3DModel = function(currentTime) {
-        setCurrentAnimationTime(currentTime);
-    };
+        if (clearButton) {
+            clearButton.click();
+        }
 
-    window.loadPoseFile3DModel = function(fileName) {
-        loadPoseFile(fileName);
-    };
-
-    window.savePoseAsJson3DModel = function() {
-        savePoseAsJson();
-    };
-
-    window.loadPoseFromJson3DModel = function() {
-        loadPoseFromJson();
-    };
-
-    window.poseRotate3DModel = function(name, x, y, z, i1, i2, i3) {
-        poseRotate(name, Math.PI * x * i1, Math.PI * y * i2, Math.PI * z * i3 )
-    };
-
-    window.changePoseLib3DModel = function(fileName) {
-        changePoseLib(fileName);
-    };
+        const input = element.querySelector("input[type='file']");
+        input.value = ''
+        input.files = dt.files
+        input.dispatchEvent(
+            new Event('change', {
+                bubbles: true,
+                composed: true,
+            })
+        )
+    }
 })();
