@@ -1,0 +1,9 @@
+#threeDModelLoader-container [type=button] {
+    background-color: rgb(25, 118, 210);
+    text-transform: uppercase;
+    margin: 2px;
+    padding: 6px 16px;
+    color: rgb(255, 255, 255);
+    line-height: 1.75;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+}
