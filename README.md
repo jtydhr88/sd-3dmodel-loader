@@ -14,22 +14,12 @@ By the default, you can upload single file directly, support formats:
 5. gltf - partly support, it fails on the model has other resources (like [DamagedHelmet.gltf](https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf/DamagedHelmet/glTF)), will fix later in Multi Files mode
 6. vrm - more support see Multi File Mode  
 
-**Multi Files mode**  
-if you select _includes additional resource(multi files select)_ under Upload Settings, and choose entry type, you can upload multi files once time, support formats:
-1. vrm - this extension supports vrm format combines with FBX animation from [Mixamo](https://www.mixamo.com/#/).
-
-Right now Multi Files mode only support vrm, more formats suport will add later.
-
 But it has potential to support more, since threejs does.
 So if you want other formats such as cmt, just feel free to open an issue, I will add it later.  
 (I upload two models, **male02.obj** and **Sanba Dancing.fbx**, as your test, you can find them under **/models** folder)
 
 ## Pose support
-Even there are several extension for webui to edit pose, such as [openpose-editor](https://github.com/fkunn1326/openpose-editor), [posex](https://github.com/hnmr293/posex), [3d-open-pose-editor](https://github.com/nonnonstop/sd-webui-3d-open-pose-editor), but almost of them are implemented with openpose.  
-I want to provide you alternative solution to do so in this extension (this is the reason I changed the name to **3D Model/Pose Loader**).  
-In the pose panel, if you don't have vrm model, you can just click **Load Pose Model** to load the embedded model, and use **Save Pose as Json** or **Load Pose from Json** to restore your work.  
-![pose.png](doc/images/pose.png)
-I would like to implement some default poses later in a pose library.
+Since I just finish refactor this extension by React recently, I will add pose edit support back later
 
 ## Installation
 Just like you install other extension of webui:
@@ -42,49 +32,35 @@ Or you can install from Extensions -> Available, and load the official extension
 ![installFromOfficialLink.png](doc/images/installFromOfficialLink.png)
 
 ## Settings
-Right there are some configurations under Settings -> 3D Model:
-1. Canvas Background Color
-2. Canvas ground Color
-3. Canvas Width
-4. Canvas Height
-5. Show Ground
-6. Show Grid
-7. Show Axis
-![configureFromSettings.png](doc/images/configureFromSettings.png)
-
-After you change any configurations, do not **only** Apply Settings, you also need to go Extensions then click Apply and restart UI to make the settings effect.
+Do not use configurations under Settings -> 3D Model, it would not work.  
+I will remove them later.
 
 ## Settings from page
-You can also configure the canvas, model or animation from the main tab page, the default values would read from settings, but no need to reload if configured here.
-There are 5 panels and several buttons on the page:
-1. Pose - allow you to edit pose basing on embedded vrm model. ![pose.png](doc/images/pose.png)
-2. Canvas - control the canvas properties, such as width, height, light position, color and so on. ![canvasPanel.png](doc/images/canvasPanel.png)
-3. Model - scale or rotate the model. ![modelPanel.png](doc/images/modelPanel.png)
-4. Upload Settings - set multi file support along with entry type up here, see Support Format section. ![uploadSettingsPanel.png](doc/images/uploadSettingsPanel.png)
-5. Animation - control the FBX animation playing with progress bar here. ![animationPanel.png](doc/images/animationPanel.png)
+There are 4 panels and several buttons on the page:
+1. Model - allow you to load your local 3d model file.
+2. Scene - control the canvas properties, list the objects in the scene
+   1. click **Refresh Scene Tree** if there is nothing
+   2. click **Scene** - to show up background color picker  
+   ![sceneColor.png](doc/images/sceneColor.png)
+   3. **visible checkbox** is available on _Directional Light_, _Ground_, _Grid_, _Axis_ and _mainObject_, you use it to show objects up or not   
+   ![sceneVisible.png](doc/images/sceneVisible.png)
+   4. **Operate radio button** is available on _Directional Light_, _Hemisphere Light_, and _mainObject_, you use it to translate or rotate object from scene (in fact, I will use this to rebuild pose editor later)   
+   ![sceneOperate.png](doc/images/sceneOperate.png) 
+   5. click **Preview Camera** - show up Near, Far and FOV for camera   
+   ![sceneCamera.png](doc/images/sceneCamera.png)
+3. Animation - control the FBX animation playing with progress bar here.   
+![animationPanel.png](doc/images/animationPanel.png)
+4. Send To ControlNet - Send the current preview view of the 3D model on ControlNet in txt2img or img2img   
+![sendToControlNet.png](doc/images/sendToControlNet.png)
 
-there are several buttons on the page:
-1. **Upload Model** -> upload your 3D model file
-2. **Reset** -> reset the camera to default position and remove all uploaded objects (There are some issues on this feature, I will fix soon)
-3. **Send to txt2img** -> Send the current view of the 3D model on ControlNet in txt2img 
-4. **Send to img2img** -> Send the current view of the 3D model on ControlNet in img2img
-5. **Send to** -> If you have multi ControlNet, you can select the one you want to send
-
-![buttons.png](doc/images/buttons.png)
 ## Operation
 On the main tab of 3D Model Loader, you can use:
 1. **Mouse left button** -> rotate the camera
 2. **Mouse wheel** -> zoom in or out
 3. **Mouse right button** -> move the camera
 
-
 ## Gradio.Model3D?
 I know gradio has its own 3D model component called **Gradio.Model3D**, but it only supports three formats: obj, glb and gltf, I think it is not enough, at least it should support FBX animation, so I build my own extension.
-
-## Further Plan
-Even ThreeJS has superpower to do huge graphic works, such as Light, Texture, and so on.  
-However I don't want to rebuild a C4D or Blender inside stable diffusion webui (Actually ThreeJS already has it, called **editor** see [here](https://threejs.org/editor/))
-Thus this extension will focus on user experience to give you better reference image from your 3D Model.
 
 ## Credits
 Created by [jtydhr88](https://github.com/jtydhr88) and special thanks to other contributors:
