@@ -32,6 +32,38 @@ const previewHeight = 300;
 
 let _width;
 let _height;
+let _transformControls;
+let _orbitController;
+let _selectedObject;
+let _transformControlsMode = "none";
+
+export function setTransformControlsMode(modeEvent) {
+    _transformControlsMode = modeEvent.target.value;
+
+    if (_transformControlsMode !== "none") {
+        _transformControls.setMode(_transformControlsMode);
+
+        _transformControls.attach(_selectedObject);
+    } else {
+        _transformControls.detach();
+    }
+}
+
+export function refreshSceneTree() {
+    window.updateObjects(convertThreeJsObjects());
+}
+
+export function handleSelectedObject(object) {
+    const objName = object.target.innerHTML;
+
+    if (objName !== "Scene" && _transformControlsMode !== "none") {
+        _selectedObject = _scene.getObjectByName(objName);
+
+        _transformControls.setMode(_transformControlsMode);
+
+        _transformControls.attach(_selectedObject);
+    }
+}
 
 export function setFar(far) {
     _camera.far = far;
@@ -80,9 +112,8 @@ function checkDivVisible(div) {
     return false;
 }
 
-function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
+function ThreeJsScene({onSceneInitialized, uploadedModelFile}) {
     const containerRef = useRef();
-    const transformControlsRef = useRef();
     const managerRef = useRef();
     const sceneRef = useRef();
 
@@ -99,6 +130,7 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
         observer.observe(_container);
 
         _scene = new THREE.Scene();
+        _scene.name = "Scene";
 
         sceneRef.current = _scene;
 
@@ -109,12 +141,14 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
         const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444);
 
+        hemisphereLight.name = "Hemisphere Light";
         hemisphereLight.position.set(0, 200, 0);
 
         _scene.add(hemisphereLight);
 
         const directionalLight = new THREE.DirectionalLight(0xffffff);
 
+        directionalLight.name = "Directional Light";
         directionalLight.position.set(0, 200, 100);
         directionalLight.castShadow = true;
         directionalLight.shadow.camera.top = 180;
@@ -138,6 +172,7 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
         _groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), groundMaterial);
 
+        _groundMesh.name = "Ground";
         _groundMesh.rotation.x = -Math.PI / 2;
         _groundMesh.receiveShadow = true;
 
@@ -145,6 +180,7 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
         _groundGrid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
 
+        _groundGrid.name = "Grid";
         _groundGrid.material.opacity = 0.2;
         _groundGrid.material.transparent = true;
 
@@ -152,20 +188,19 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
         _axis = new THREE.AxesHelper(2000);
 
+        _axis.name = "Axis";
+
         _scene.add(_axis);
 
-        const controls = new TransformControls(_camera, _renderer.domElement);
-        controls.setMode('rotate');
-        _scene.add(controls);
-        transformControlsRef.current = controls;
+        _orbitController = new OrbitControls(_camera, _renderer.domElement);
 
-        const orbitController = new OrbitControls(_camera, _renderer.domElement);
-
-        orbitController.mouseButtons = {LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.PAN};
+        _orbitController.mouseButtons = {LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.PAN};
 
         const clock = new THREE.Clock();
 
         _secondCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+
+        _secondCamera.name = "Preview Camera";
 
         _secondCamera.position.copy(_camera.position);
 
@@ -175,11 +210,21 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
         orbitController2.mouseButtons = {LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.PAN};
         _scene.add(_secondCamera);
 
+        _transformControls = new TransformControls(_camera, _renderer.domElement);
+
+        _transformControls.name = "Transform Controls";
+
+        _transformControls.addEventListener('dragging-changed', (event) => {
+            _orbitController.enabled = !event.value;
+            orbitController2.enabled = !event.value;
+        });
+
+        _scene.add(_transformControls);
         const animate = () => {
             requestAnimationFrame(animate);
 
             if (checkDivVisible(_container)) {
-                orbitController.update();
+                _orbitController.update();
 
                 let delta = clock.getDelta();
 
@@ -215,8 +260,8 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
             }
         };
 
-        if (onSceneInitialized) {
-            onSceneInitialized(_scene);
+        if (window.updateObjects) {
+            window.updateObjects(convertThreeJsObjects());
         }
 
         window.addEventListener('resize', onWindowResize);
@@ -227,15 +272,17 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
             // 组件卸载时的清理操作
             window.removeEventListener('resize', onWindowResize);
         };
-    }, [onSceneInitialized]);
+    }, []);
 
     function removeMainObject() {
         //const scene = scene;
 
-        const object = sceneRef.current.getObjectByName("mainObject");
+        const object = _scene.getObjectByName("mainObject");
 
         if (object) {
-            sceneRef.current.remove(object);
+            _scene.remove(object);
+
+            _transformControls.detach();
         }
 
         //if (currentVRM) {currentVRM = undefined;}
@@ -273,7 +320,9 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
         scaleObjectToProper(mainObject);
 
-        sceneRef.current.add(mainObject);
+        _scene.add(mainObject);
+
+        window.updateObjects(convertThreeJsObjects());
     }
 
     function loadSTL(event) {
@@ -289,7 +338,9 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
         scaleObjectToProper(mainObject);
 
-        sceneRef.current.add(mainObject);
+        _scene.add(mainObject);
+
+        window.updateObjects(convertThreeJsObjects());
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -322,7 +373,9 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
         scaleObjectToProper(mainObject);
 
-        sceneRef.current.add(mainObject);
+        _scene.add(mainObject);
+
+        window.updateObjects(convertThreeJsObjects());
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -347,7 +400,9 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
             resultScene.animations.push(...result.animations);
 
-            sceneRef.current.add(resultScene);
+            _scene.add(resultScene);
+
+            window.updateObjects(convertThreeJsObjects());
         });
     }
 
@@ -367,7 +422,9 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
             resultScene.animations.push(...result.animations);
 
-            sceneRef.current.add(resultScene);
+            _scene.add(resultScene);
+
+            window.updateObjects(convertThreeJsObjects());
         });
     }
 
@@ -381,7 +438,9 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
         collada.scene.name = "mainObject";
 
-        sceneRef.current.add(collada.scene);
+        _scene.add(collada.scene);
+
+        window.updateObjects(convertThreeJsObjects());
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -405,7 +464,9 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
             scaleObjectToProper(resultScene);
 
-            sceneRef.current.add(resultScene);
+            _scene.add(resultScene);
+
+            window.updateObjects(convertThreeJsObjects());
         });
     }
 
@@ -432,16 +493,6 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
     }
 
     useEffect(() => {
-        if (selectedObject) {
-            //const controls = transformControlsRef.current;
-
-            //const scene = scene;
-
-            //const threeJsObject = scene.getObjectByName(selectedObject.name);
-
-            //controls.attach(threeJsObject);
-        }
-
         if (uploadedModelFile) {
             const filename = uploadedModelFile.name;
             const extension = filename.split('.').pop().toLowerCase();
@@ -493,9 +544,11 @@ function ThreeJsScene({onSceneInitialized, selectedObject, uploadedModelFile}) {
 
                     break;
             }
+
+
         }
 
-    }, [selectedObject, uploadedModelFile, loadOBJ, loadSTL, loadFBX, loadGLTF, loadDAE, loadVRM]);
+    }, [uploadedModelFile, loadOBJ, loadSTL, loadFBX, loadGLTF, loadDAE, loadVRM]);
 
     return (
         <div ref={containerRef} style={{width: '100%', height: '100%'}}></div>
@@ -510,30 +563,8 @@ function traverseScene(scene, callback) {
     });
 }
 
-export function convertThreeJsObjects(scene) {
-    const sceneObjects = [];
-
-    traverseScene(scene, (object) => {
-        const parent = object.parent ? object.parent.id : null;
-        const objData = {
-            id: object.id,
-            name: object.name || `Object ${object.id}`,
-            parent: parent,
-        };
-
-        if (parent === null) {
-            sceneObjects.push(objData);
-        } else {
-            const parentObject = sceneObjects.find((obj) => obj.id === parent);
-
-            if (parentObject) {
-                parentObject.children = parentObject.children || [];
-                parentObject.children.push(objData);
-            }
-        }
-    });
-
-    return sceneObjects;
+export function convertThreeJsObjects() {
+    return _scene.toJSON();
 }
 
 export default ThreeJsScene;
@@ -558,6 +589,14 @@ export function setStopPlaying() {
     }
 
     _playing = false;
+}
+
+export function setVisible(objName, visible) {
+    if (_scene) {
+        const selectedObject = _scene.getObjectByName(objName);
+
+        selectedObject.visible = visible;
+    }
 }
 
 export function setShowGround(showGround) {

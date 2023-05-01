@@ -15,20 +15,24 @@ import {
     setRendererImage,
     setFar,
     setFOV,
-    setNear
+    setNear,
+    refreshSceneTree,
+    handleSelectedObject,
+    setTransformControlsMode,
+    setVisible
 } from './ThreeJsScene';
 import CanvasSettingsPanel from './CanvasSettingsPanel'
+import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
 import SendToControlNetPanel from './SendToControlNetPanel'
 import ModelPanel from './ModelPanel'
 import CameraPanel from './CameraPanel'
+import updateObjects from './ScenePanel'
 
 let _sendImage;
 
 export default function App({controlNetNum}) {
     const [sceneObjects, setSceneObjects] = useState([]);
-
-    const [selectedObject, setSelectedObject] = useState(null);
 
     const [uploadedModelFile, setUploadedModelFile] = useState(null);
 
@@ -37,10 +41,6 @@ export default function App({controlNetNum}) {
 
         setSceneObjects(objects);
     }, []);
-
-    const handleNodeClick = (object) => {
-        setSelectedObject({name: object.name});
-    };
 
     const generateControlNetOptions = () => {
         const options = [];
@@ -67,15 +67,16 @@ export default function App({controlNetNum}) {
 
                         <ThreeJsScene
                             onSceneInitialized={handleSceneInitialized}
-                            selectedObject={selectedObject} uploadedModelFile={uploadedModelFile}/>
+                            uploadedModelFile={uploadedModelFile}
+                        />
                     </Grid>
                     <Grid item xs={2} style={{height: '80vh'}}>
                         <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
 
-                        <CanvasSettingsPanel setCanvasBgColor={setBgColor} setCanvasGround={setShowGround}
-                                             setCanvasGrid={setShowGroundGrid} setCanvasAxis={setShowAxis}/>
-
-                        <CameraPanel setCameraNear={setNear} setCameraFar={setFar} setCameraFOV={setFOV} />
+                        <ScenePanel refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
+                                    setTransformControlsMode={setTransformControlsMode} setVisible={setVisible}
+                                    setCameraNear={setNear} setCameraFar={setFar} setCameraFOV={setFOV}
+                                    setCanvasBgColor={setBgColor}/>
 
                         <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
                                         controlAnimation={controlAnimationProgress}/>
@@ -95,6 +96,10 @@ export function create3dmodelLoaderApp({container, controlNetNum}) {
 
     root.render(<App controlNetNum={controlNetNum}/>);
 }
+
+// const root = ReactDOM.createRoot(document.getElementById('sd-3d-model-loader-container'));
+
+// root.render(<App controlNetNum={3}/>);
 
 export function setSendImageFunc3dmodel(sendImage) {
     _sendImage = sendImage;
