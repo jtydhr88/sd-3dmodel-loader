@@ -35,34 +35,22 @@ let _height;
 let _transformControls;
 let _orbitController;
 let _selectedObject;
-let _transformControlsMode = "none";
 
-export function setTransformControlsMode(modeEvent) {
-    _transformControlsMode = modeEvent.target.value;
+export function handleSelectedObject(objName, transformControlsMode) {
+    if (objName !== "Scene" && transformControlsMode && transformControlsMode !== "none") {
+        _selectedObject = _scene.getObjectByName(objName);
 
-    if (_transformControlsMode !== "none") {
-        _transformControls.setMode(_transformControlsMode);
+        _transformControls.setMode(transformControlsMode);
 
         _transformControls.attach(_selectedObject);
-    } else {
+    }
+    else {
         _transformControls.detach();
     }
 }
 
 export function refreshSceneTree() {
     window.updateObjects(convertThreeJsObjects());
-}
-
-export function handleSelectedObject(object) {
-    const objName = object.target.innerHTML;
-
-    if (objName !== "Scene" && _transformControlsMode !== "none") {
-        _selectedObject = _scene.getObjectByName(objName);
-
-        _transformControls.setMode(_transformControlsMode);
-
-        _transformControls.attach(_selectedObject);
-    }
 }
 
 export function setFar(far) {

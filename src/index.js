@@ -18,7 +18,6 @@ import {
     setNear,
     refreshSceneTree,
     handleSelectedObject,
-    setTransformControlsMode,
     setVisible
 } from './ThreeJsScene';
 import CanvasSettingsPanel from './CanvasSettingsPanel'
@@ -74,7 +73,7 @@ export default function App({controlNetNum}) {
                         <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
 
                         <ScenePanel refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
-                                    setTransformControlsMode={setTransformControlsMode} setVisible={setVisible}
+                                    setVisible={setVisible}
                                     setCameraNear={setNear} setCameraFar={setFar} setCameraFOV={setFOV}
                                     setCanvasBgColor={setBgColor}/>
 

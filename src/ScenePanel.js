@@ -26,6 +26,7 @@ const CustomTreeView = styled(TreeView)`
 `;
 
 const transformControlObjNames = ["mainObject", "Hemisphere Light", "Directional Light"];
+let transformControlValues = {"mainObject": "none", "Hemisphere Light": "none", "Directional Light": "none"};
 
 const treeItemObjNames = ["Scene", "mainObject", "Hemisphere Light", "Directional Light", "Ground", "Grid", "Axis", "Preview Camera"];
 
@@ -57,7 +58,7 @@ function ObjectProvider({children}) {
     </ObjectContext.Provider>);
 }
 
-function processNode(node, handleSelectedObject, setSelectedObj) {
+function processNode(node, handleSelectedObject, setSelectedObj, transformControlMap) {
     if (!node) {
         return null;
     }
@@ -67,17 +68,18 @@ function processNode(node, handleSelectedObject, setSelectedObj) {
     }
 
     return (<TreeItem key={node.uuid} nodeId={node.uuid} label={node.name || node.type} onClick={(objEvent) => {
-        handleSelectedObject(objEvent);
-        setSelectedObj(objEvent.target.innerHTML);
+        const objName = objEvent.target.innerHTML;
+
+        handleSelectedObject(objName, transformControlMap[objName]);
+        setSelectedObj(objName);
     }}>
-        {node.children && node.children.map((child) => processNode(child, handleSelectedObject, setSelectedObj))}
+        {node.children && node.children.map((child) => processNode(child, handleSelectedObject, setSelectedObj, transformControlMap))}
     </TreeItem>);
 }
 
 function ScenePanel({
                         refreshSceneTree,
                         handleSelectedObject,
-                        setTransformControlsMode,
                         setVisible,
                         setCameraNear,
                         setCameraFar,
@@ -86,13 +88,13 @@ function ScenePanel({
                     }) {
     return (<ObjectProvider>
         <SceneTreeWrapper refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
-                          setTransformControlsMode={setTransformControlsMode} setVisible={setVisible}
+                          setVisible={setVisible}
                           setCameraNear={setCameraNear} setCameraFar={setCameraFar} setCameraFOV={setCameraFOV}
                           setCanvasBgColor={setCanvasBgColor}/>
     </ObjectProvider>)
 }
 
-function SceneTree({handleSelectedObject, setSelectedObj}) {
+function SceneTree({handleSelectedObject, setSelectedObj, transformControlMap}) {
     const {objects} = useObjectUpdate();
 
     return (<TreeView
@@ -100,14 +102,13 @@ function SceneTree({handleSelectedObject, setSelectedObj}) {
         defaultExpandIcon={<ChevronRightIcon/>}
         defaultEndIcon={<div/>}
     >
-        {processNode(objects.object, handleSelectedObject, setSelectedObj)}
+        {processNode(objects.object, handleSelectedObject, setSelectedObj, transformControlMap)}
     </TreeView>);
 }
 
 function SceneTreeWrapper({
                               refreshSceneTree,
                               handleSelectedObject,
-                              setTransformControlsMode,
                               setVisible,
                               setCameraNear,
                               setCameraFar,
@@ -119,6 +120,7 @@ function SceneTreeWrapper({
     const [near, setNear] = useState(0.1);
     const [fov, setFOV] = useState(45);
     const [visibleMap, setVisibleMap] = useState(visibleValues);
+    const [transformControlMap, setTransformControlMap] = useState(transformControlValues);
     const [bgColor, setBgColor] = useState();
 
     const {updateObjects} = useObjectUpdate();
@@ -145,7 +147,8 @@ function SceneTreeWrapper({
                     Scene
                 </AccordionSummary>
                 <AccordionDetails>
-                    <SceneTree handleSelectedObject={handleSelectedObject} setSelectedObj={setSelectedObj}/>
+                    <SceneTree handleSelectedObject={handleSelectedObject} setSelectedObj={setSelectedObj}
+                               transformControlMap={transformControlMap}/>
                     <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
                             onClick={refreshSceneTree}>Refresh Scene Tree</Button>
 
@@ -156,11 +159,22 @@ function SceneTreeWrapper({
                             defaultValue="none"
                             name="operate-radio-buttons-group"
                             row={true}
-                            onChange={setTransformControlsMode}
+                            onChange={(event) => {
+                                handleSelectedObject(selectedObj, event.target.value);
+
+                                const updatedMap = {...transformControlMap};
+
+                                updatedMap[selectedObj] = event.target.value;
+
+                                setTransformControlMap(updatedMap);
+                            }}
                         >
-                            <FormControlLabel value="none" control={<Radio/>} label="None"/>
-                            <FormControlLabel value="translate" control={<Radio/>} label="Translate"/>
-                            <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"/>
+                            <FormControlLabel value="none" control={<Radio/>} label="None"
+                                              checked={transformControlMap[selectedObj] === "none"}/>
+                            <FormControlLabel value="translate" control={<Radio/>} label="Translate"
+                                              checked={transformControlMap[selectedObj] === "translate"}/>
+                            <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
+                                              checked={transformControlMap[selectedObj] === "rotate"}/>
                         </RadioGroup>
                     </FormControl>}
                     {visibleControlObjNames.includes(selectedObj) && <FormControlLabel
