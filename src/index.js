@@ -18,15 +18,14 @@ import {
     setNear,
     refreshSceneTree,
     handleSelectedObject,
-    setVisible
+    setVisible,
+    handlePoseSelectedObject
 } from './ThreeJsScene';
-import CanvasSettingsPanel from './CanvasSettingsPanel'
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
 import SendToControlNetPanel from './SendToControlNetPanel'
 import ModelPanel from './ModelPanel'
-import CameraPanel from './CameraPanel'
-import updateObjects from './ScenePanel'
+import PosePanel from './PosePanel'
 
 let _sendImage;
 
@@ -34,6 +33,8 @@ export default function App({controlNetNum}) {
     const [sceneObjects, setSceneObjects] = useState([]);
 
     const [uploadedModelFile, setUploadedModelFile] = useState(null);
+
+    const [poseModelFileName, setPoseModelFileName] = useState(null);
 
     const handleSceneInitialized = useCallback((scene) => {
         const objects = convertThreeJsObjects(scene);
@@ -67,9 +68,11 @@ export default function App({controlNetNum}) {
                         <ThreeJsScene
                             onSceneInitialized={handleSceneInitialized}
                             uploadedModelFile={uploadedModelFile}
+                            poseModelFileName={poseModelFileName}
                         />
                     </Grid>
                     <Grid item xs={2} style={{height: '80vh'}}>
+                        <PosePanel handlePoseSelectedObject={handlePoseSelectedObject} setPoseModelFileName={setPoseModelFileName}/>
                         <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
 
                         <ScenePanel refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}

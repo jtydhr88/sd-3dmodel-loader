@@ -8,7 +8,7 @@ import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {ColladaLoader} from 'three/addons/loaders/ColladaLoader.js';
-import {VRMLoaderPlugin} from "@pixiv/three-vrm";
+import {VRMLoaderPlugin, VRMUtils} from "@pixiv/three-vrm";
 import {setAnimationProgress} from './AnimationPanel'
 
 let _playing = true;
@@ -35,6 +35,22 @@ let _height;
 let _transformControls;
 let _orbitController;
 let _selectedObject;
+let _currentVRM;
+
+export function handlePoseSelectedObject(objName, transformControlsMode) {
+    if (transformControlsMode && transformControlsMode !== "none") {
+        if (_currentVRM) {
+            const boneNode = _currentVRM.humanoid.getNormalizedBoneNode(objName);
+
+            if (boneNode) {
+                _transformControls.setMode(transformControlsMode);
+                _transformControls.attach(boneNode);
+            }
+        }
+    } else {
+        _transformControls.detach();
+    }
+}
 
 export function handleSelectedObject(objName, transformControlsMode) {
     if (objName !== "Scene" && transformControlsMode && transformControlsMode !== "none") {
@@ -100,7 +116,7 @@ function checkDivVisible(div) {
     return false;
 }
 
-function ThreeJsScene({onSceneInitialized, uploadedModelFile}) {
+function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}) {
     const containerRef = useRef();
     const managerRef = useRef();
     const sceneRef = useRef();
@@ -227,6 +243,14 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile}) {
                 if (_mixer && (_playing || _controlByProgressBar)) {
                     _mixer.update(delta);
 
+                    if (!_currentVRM) {
+                        _controlByProgressBar = false;
+                    }
+                }
+
+                if ((_currentVRM && _playing) || (_currentVRM && _controlByProgressBar)) {
+                    _currentVRM.update(delta);
+
                     _controlByProgressBar = false;
                 }
 
@@ -273,7 +297,9 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile}) {
             _transformControls.detach();
         }
 
-        //if (currentVRM) {currentVRM = undefined;}
+        if (_currentVRM) {
+            _currentVRM = undefined;
+        }
     }
 
     function isGLTF1(contents) {
@@ -444,7 +470,7 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile}) {
         loader.parse(contents, '', function (result) {
             const vrm = result.userData.vrm;
 
-            //currentVRM = vrm;
+            _currentVRM = vrm;
 
             const resultScene = vrm.scene;
 
@@ -481,6 +507,73 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile}) {
     }
 
     useEffect(() => {
+        if (poseModelFileName) {
+            console.log(poseModelFileName)
+
+            let manager = new THREE.LoadingManager();
+
+            removeMainObject();
+
+            let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
+            //let path = "/file=/modelss/" + poseModelFileName;
+
+            const ext = poseModelFileName.split('.').pop().toLowerCase()
+
+            switch (ext) {
+                case "vrm": {
+                    const loader = new GLTFLoader(manager);
+                    loader.crossOrigin = 'anonymous';
+
+                    loader.register((parser) => {
+                        return new VRMLoaderPlugin(parser);
+                    });
+
+                    loader.load(
+                        path,
+                        (gltf) => {
+                            const vrm = gltf.userData.vrm;
+
+                            const resultScene = vrm.scene;
+
+                            resultScene.name = "mainObject";
+
+                            scaleObjectToProper(resultScene);
+
+                            _scene.add(resultScene);
+
+                            _currentVRM = vrm;
+
+                            vrm.scene.traverse((obj) => {
+                                obj.frustumCulled = false;
+                            });
+
+                            VRMUtils.rotateVRM0(vrm);
+                        }
+                    )
+                    break;
+                }
+                case "fbx": {
+                    const loader = new FBXLoader(manager);
+                    loader.load(path, (object) => {
+                        object.traverse(function (child) {
+                            if (child.isMesh) {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
+                            }
+                        });
+
+                        object.name = "mainObject";
+
+                        scaleObjectToProper(object);
+
+                        _scene.add(object);
+                    });
+
+                    break;
+                }
+            }
+        }
+
         if (uploadedModelFile) {
             const filename = uploadedModelFile.name;
             const extension = filename.split('.').pop().toLowerCase();
