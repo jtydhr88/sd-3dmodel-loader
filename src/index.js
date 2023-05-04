@@ -71,7 +71,7 @@ export default function App({controlNetNum}) {
                             poseModelFileName={poseModelFileName}
                         />
                     </Grid>
-                    <Grid item xs={2} style={{height: '80vh'}}>
+                    <Grid item xs={2}>
                         <PosePanel handlePoseSelectedObject={handlePoseSelectedObject} setPoseModelFileName={setPoseModelFileName}/>
                         <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
 
