@@ -7,3 +7,8 @@
     line-height: 1.75;
     font-family: Roboto, Helvetica, Arial, sans-serif;
 }
+
+#threeDModelLoader-container menu,
+#threeDModelLoader-container ul {
+    margin: 0px 0px 0px 17px;
+}
