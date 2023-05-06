@@ -402,7 +402,7 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
             alert('Import of glTF asset not possible. Only versions >= 2.0 are supported. Please try to upgrade the file to glTF 2.0 using glTF-Pipeline.');
         } else {
             const dracoLoader = new DRACOLoader();
-            //dracoLoader.setDecoderPath( '.' );
+            dracoLoader.setDecoderPath( '/file=extensions/sd-3dmodel-loader/js/' );
 
             loader = new GLTFLoader(managerRef.current);
             loader.setDRACOLoader(dracoLoader);
@@ -424,7 +424,7 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
         const contents = event.target.result;
 
         const dracoLoader = new DRACOLoader();
-        dracoLoader.setDecoderPath('.');
+        dracoLoader.setDecoderPath('/file=extensions/sd-3dmodel-loader/js/');
 
         const loader = new GLTFLoader();
 
