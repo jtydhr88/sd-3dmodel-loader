@@ -7,9 +7,6 @@ import {
     convertThreeJsObjects,
     setBgColor,
     setPlaying,
-    setShowGroundGrid,
-    setShowGround,
-    setShowAxis,
     setStopPlaying,
     controlAnimationProgress,
     setRendererImage,
@@ -19,7 +16,8 @@ import {
     refreshSceneTree,
     handleSelectedObject,
     setVisible,
-    handlePoseSelectedObject
+    handlePoseSelectedObject,
+    removeObject
 } from './ThreeJsScene';
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
@@ -72,13 +70,14 @@ export default function App({controlNetNum}) {
                         />
                     </Grid>
                     <Grid item xs={2}>
-                        <PosePanel handlePoseSelectedObject={handlePoseSelectedObject} setPoseModelFileName={setPoseModelFileName}/>
+                        <PosePanel handlePoseSelectedObject={handlePoseSelectedObject}
+                                   setPoseModelFileName={setPoseModelFileName}/>
                         <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
 
                         <ScenePanel refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
                                     setVisible={setVisible}
                                     setCameraNear={setNear} setCameraFar={setFar} setCameraFOV={setFOV}
-                                    setCanvasBgColor={setBgColor}/>
+                                    setCanvasBgColor={setBgColor} removeObject={removeObject}/>
 
                         <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
                                         controlAnimation={controlAnimationProgress}/>
@@ -99,9 +98,11 @@ export function create3dmodelLoaderApp({container, controlNetNum}) {
     root.render(<App controlNetNum={controlNetNum}/>);
 }
 
-// const root = ReactDOM.createRoot(document.getElementById('sd-3d-model-loader-container'));
+function localDev() {
+    const root = ReactDOM.createRoot(document.getElementById('sd-3d-model-loader-container'));
 
-// root.render(<App controlNetNum={3}/>);
+    root.render(<App controlNetNum={3}/>);
+}
 
 export function setSendImageFunc3dmodel(sendImage) {
     _sendImage = sendImage;
@@ -110,4 +111,5 @@ export function setSendImageFunc3dmodel(sendImage) {
 window.create3dmodelLoaderApp = create3dmodelLoaderApp;
 window.setSendImageFunc3dmodel = setSendImageFunc3dmodel;
 
-
+// enable this method for local dev, and run npm start
+// localDev();

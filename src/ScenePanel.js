@@ -19,6 +19,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import Slider from "@mui/material/Slider";
 import {SketchPicker} from "react-color";
+import NumberInput from "./NumberInput.js";
 
 const CustomTreeView = styled(TreeView)`
   height: 240px;
@@ -84,13 +85,14 @@ function ScenePanel({
                         setCameraNear,
                         setCameraFar,
                         setCameraFOV,
-                        setCanvasBgColor
+                        setCanvasBgColor,
+                        removeObject
                     }) {
     return (<ObjectProvider>
         <SceneTreeWrapper refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
                           setVisible={setVisible}
                           setCameraNear={setCameraNear} setCameraFar={setCameraFar} setCameraFOV={setCameraFOV}
-                          setCanvasBgColor={setCanvasBgColor}/>
+                          setCanvasBgColor={setCanvasBgColor} removeObject={removeObject}/>
     </ObjectProvider>)
 }
 
@@ -113,7 +115,8 @@ function SceneTreeWrapper({
                               setCameraNear,
                               setCameraFar,
                               setCameraFOV,
-                              setCanvasBgColor
+                              setCanvasBgColor,
+                              removeObject
                           }) {
     const [selectedObj, setSelectedObj] = useState(null);
     const [far, setFar] = useState(1000);
@@ -228,6 +231,15 @@ function SceneTreeWrapper({
                                     aria-labelledby="continuous-slider"
                             />
                         </Box>
+                    }
+                    {
+                        selectedObj && selectedObj.startsWith("mainObject") &&
+                        <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
+                                onClick={() => {
+                                    removeObject(selectedObj);
+                                    refreshSceneTree();
+                                    setSelectedObj(null);
+                                }}>Remove</Button>
                     }
                     {
                         selectedObj === "Scene" && <SketchPicker

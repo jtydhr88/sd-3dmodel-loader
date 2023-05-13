@@ -37,6 +37,16 @@ let _orbitController;
 let _selectedObject;
 let _currentVRM;
 
+export function removeObject(objName) {
+    const object = _scene.getObjectByName(objName);
+
+    if (object) {
+        _scene.remove(object);
+
+        _transformControls.detach();
+    }
+}
+
 export function handlePoseSelectedObject(objName, transformControlsMode) {
     if (transformControlsMode && transformControlsMode !== "none") {
         if (_currentVRM) {
@@ -59,8 +69,7 @@ export function handleSelectedObject(objName, transformControlsMode) {
         _transformControls.setMode(transformControlsMode);
 
         _transformControls.attach(_selectedObject);
-    }
-    else {
+    } else {
         _transformControls.detach();
     }
 }
@@ -402,7 +411,7 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
             alert('Import of glTF asset not possible. Only versions >= 2.0 are supported. Please try to upgrade the file to glTF 2.0 using glTF-Pipeline.');
         } else {
             const dracoLoader = new DRACOLoader();
-            dracoLoader.setDecoderPath( '/file=extensions/sd-3dmodel-loader/js/' );
+            dracoLoader.setDecoderPath('/file=extensions/sd-3dmodel-loader/js/');
 
             loader = new GLTFLoader(managerRef.current);
             loader.setDRACOLoader(dracoLoader);
