@@ -37,6 +37,8 @@ let _orbitController;
 let _selectedObject;
 let _currentVRM;
 
+let _mainObjectCounter = 1;
+
 export function removeObject(objName) {
     const object = _scene.getObjectByName(objName);
 
@@ -44,6 +46,10 @@ export function removeObject(objName) {
         _scene.remove(object);
 
         _transformControls.detach();
+    }
+
+    if (_currentVRM && _currentVRM.scene.name === objName) {
+        _currentVRM = undefined;
     }
 }
 
@@ -125,7 +131,7 @@ function checkDivVisible(div) {
     return false;
 }
 
-function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}) {
+function ThreeJsScene({uploadedModelFile}) {
     const containerRef = useRef();
     const managerRef = useRef();
     const sceneRef = useRef();
@@ -295,22 +301,6 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
         };
     }, []);
 
-    function removeMainObject() {
-        //const scene = scene;
-
-        const object = _scene.getObjectByName("mainObject");
-
-        if (object) {
-            _scene.remove(object);
-
-            _transformControls.detach();
-        }
-
-        if (_currentVRM) {
-            _currentVRM = undefined;
-        }
-    }
-
     function isGLTF1(contents) {
         let resultContent;
 
@@ -339,7 +329,9 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
 
         const mainObject = new OBJLoader().parse(contents);
 
-        mainObject.name = "mainObject";
+        mainObject.name = "mainObject" + _mainObjectCounter.toString();
+
+        _mainObjectCounter++;
 
         scaleObjectToProper(mainObject);
 
@@ -357,7 +349,10 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
         //geometry.sourceFile = file.name;
 
         const mainObject = new THREE.Mesh(geometry, material);
-        mainObject.name = "mainObject";
+
+        mainObject.name = "mainObject" + _mainObjectCounter.toString();
+
+        _mainObjectCounter++;
 
         scaleObjectToProper(mainObject);
 
@@ -392,7 +387,9 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
             }
         });
 
-        mainObject.name = "mainObject";
+        mainObject.name = "mainObject" + _mainObjectCounter.toString();
+
+        _mainObjectCounter++;
 
         scaleObjectToProper(mainObject);
 
@@ -419,7 +416,9 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
 
         loader.parse(contents, '', function (result) {
             const resultScene = result.scene;
-            resultScene.name = "mainObject";
+            resultScene.name = "mainObject" + _mainObjectCounter.toString();
+
+            _mainObjectCounter++;
 
             resultScene.animations.push(...result.animations);
 
@@ -441,7 +440,9 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
 
         loader.parse(contents, '', function (result) {
             const resultScene = result.scene;
-            resultScene.name = "mainObject";
+            resultScene.name = "mainObject" + _mainObjectCounter.toString();
+
+            _mainObjectCounter++;
 
             resultScene.animations.push(...result.animations);
 
@@ -459,7 +460,9 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
 
         const collada = loader.parse(contents);
 
-        collada.scene.name = "mainObject";
+        collada.scene.name = "mainObject" + _mainObjectCounter.toString();
+
+        _mainObjectCounter++;
 
         _scene.add(collada.scene);
 
@@ -479,11 +482,15 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
         loader.parse(contents, '', function (result) {
             const vrm = result.userData.vrm;
 
-            _currentVRM = vrm;
+            if (!_currentVRM) {
+                _currentVRM = vrm;
+            }
 
             const resultScene = vrm.scene;
 
-            resultScene.name = "mainObject";
+            resultScene.name = "mainObject" + _mainObjectCounter.toString();
+
+            _mainObjectCounter++;
 
             scaleObjectToProper(resultScene);
 
@@ -493,102 +500,14 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
         });
     }
 
-    function scaleObjectToProper(object) {
-        const boundingBox = new THREE.Box3();
-
-        boundingBox.setFromObject(object);
-
-        if (object.geometry) {
-            const center = new THREE.Vector3();
-
-            boundingBox.getCenter(center);
-
-            object.geometry.translate(-center.x, -center.y, -center.z);
-        }
-
-        const expectRadius = 20;
-
-        const radius = boundingBox.getBoundingSphere(new THREE.Sphere()).radius;
-
-        const modelScale = expectRadius / radius;
-
-        object.scale.set(modelScale, modelScale, modelScale);
-    }
 
     useEffect(() => {
-        if (poseModelFileName) {
-            console.log(poseModelFileName)
-
-            let manager = new THREE.LoadingManager();
-
-            removeMainObject();
-
-            let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
-            //let path = "/file=/modelss/" + poseModelFileName;
-
-            const ext = poseModelFileName.split('.').pop().toLowerCase()
-
-            switch (ext) {
-                case "vrm": {
-                    const loader = new GLTFLoader(manager);
-                    loader.crossOrigin = 'anonymous';
-
-                    loader.register((parser) => {
-                        return new VRMLoaderPlugin(parser);
-                    });
-
-                    loader.load(
-                        path,
-                        (gltf) => {
-                            const vrm = gltf.userData.vrm;
-
-                            const resultScene = vrm.scene;
-
-                            resultScene.name = "mainObject";
-
-                            scaleObjectToProper(resultScene);
-
-                            _scene.add(resultScene);
-
-                            _currentVRM = vrm;
-
-                            vrm.scene.traverse((obj) => {
-                                obj.frustumCulled = false;
-                            });
-
-                            VRMUtils.rotateVRM0(vrm);
-                        }
-                    )
-                    break;
-                }
-                case "fbx": {
-                    const loader = new FBXLoader(manager);
-                    loader.load(path, (object) => {
-                        object.traverse(function (child) {
-                            if (child.isMesh) {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
-                            }
-                        });
-
-                        object.name = "mainObject";
-
-                        scaleObjectToProper(object);
-
-                        _scene.add(object);
-                    });
-
-                    break;
-                }
-            }
-        }
-
         if (uploadedModelFile) {
             const filename = uploadedModelFile.name;
             const extension = filename.split('.').pop().toLowerCase();
             const reader = new FileReader();
 
-            removeMainObject();
+            //removeMainObject();
 
             switch (extension) {
                 case 'obj':
@@ -643,6 +562,95 @@ function ThreeJsScene({onSceneInitialized, uploadedModelFile, poseModelFileName}
     return (
         <div ref={containerRef} style={{width: '100%', height: '100%'}}></div>
     );
+}
+
+function scaleObjectToProper(object) {
+    const boundingBox = new THREE.Box3();
+
+    boundingBox.setFromObject(object);
+
+    if (object.geometry) {
+        const center = new THREE.Vector3();
+
+        boundingBox.getCenter(center);
+
+        object.geometry.translate(-center.x, -center.y, -center.z);
+    }
+
+    const expectRadius = 20;
+
+    const radius = boundingBox.getBoundingSphere(new THREE.Sphere()).radius;
+
+    const modelScale = expectRadius / radius;
+
+    object.scale.set(modelScale, modelScale, modelScale);
+}
+
+export function loadPoseModel(poseModelFileName) {
+    if (poseModelFileName && !_currentVRM) {
+        let manager = new THREE.LoadingManager();
+
+        let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
+        //let path = "/file=/modelss/" + poseModelFileName;
+
+        const ext = poseModelFileName.split('.').pop().toLowerCase()
+
+        switch (ext) {
+            case "vrm": {
+                const loader = new GLTFLoader(manager);
+                loader.crossOrigin = 'anonymous';
+
+                loader.register((parser) => {
+                    return new VRMLoaderPlugin(parser);
+                });
+
+                loader.load(
+                    path,
+                    (gltf) => {
+                        const vrm = gltf.userData.vrm;
+
+                        const resultScene = vrm.scene;
+
+                        resultScene.name = "mainObject" + _mainObjectCounter.toString();
+
+                        _mainObjectCounter++;
+
+                        scaleObjectToProper(resultScene);
+
+                        _scene.add(resultScene);
+
+                        _currentVRM = vrm;
+
+                        vrm.scene.traverse((obj) => {
+                            obj.frustumCulled = false;
+                        });
+
+                        VRMUtils.rotateVRM0(vrm);
+                    }
+                )
+                break;
+            }
+            case "fbx": {
+                const loader = new FBXLoader(manager);
+                loader.load(path, (object) => {
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+
+                    object.name = "mainObject";
+
+                    scaleObjectToProper(object);
+
+                    _scene.add(object);
+                });
+
+                break;
+            }
+        }
+    }
 }
 
 function traverseScene(scene, callback) {

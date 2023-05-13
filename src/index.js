@@ -17,7 +17,8 @@ import {
     handleSelectedObject,
     setVisible,
     handlePoseSelectedObject,
-    removeObject
+    removeObject,
+    loadPoseModel
 } from './ThreeJsScene';
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
@@ -28,17 +29,7 @@ import PosePanel from './PosePanel'
 let _sendImage;
 
 export default function App({controlNetNum}) {
-    const [sceneObjects, setSceneObjects] = useState([]);
-
     const [uploadedModelFile, setUploadedModelFile] = useState(null);
-
-    const [poseModelFileName, setPoseModelFileName] = useState(null);
-
-    const handleSceneInitialized = useCallback((scene) => {
-        const objects = convertThreeJsObjects(scene);
-
-        setSceneObjects(objects);
-    }, []);
 
     const generateControlNetOptions = () => {
         const options = [];
@@ -64,14 +55,12 @@ export default function App({controlNetNum}) {
                     <Grid item xs={10} style={{height: '80vh'}}>
 
                         <ThreeJsScene
-                            onSceneInitialized={handleSceneInitialized}
                             uploadedModelFile={uploadedModelFile}
-                            poseModelFileName={poseModelFileName}
                         />
                     </Grid>
                     <Grid item xs={2}>
                         <PosePanel handlePoseSelectedObject={handlePoseSelectedObject}
-                                   setPoseModelFileName={setPoseModelFileName}/>
+                                   setPoseModelFileName={loadPoseModel}/>
                         <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
 
                         <ScenePanel refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
@@ -112,4 +101,4 @@ window.create3dmodelLoaderApp = create3dmodelLoaderApp;
 window.setSendImageFunc3dmodel = setSendImageFunc3dmodel;
 
 // enable this method for local dev, and run npm start
-// localDev();
+//localDev();

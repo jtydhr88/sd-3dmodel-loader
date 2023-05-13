@@ -26,14 +26,14 @@ const CustomTreeView = styled(TreeView)`
   overflow-y: auto;
 `;
 
-const transformControlObjNames = ["mainObject", "Hemisphere Light", "Directional Light"];
-let transformControlValues = {"mainObject": "none", "Hemisphere Light": "none", "Directional Light": "none"};
+const transformControlObjNames = ["Hemisphere Light", "Directional Light"];
+let transformControlValues = {"Hemisphere Light": "none", "Directional Light": "none"};
 
 const treeItemObjNames = ["Scene", "mainObject", "Hemisphere Light", "Directional Light", "Ground", "Grid", "Axis", "Preview Camera"];
 
-const visibleControlObjNames = ["mainObject", "Directional Light", "Ground", "Grid", "Axis"];
+const visibleControlObjNames = ["Directional Light", "Ground", "Grid", "Axis"];
 
-let visibleValues = {"mainObject": true, "Directional Light": true, "Ground": true, "Grid": true, "Axis": true};
+let visibleValues = {"Directional Light": true, "Ground": true, "Grid": true, "Axis": true};
 
 const ObjectContext = createContext([]);
 
@@ -64,7 +64,7 @@ function processNode(node, handleSelectedObject, setSelectedObj, transformContro
         return null;
     }
 
-    if (!treeItemObjNames.includes(node.name)) {
+    if (!(treeItemObjNames.includes(node.name) || node.name.startsWith("mainObject"))) {
         return null;
     }
 
@@ -155,47 +155,49 @@ function SceneTreeWrapper({
                     <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
                             onClick={refreshSceneTree}>Refresh Scene Tree</Button>
 
-                    {transformControlObjNames.includes(selectedObj) && <FormControl>
-                        <FormLabel>Operate</FormLabel>
-                        <RadioGroup
-                            aria-labelledby="operate-radio-buttons-group-label"
-                            defaultValue="none"
-                            name="operate-radio-buttons-group"
-                            row={true}
-                            onChange={(event) => {
-                                handleSelectedObject(selectedObj, event.target.value);
-
-                                const updatedMap = {...transformControlMap};
-
-                                updatedMap[selectedObj] = event.target.value;
-
-                                setTransformControlMap(updatedMap);
-                            }}
-                        >
-                            <FormControlLabel value="none" control={<Radio/>} label="None"
-                                              checked={transformControlMap[selectedObj] === "none"}/>
-                            <FormControlLabel value="translate" control={<Radio/>} label="Translate"
-                                              checked={transformControlMap[selectedObj] === "translate"}/>
-                            <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
-                                              checked={transformControlMap[selectedObj] === "rotate"}/>
-                        </RadioGroup>
-                    </FormControl>}
-                    {visibleControlObjNames.includes(selectedObj) && <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={visibleMap[selectedObj]}
+                    {(transformControlObjNames.includes(selectedObj) || (selectedObj && selectedObj.startsWith("mainObject"))) &&
+                        <FormControl>
+                            <FormLabel>Operate</FormLabel>
+                            <RadioGroup
+                                aria-labelledby="operate-radio-buttons-group-label"
+                                defaultValue="none"
+                                name="operate-radio-buttons-group"
+                                row={true}
                                 onChange={(event) => {
-                                    setVisible(selectedObj, event.target.checked);
+                                    handleSelectedObject(selectedObj, event.target.value);
 
-                                    const updatedMap = {...visibleMap};
-                                    updatedMap[selectedObj] = event.target.checked;
-                                    setVisibleMap(updatedMap);
+                                    const updatedMap = {...transformControlMap};
+
+                                    updatedMap[selectedObj] = event.target.value;
+
+                                    setTransformControlMap(updatedMap);
                                 }}
-                                color="primary"
-                            />
-                        }
-                        label='Visible'
-                    />
+                            >
+                                <FormControlLabel value="none" control={<Radio/>} label="None"
+                                                  checked={transformControlMap[selectedObj] === "none" || !transformControlMap[selectedObj]}/>
+                                <FormControlLabel value="translate" control={<Radio/>} label="Translate"
+                                                  checked={transformControlMap[selectedObj] === "translate"}/>
+                                <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
+                                                  checked={transformControlMap[selectedObj] === "rotate"}/>
+                            </RadioGroup>
+                        </FormControl>}
+                    {(visibleControlObjNames.includes(selectedObj) || (selectedObj && selectedObj.startsWith("mainObject"))) &&
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={visibleMap[selectedObj] || !(selectedObj in visibleMap)}
+                                    onChange={(event) => {
+                                        setVisible(selectedObj, event.target.checked);
+
+                                        const updatedMap = {...visibleMap};
+                                        updatedMap[selectedObj] = event.target.checked;
+                                        setVisibleMap(updatedMap);
+                                    }}
+                                    color="primary"
+                                />
+                            }
+                            label='Visible'
+                        />
                     }
                     {
                         selectedObj === "Preview Camera" && <Box width="100%">
