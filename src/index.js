@@ -18,7 +18,8 @@ import {
     setVisible,
     handlePoseSelectedObject,
     removeObject,
-    loadPoseModel
+    loadPoseModel,
+    setPreviewSize
 } from './ThreeJsScene';
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
@@ -73,7 +74,7 @@ export default function App({controlNetNum}) {
 
                         <SendToControlNetPanel options={options} onValueChange={handleValueChange}
                                                setRendererImage={setRendererImage}
-                                               sendImage={_sendImage}/>
+                                               sendImage={_sendImage} setPreviewSize={setPreviewSize}/>
                     </Grid>
                 </Grid>
             </Container>

@@ -10,8 +10,14 @@ import {Button} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function SendToControlNetPanel({options, onValueChange, setRendererImage, sendImage}) {
+export default function SendToControlNetPanel({options, onValueChange, setRendererImage, sendImage, setPreviewSize}) {
     const [selectedValue, setSelectedValue] = useState('');
+    const [sizeValue, setSizeValue] = useState('1:1');
+    const sizes = [
+        {label:"1:1", value:"1:1"},
+        {label:"2:3", value:"2:3"},
+        {label:"3:2", value:"3:2"}
+    ];
 
     return (
         <div>
@@ -38,6 +44,29 @@ export default function SendToControlNetPanel({options, onValueChange, setRender
                                 }}
                             >
                                 {options.map((option, index) => (
+                                    <MenuItem key={index} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl variant="outlined" fullWidth sx={{margin: '2px'}}>
+                            <InputLabel htmlFor="dropdown-list">Size</InputLabel>
+                            <Select
+                                value={sizeValue}
+                                onChange={(event) => {
+                                    setSizeValue(event.target.value);
+                                    if (setPreviewSize) {
+                                        setPreviewSize(event.target.value);
+                                    }
+                                }}
+                                label="Size"
+                                inputProps={{
+                                    name: 'dropdown-list',
+                                    id: 'dropdown-list',
+                                }}
+                            >
+                                {sizes.map((option, index) => (
                                     <MenuItem key={index} value={option.value}>
                                         {option.label}
                                     </MenuItem>

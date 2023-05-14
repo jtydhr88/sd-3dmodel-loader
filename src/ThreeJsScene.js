@@ -27,8 +27,8 @@ let _controlByProgressBar;
 let _secondCamera;
 let _scene;
 
-const previewWidth = 300;
-const previewHeight = 300;
+let previewWidth = 300;
+let previewHeight = 300;
 
 let _width;
 let _height;
@@ -38,6 +38,19 @@ let _selectedObject;
 let _currentVRM;
 
 let _mainObjectCounter = 1;
+
+export function setPreviewSize(previewSize) {
+    if (previewSize === "1:1") {
+        previewWidth = 300;
+        previewHeight = 300;
+    } else if (previewSize === "2:3") {
+        previewWidth = 300;
+        previewHeight = 450;
+    } else if (previewSize === "3:2") {
+        previewWidth = 450;
+        previewHeight = 300;
+    }
+}
 
 export function removeObject(objName) {
     const object = _scene.getObjectByName(objName);
@@ -217,7 +230,7 @@ function ThreeJsScene({uploadedModelFile}) {
 
         const clock = new THREE.Clock();
 
-        _secondCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+        _secondCamera = new THREE.PerspectiveCamera(45, previewWidth / previewHeight, 0.1, 1000);
 
         _secondCamera.name = "Preview Camera";
 
@@ -281,6 +294,8 @@ function ThreeJsScene({uploadedModelFile}) {
                 _renderer.setViewport(0, 0, previewWidth, previewHeight);
                 _renderer.setScissor(0, 0, previewWidth, previewHeight);
                 _renderer.setScissorTest(true);
+
+                _secondCamera.aspect = previewWidth / previewHeight;
                 _secondCamera.updateProjectionMatrix();
 
                 _renderer.render(_scene, _secondCamera);
@@ -653,14 +668,6 @@ export function loadPoseModel(poseModelFileName) {
     }
 }
 
-function traverseScene(scene, callback) {
-    scene.traverse((object) => {
-        if (object.isObject3D) {
-            callback(object);
-        }
-    });
-}
-
 export function convertThreeJsObjects() {
     return _scene.toJSON();
 }
@@ -695,18 +702,6 @@ export function setVisible(objName, visible) {
 
         selectedObject.visible = visible;
     }
-}
-
-export function setShowGround(showGround) {
-    _groundMesh.visible = showGround;
-}
-
-export function setShowGroundGrid(showGroundGrid) {
-    _groundGrid.visible = showGroundGrid;
-}
-
-export function setShowAxis(showAxis) {
-    _axis.visible = showAxis;
 }
 
 export function controlAnimationProgress(e) {
