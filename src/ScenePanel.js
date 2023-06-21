@@ -64,7 +64,7 @@ function processNode(node, handleSelectedObject, setSelectedObj, transformContro
         return null;
     }
 
-    if (!(treeItemObjNames.includes(node.name) || node.name.startsWith("mainObject"))) {
+    if (!(treeItemObjNames.includes(node.name) || node.name?.startsWith("mainObject"))) {
         return null;
     }
 
