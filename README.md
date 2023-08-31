@@ -61,6 +61,13 @@ On the main tab of 3D Model Loader, you can use:
 2. **Mouse wheel** -> zoom in or out
 3. **Mouse right button** -> move the camera
 
+## Render Mode
+Right now it supports generate **depth** directly from 3D model:
+1. upload model and choose Render -> Depth ![depth1.png](doc/images/depth/depth1.png)
+2. you can control the contract.
+2. Send to ControlNet, and choose **Depth**, choose **none** as Preprocessor![depth2.png](doc/images/depth/depth2.png)
+3. generate![depth3.png](doc/images/depth/depth3.png)
+
 ## Gradio.Model3D?
 I know gradio has its own 3D model component called **Gradio.Model3D**, but it only supports three formats: obj, glb and gltf, I think it is not enough, at least it should support FBX animation, so I build my own extension.
 
