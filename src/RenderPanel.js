@@ -13,7 +13,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function RenderPanel({setRenderMode, setDepthContrast}) {
-    const [mode, setMode] = useState("normal");
+    const [mode, setMode] = useState("none");
     const [contrast, setContrast] = useState(0.5);
 
     return (<div>
@@ -28,7 +28,7 @@ function RenderPanel({setRenderMode, setDepthContrast}) {
                             <FormLabel>Mode</FormLabel>
                             <RadioGroup
                                 aria-labelledby="mode-radio-buttons-group-label"
-                                defaultValue="normal"
+                                defaultValue="none"
                                 name="mode-radio-buttons-group"
                                 row={true}
                                 onChange={(event) => {
@@ -36,8 +36,8 @@ function RenderPanel({setRenderMode, setDepthContrast}) {
                                     setMode(event.target.value);
                                 }}
                             >
-                                <FormControlLabel value="normal" control={<Radio/>} label="Normal"
-                                                  checked={mode === "normal"}/>
+                                <FormControlLabel value="none" control={<Radio/>} label="None"
+                                                  checked={mode === "none"}/>
                                 <FormControlLabel value="depth" control={<Radio/>} label="Depth"
                                                   checked={mode === "depth"}/>
                             </RadioGroup>

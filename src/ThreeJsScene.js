@@ -40,7 +40,7 @@ let _currentVRM;
 
 let _mainObjectCounter = 1;
 
-let _renderMode = "normal";
+let _renderMode = "none";
 
 export function setPreviewSize(previewSize) {
     if (previewSize === "1:1") {
