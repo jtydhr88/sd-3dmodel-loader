@@ -19,13 +19,16 @@ import {
     handlePoseSelectedObject,
     removeObject,
     loadPoseModel,
-    setPreviewSize
+    setPreviewSize,
+    setRenderMode,
+    setDepthContrast
 } from './ThreeJsScene';
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
 import SendToControlNetPanel from './SendToControlNetPanel'
 import ModelPanel from './ModelPanel'
 import PosePanel from './PosePanel'
+import RenderPanel from "./RenderPanel";
 
 let _sendImage;
 
@@ -69,6 +72,8 @@ export default function App({controlNetNum}) {
                                     setCameraNear={setNear} setCameraFar={setFar} setCameraFOV={setFOV}
                                     setCanvasBgColor={setBgColor} removeObject={removeObject}/>
 
+                        <RenderPanel setRenderMode={setRenderMode} setDepthContrast={setDepthContrast} />
+
                         <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
                                         controlAnimation={controlAnimationProgress}/>
 
@@ -102,4 +107,4 @@ window.create3dmodelLoaderApp = create3dmodelLoaderApp;
 window.setSendImageFunc3dmodel = setSendImageFunc3dmodel;
 
 // enable this method for local dev, and run npm start
-//localDev();
+// localDev();

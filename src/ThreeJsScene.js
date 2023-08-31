@@ -10,6 +10,7 @@ import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {ColladaLoader} from 'three/examples/jsm/loaders/ColladaLoader.js';
 import {VRMLoaderPlugin, VRMUtils} from "@pixiv/three-vrm";
 import {setAnimationProgress} from './AnimationPanel'
+import {vertexShader, fragmentShader} from './shaders';
 
 let _playing = true;
 let _renderer;
@@ -38,6 +39,8 @@ let _selectedObject;
 let _currentVRM;
 
 let _mainObjectCounter = 1;
+
+let _renderMode = "normal";
 
 export function setPreviewSize(previewSize) {
     if (previewSize === "1:1") {
@@ -97,6 +100,10 @@ export function refreshSceneTree() {
     window.updateObjects(convertThreeJsObjects());
 }
 
+export function setRenderMode(renderMode) {
+    _renderMode = renderMode;
+}
+
 export function setFar(far) {
     _camera.far = far;
     _camera.updateProjectionMatrix();
@@ -140,6 +147,54 @@ function checkDivVisible(div) {
     return (div.offsetWidth > 0) && (div.offsetHeight > 0);
 }
 
+function isRenderDepth() {
+    return _renderMode === "depth";
+}
+
+let depthTarget;
+let depthPostScene, depthPostCamera, depthPostPreviewCamera, depthPostMaterial;
+
+function setupRenderTarget() {
+    if (depthTarget) {
+        depthTarget.dispose();
+    }
+
+    depthTarget = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
+    depthTarget.texture.minFilter = THREE.NearestFilter;
+    depthTarget.texture.magFilter = THREE.NearestFilter;
+    depthTarget.stencilBuffer = false;
+    depthTarget.depthTexture = new THREE.DepthTexture();
+    depthTarget.depthTexture.format = THREE.DepthFormat;
+    depthTarget.depthTexture.type = parseFloat(THREE.UnsignedShortType);
+}
+
+export function setDepthContrast(contrast) {
+    if (depthPostMaterial) {
+        depthPostMaterial.uniforms.contrast.value = contrast;
+    }
+}
+
+function setupPost() {
+    depthPostCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    depthPostPreviewCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+    depthPostMaterial = new THREE.ShaderMaterial({
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        uniforms: {
+            cameraNear: {value: _camera.near},
+            cameraFar: {value: _camera.far},
+            tDiffuse: {value: null},
+            tDepth: {value: null},
+            contrast: {value: 0.2}
+        }
+    });
+    const postPlane = new THREE.PlaneGeometry(2, 2);
+    const postQuad = new THREE.Mesh(postPlane, depthPostMaterial);
+    depthPostScene = new THREE.Scene();
+    depthPostScene.add(postQuad);
+}
+
 function ThreeJsScene({uploadedModelFile}) {
     const containerRef = useRef();
     const managerRef = useRef();
@@ -156,6 +211,8 @@ function ThreeJsScene({uploadedModelFile}) {
         _container.appendChild(_renderer.domElement);
 
         observer.observe(_container);
+
+        setupRenderTarget();
 
         _scene = new THREE.Scene();
         _scene.name = "Scene";
@@ -247,7 +304,10 @@ function ThreeJsScene({uploadedModelFile}) {
             orbitController2.enabled = !event.value;
         });
 
+        setupPost();
+
         _scene.add(_transformControls);
+
         const animate = () => {
             requestAnimationFrame(animate);
 
@@ -283,7 +343,19 @@ function ThreeJsScene({uploadedModelFile}) {
                 _renderer.setScissorTest(true);
                 _camera.updateProjectionMatrix();
 
+                if (isRenderDepth()) {
+                    _renderer.setRenderTarget(depthTarget);
+                }
+
                 _renderer.render(_scene, _camera);
+
+                if (isRenderDepth()) {
+                    depthPostMaterial.uniforms.tDiffuse.value = depthTarget.texture;
+                    depthPostMaterial.uniforms.tDepth.value = depthTarget.depthTexture;
+
+                    _renderer.setRenderTarget(null);
+                    _renderer.render(depthPostScene, depthPostCamera);
+                }
 
                 orbitController2.update()
 
@@ -291,10 +363,22 @@ function ThreeJsScene({uploadedModelFile}) {
                 _renderer.setScissor(0, 0, previewWidth, previewHeight);
                 _renderer.setScissorTest(true);
 
+                if (isRenderDepth()) {
+                    _renderer.setRenderTarget(depthTarget);
+                }
+
                 _secondCamera.aspect = previewWidth / previewHeight;
                 _secondCamera.updateProjectionMatrix();
 
                 _renderer.render(_scene, _secondCamera);
+
+                if (isRenderDepth()) {
+                    depthPostMaterial.uniforms.tDiffuse.value = depthTarget.texture;
+                    depthPostMaterial.uniforms.tDepth.value = depthTarget.depthTexture;
+
+                    _renderer.setRenderTarget(null);
+                    _renderer.render(depthPostScene, depthPostCamera);
+                }
             }
         };
 
@@ -602,7 +686,7 @@ export function loadPoseModel(poseModelFileName) {
         let manager = new THREE.LoadingManager();
 
         let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
-        //let path = "/file=/modelss/" + poseModelFileName;
+        //let path = "/file=/models/" + poseModelFileName;
 
         const ext = poseModelFileName.split('.').pop().toLowerCase()
 
