@@ -1,13 +1,13 @@
 import React, {useRef, useEffect} from 'react';
-import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import * as THREE from 'three';
 import {TransformControls} from 'three/examples/jsm/controls/TransformControls';
-import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
-import {STLLoader} from 'three/addons/loaders/STLLoader.js';
-import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
-import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
-import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-import {ColladaLoader} from 'three/addons/loaders/ColladaLoader.js';
+import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader.js';
+import {STLLoader} from 'three/examples/jsm/loaders/STLLoader.js';
+import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader.js';
+import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {ColladaLoader} from 'three/examples/jsm/loaders/ColladaLoader.js';
 import {VRMLoaderPlugin, VRMUtils} from "@pixiv/three-vrm";
 import {setAnimationProgress} from './AnimationPanel'
 
@@ -137,11 +137,7 @@ const onWindowResize = () => {
 };
 
 function checkDivVisible(div) {
-    if ((div.offsetWidth > 0) && (div.offsetHeight > 0)) {
-        return true;
-    }
-
-    return false;
+    return (div.offsetWidth > 0) && (div.offsetHeight > 0);
 }
 
 function ThreeJsScene({uploadedModelFile}) {
@@ -202,7 +198,7 @@ function ThreeJsScene({uploadedModelFile}) {
 
         const groundMaterial = new THREE.MeshBasicMaterial({color: 0xbebebe});
 
-        _groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), groundMaterial);
+        _groundMesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), groundMaterial);
 
         _groundMesh.name = "Ground";
         _groundMesh.rotation.x = -Math.PI / 2;
