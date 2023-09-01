@@ -42,6 +42,8 @@ let _mainObjectCounter = 1;
 
 let _renderMode = "none";
 
+let _handModel;
+
 export function setPreviewSize(previewSize) {
     if (previewSize === "1:1") {
         previewWidth = 300;
@@ -79,6 +81,16 @@ export function handlePoseSelectedObject(objName, transformControlsMode) {
                 _transformControls.attach(boneNode);
             }
         }
+        else {
+            let hand = _scene.getObjectByName("mainObject1");
+
+            const boneNode =hand.getObjectByName(objName);
+
+            if (boneNode) {
+                _transformControls.setMode(transformControlsMode);
+                _transformControls.attach(boneNode);
+            }
+        }
     } else {
         _transformControls.detach();
     }
@@ -110,8 +122,7 @@ export function setRenderMode(renderMode) {
     if (_scene) {
         if (isRenderNone()) {
             _scene.add(_transformControls);
-        }
-        else {
+        } else {
             _scene.remove(_transformControls);
         }
 
@@ -504,7 +515,7 @@ function ThreeJsScene({uploadedModelFile}) {
             _action = _mixer.clipAction(mainObject.animations[0]);
 
             if (_playing) {
-                _action.play();
+                //_action.play();
             }
 
             const clip = _action.getClip();
@@ -623,7 +634,7 @@ function ThreeJsScene({uploadedModelFile}) {
             resultScene.name = "mainObject" + _mainObjectCounter.toString();
 
             _mainObjectCounter++;
-
+            
             scaleObjectToProper(resultScene);
 
             _scene.add(resultScene);

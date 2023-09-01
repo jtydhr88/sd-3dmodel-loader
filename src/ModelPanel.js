@@ -1,6 +1,4 @@
 import React from 'react';
-import {Accordion, AccordionSummary, AccordionDetails} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import {Button} from "@mui/material";
 
@@ -25,15 +23,8 @@ export default function ModelPanel({setUploadedModelFile}) {
     return (
         <div>
             <Box mb={1} mt={1}>
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                        Model
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                                onClick={loadSingleModel}>Load Model</Button>
-                    </AccordionDetails>
-                </Accordion>
+                <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
+                        onClick={loadSingleModel}>Load Model</Button>
             </Box>
         </div>
     );

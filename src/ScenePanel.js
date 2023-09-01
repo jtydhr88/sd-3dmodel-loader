@@ -5,9 +5,6 @@ import Box from '@mui/material/Box';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import {
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
     Button,
     FormControl,
     Radio,
@@ -19,7 +16,6 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import Slider from "@mui/material/Slider";
 import {SketchPicker} from "react-color";
-import NumberInput from "./NumberInput.js";
 
 const CustomTreeView = styled(TreeView)`
   height: 240px;
@@ -145,116 +141,109 @@ function SceneTreeWrapper({
 
     return (<div>
         <Box mb={1} mt={1}>
-            <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    Scene
-                </AccordionSummary>
-                <AccordionDetails>
-                    <SceneTree handleSelectedObject={handleSelectedObject} setSelectedObj={setSelectedObj}
-                               transformControlMap={transformControlMap}/>
-                    <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                            onClick={refreshSceneTree}>Refresh Scene Tree</Button>
+            <SceneTree handleSelectedObject={handleSelectedObject} setSelectedObj={setSelectedObj}
+                       transformControlMap={transformControlMap}/>
+            <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
+                    onClick={refreshSceneTree}>Refresh Scene Tree</Button>
 
-                    {(transformControlObjNames.includes(selectedObj) || (selectedObj && selectedObj.startsWith("mainObject"))) &&
-                        <FormControl>
-                            <FormLabel>Operate</FormLabel>
-                            <RadioGroup
-                                aria-labelledby="operate-radio-buttons-group-label"
-                                defaultValue="none"
-                                name="operate-radio-buttons-group"
-                                row={true}
-                                onChange={(event) => {
-                                    handleSelectedObject(selectedObj, event.target.value);
+            {(transformControlObjNames.includes(selectedObj) || (selectedObj && selectedObj.startsWith("mainObject"))) &&
+                <FormControl>
+                    <FormLabel>Operate</FormLabel>
+                    <RadioGroup
+                        aria-labelledby="operate-radio-buttons-group-label"
+                        defaultValue="none"
+                        name="operate-radio-buttons-group"
+                        row={true}
+                        onChange={(event) => {
+                            handleSelectedObject(selectedObj, event.target.value);
 
-                                    const updatedMap = {...transformControlMap};
+                            const updatedMap = {...transformControlMap};
 
-                                    updatedMap[selectedObj] = event.target.value;
+                            updatedMap[selectedObj] = event.target.value;
 
-                                    setTransformControlMap(updatedMap);
-                                }}
-                            >
-                                <FormControlLabel value="none" control={<Radio/>} label="None"
-                                                  checked={transformControlMap[selectedObj] === "none" || !transformControlMap[selectedObj]}/>
-                                <FormControlLabel value="translate" control={<Radio/>} label="Translate"
-                                                  checked={transformControlMap[selectedObj] === "translate"}/>
-                                <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
-                                                  checked={transformControlMap[selectedObj] === "rotate"}/>
-                            </RadioGroup>
-                        </FormControl>}
-                    {(visibleControlObjNames.includes(selectedObj) || (selectedObj && selectedObj.startsWith("mainObject"))) &&
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={visibleMap[selectedObj] || !(selectedObj in visibleMap)}
-                                    onChange={(event) => {
-                                        setVisible(selectedObj, event.target.checked);
+                            setTransformControlMap(updatedMap);
+                        }}
+                    >
+                        <FormControlLabel value="none" control={<Radio/>} label="None"
+                                          checked={transformControlMap[selectedObj] === "none" || !transformControlMap[selectedObj]}/>
+                        <FormControlLabel value="translate" control={<Radio/>} label="Translate"
+                                          checked={transformControlMap[selectedObj] === "translate"}/>
+                        <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
+                                          checked={transformControlMap[selectedObj] === "rotate"}/>
+                    </RadioGroup>
+                </FormControl>}
+            {(visibleControlObjNames.includes(selectedObj) || (selectedObj && selectedObj.startsWith("mainObject"))) &&
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={visibleMap[selectedObj] || !(selectedObj in visibleMap)}
+                            onChange={(event) => {
+                                setVisible(selectedObj, event.target.checked);
 
-                                        const updatedMap = {...visibleMap};
-                                        updatedMap[selectedObj] = event.target.checked;
-                                        setVisibleMap(updatedMap);
-                                    }}
-                                    color="primary"
-                                />
-                            }
-                            label='Visible'
-                        />
-                    }
-                    {
-                        selectedObj === "Preview Camera" && <Box width="100%">
-                            <Typography gutterBottom>Near</Typography>
-                            <Slider min={0.1} max={100}
-                                    valueLabelDisplay="auto"
-                                    step={0.1}
-                                    value={near}
-                                    onChange={(event, newValue) => {
-                                        setNear(newValue);
-                                        setCameraNear(newValue);
-                                    }}
-                                    aria-labelledby="continuous-slider"
-                            />
-                            <Typography gutterBottom>Far</Typography>
-                            <Slider min={0.1} max={20000}
-                                    valueLabelDisplay="auto"
-                                    value={far}
-                                    onChange={(event, newValue) => {
-                                        setFar(newValue);
-                                        setCameraFar(newValue)
-                                    }}
-                                    aria-labelledby="continuous-slider"
-                            />
-                            <Typography gutterBottom>FOV</Typography>
-                            <Slider min={1} max={100}
-                                    valueLabelDisplay="auto"
-                                    value={fov}
-                                    onChange={(event, newValue) => {
-                                        setFOV(newValue);
-                                        setCameraFOV(newValue);
-                                    }}
-                                    aria-labelledby="continuous-slider"
-                            />
-                        </Box>
-                    }
-                    {
-                        selectedObj && selectedObj.startsWith("mainObject") &&
-                        <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                                onClick={() => {
-                                    removeObject(selectedObj);
-                                    refreshSceneTree();
-                                    setSelectedObj(null);
-                                }}>Remove</Button>
-                    }
-                    {
-                        selectedObj === "Scene" && <SketchPicker
-                            color={bgColor}
-                            onChangeComplete={(color) => {
-                                setBgColor(color);
-                                setCanvasBgColor(color);
+                                const updatedMap = {...visibleMap};
+                                updatedMap[selectedObj] = event.target.checked;
+                                setVisibleMap(updatedMap);
                             }}
-                            disableAlpha={true}
+                            color="primary"
                         />
                     }
-                </AccordionDetails>
-            </Accordion>
+                    label='Visible'
+                />
+            }
+            {
+                selectedObj === "Preview Camera" && <Box width="100%">
+                    <Typography gutterBottom>Near</Typography>
+                    <Slider min={0.1} max={100}
+                            valueLabelDisplay="auto"
+                            step={0.1}
+                            value={near}
+                            onChange={(event, newValue) => {
+                                setNear(newValue);
+                                setCameraNear(newValue);
+                            }}
+                            aria-labelledby="continuous-slider"
+                    />
+                    <Typography gutterBottom>Far</Typography>
+                    <Slider min={0.1} max={20000}
+                            valueLabelDisplay="auto"
+                            value={far}
+                            onChange={(event, newValue) => {
+                                setFar(newValue);
+                                setCameraFar(newValue)
+                            }}
+                            aria-labelledby="continuous-slider"
+                    />
+                    <Typography gutterBottom>FOV</Typography>
+                    <Slider min={1} max={100}
+                            valueLabelDisplay="auto"
+                            value={fov}
+                            onChange={(event, newValue) => {
+                                setFOV(newValue);
+                                setCameraFOV(newValue);
+                            }}
+                            aria-labelledby="continuous-slider"
+                    />
+                </Box>
+            }
+            {
+                selectedObj && selectedObj.startsWith("mainObject") &&
+                <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
+                        onClick={() => {
+                            removeObject(selectedObj);
+                            refreshSceneTree();
+                            setSelectedObj(null);
+                        }}>Remove</Button>
+            }
+            {
+                selectedObj === "Scene" && <SketchPicker
+                    color={bgColor}
+                    onChangeComplete={(color) => {
+                        setBgColor(color);
+                        setCanvasBgColor(color);
+                    }}
+                    disableAlpha={true}
+                />
+            }
         </Box>
     </div>);
 }

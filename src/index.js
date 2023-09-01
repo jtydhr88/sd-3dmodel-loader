@@ -27,8 +27,10 @@ import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
 import SendToControlNetPanel from './SendToControlNetPanel'
 import ModelPanel from './ModelPanel'
-import PosePanel from './PosePanel'
+import HandPanel from './HandPanel'
 import RenderPanel from "./RenderPanel";
+import PosePanel from "./PosePanel";
+import SizePanel from "./SizePanel";
 
 let _sendImage;
 
@@ -57,29 +59,36 @@ export default function App({controlNetNum}) {
             <Container maxWidth="none">
                 <Grid container spacing={3}>
                     <Grid item xs={10} style={{height: '80vh'}}>
-
+                        <Grid container item xs={12} spacing={3}>
+                            <Grid item xs={4}>
+                                <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <RenderPanel setRenderMode={setRenderMode} setDepthContrast={setDepthContrast}/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <SizePanel setPreviewSize={setPreviewSize}/>
+                            </Grid>
+                        </Grid>
                         <ThreeJsScene
                             uploadedModelFile={uploadedModelFile}
                         />
                     </Grid>
                     <Grid item xs={2}>
+                        {/*
+                        <HandPanel handlePoseSelectedObject={handlePoseSelectedObject} setPoseModelFileName={loadPoseModel}/>
+                        */}
                         <PosePanel handlePoseSelectedObject={handlePoseSelectedObject}
                                    setPoseModelFileName={loadPoseModel}/>
-                        <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
-
                         <ScenePanel refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
                                     setVisible={setVisible}
                                     setCameraNear={setNear} setCameraFar={setFar} setCameraFOV={setFOV}
                                     setCanvasBgColor={setBgColor} removeObject={removeObject}/>
-
-                        <RenderPanel setRenderMode={setRenderMode} setDepthContrast={setDepthContrast} />
-
-                        <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
-                                        controlAnimation={controlAnimationProgress}/>
-
                         <SendToControlNetPanel options={options} onValueChange={handleValueChange}
                                                setRendererImage={setRendererImage}
-                                               sendImage={_sendImage} setPreviewSize={setPreviewSize}/>
+                                               sendImage={_sendImage}/>
+                        <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
+                                        controlAnimation={controlAnimationProgress}/>
                     </Grid>
                 </Grid>
             </Container>

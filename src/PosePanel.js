@@ -1,8 +1,5 @@
 import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
-import {
-    Accordion,
-    AccordionSummary,
-    AccordionDetails, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio,
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
@@ -53,58 +50,58 @@ function processNode(node, handlePoseSelectedObject, setSelectedObj, transformCo
 }
 
 const boneNameTransformMap = {
-	'hips': "none",
-	'spine': "none",
+    'hips': "none",
+    'spine': "none",
     'chest': "none",
-	'upperChest': "none",
-	'neck': "none",
-	'head': "none",
-	'leftShoulder': "none",
-	'leftUpperArm': "none",
-	'leftLowerArm': "none",
-	'leftHand': "none",
-	'leftThumbMetacarpal': "none",
-	'leftThumbProximal': "none",
-	'leftThumbDistal': "none",
-	'leftIndexProximal': "none",
-	'leftIndexIntermediate': "none",
-	'leftIndexDistal': "none",
-	'leftMiddleProximal': "none",
-	'leftMiddleIntermediate': "none",
-	'leftMiddleDistal': "none",
-	'leftRingProximal': "none",
-	'leftRingIntermediate': "none",
-	'leftRingDistal': "none",
-	'leftLittleProximal': "none",
-	'leftLittleIntermediate': "none",
-	'leftLittleDistal': "none",
-	'rightShoulder': "none",
-	'rightUpperArm': "none",
-	'rightLowerArm': "none",
-	'rightHand': "none",
-	'rightLittleProximal': "none",
-	'rightLittleIntermediate': "none",
-	'rightLittleDistal': "none",
-	'rightRingProximal': "none",
-	'rightRingIntermediate': "none",
-	'rightRingDistal': "none",
-	'rightMiddleProximal': "none",
-	'rightMiddleIntermediate': "none",
-	'rightMiddleDistal': "none",
-	'rightIndexProximal': "none",
-	'rightIndexIntermediate': "none",
-	'rightIndexDistal': "none",
-	'rightThumbMetacarpal': "none",
-	'rightThumbProximal': "none",
-	'rightThumbDistal': "none",
-	'leftUpperLeg': "none",
-	'leftLowerLeg': "none",
-	'leftFoot': "none",
-	'leftToes': "none",
-	'rightUpperLeg': "none",
-	'rightLowerLeg': "none",
-	'rightFoot': "none",
-	'rightToes': "none"
+    'upperChest': "none",
+    'neck': "none",
+    'head': "none",
+    'leftShoulder': "none",
+    'leftUpperArm': "none",
+    'leftLowerArm': "none",
+    'leftHand': "none",
+    'leftThumbMetacarpal': "none",
+    'leftThumbProximal': "none",
+    'leftThumbDistal': "none",
+    'leftIndexProximal': "none",
+    'leftIndexIntermediate': "none",
+    'leftIndexDistal': "none",
+    'leftMiddleProximal': "none",
+    'leftMiddleIntermediate': "none",
+    'leftMiddleDistal': "none",
+    'leftRingProximal': "none",
+    'leftRingIntermediate': "none",
+    'leftRingDistal': "none",
+    'leftLittleProximal': "none",
+    'leftLittleIntermediate': "none",
+    'leftLittleDistal': "none",
+    'rightShoulder': "none",
+    'rightUpperArm': "none",
+    'rightLowerArm': "none",
+    'rightHand': "none",
+    'rightLittleProximal': "none",
+    'rightLittleIntermediate': "none",
+    'rightLittleDistal': "none",
+    'rightRingProximal': "none",
+    'rightRingIntermediate': "none",
+    'rightRingDistal': "none",
+    'rightMiddleProximal': "none",
+    'rightMiddleIntermediate': "none",
+    'rightMiddleDistal': "none",
+    'rightIndexProximal': "none",
+    'rightIndexIntermediate': "none",
+    'rightIndexDistal': "none",
+    'rightThumbMetacarpal': "none",
+    'rightThumbProximal': "none",
+    'rightThumbDistal': "none",
+    'leftUpperLeg': "none",
+    'leftLowerLeg': "none",
+    'leftFoot': "none",
+    'leftToes': "none",
+    'rightUpperLeg': "none",
+    'rightLowerLeg': "none",
+    'rightFoot': "none",
+    'rightToes': "none"
 };
 
 const boneNameList = {
@@ -395,40 +392,34 @@ function BodyTreeWrapper({
 
     return (<div>
         <Box mb={1} mt={1}>
-            <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    Pose
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                            onClick={loadPoseModel}>Load Pose Model (VRM)</Button>
-                    <div><h6>Pose edit only supports VRM file currently.</h6></div>
-                    <BodyTree handlePoseSelectedObject={handlePoseSelectedObject} setSelectedObj={setSelectedObj} transformControlMap={transformControlMap}/>
-                    { (selectedObj in boneNameTransformMap) && <FormControl>
-                        <FormLabel>Operate</FormLabel>
-                        <RadioGroup
-                            aria-labelledby="operate-radio-buttons-group-label"
-                            defaultValue="none"
-                            name="operate-radio-buttons-group"
-                            row={true}
-                            onChange={(event) => {
-                                handlePoseSelectedObject(selectedObj, event.target.value);
+            <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
+                    onClick={loadPoseModel}>Load Pose Model (VRM)</Button>
+            <div><h6>Pose edit only supports VRM file currently.</h6></div>
+            <BodyTree handlePoseSelectedObject={handlePoseSelectedObject} setSelectedObj={setSelectedObj}
+                      transformControlMap={transformControlMap}/>
+            {(selectedObj in boneNameTransformMap) && <FormControl>
+                <FormLabel>Operate</FormLabel>
+                <RadioGroup
+                    aria-labelledby="operate-radio-buttons-group-label"
+                    defaultValue="none"
+                    name="operate-radio-buttons-group"
+                    row={true}
+                    onChange={(event) => {
+                        handlePoseSelectedObject(selectedObj, event.target.value);
 
-                                const updatedMap = {...transformControlMap};
+                        const updatedMap = {...transformControlMap};
 
-                                updatedMap[selectedObj] = event.target.value;
+                        updatedMap[selectedObj] = event.target.value;
 
-                                setTransformControlMap(updatedMap);
-                            }}
-                        >
-                            <FormControlLabel value="none" control={<Radio/>} label="None"
-                                              checked={transformControlMap[selectedObj] === "none"}/>
-                            <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
-                                              checked={transformControlMap[selectedObj] === "rotate"}/>
-                        </RadioGroup>
-                    </FormControl>}
-                </AccordionDetails>
-            </Accordion>
+                        setTransformControlMap(updatedMap);
+                    }}
+                >
+                    <FormControlLabel value="none" control={<Radio/>} label="None"
+                                      checked={transformControlMap[selectedObj] === "none"}/>
+                    <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
+                                      checked={transformControlMap[selectedObj] === "rotate"}/>
+                </RadioGroup>
+            </FormControl>}
         </Box>
     </div>);
 }
