@@ -100,8 +100,41 @@ export function refreshSceneTree() {
     window.updateObjects(convertThreeJsObjects());
 }
 
+const normalMaterial = new THREE.MeshNormalMaterial();
+
+const originalMaterials = {};
+
 export function setRenderMode(renderMode) {
     _renderMode = renderMode;
+
+    if (_scene) {
+        if (isRenderNone()) {
+            _scene.add(_transformControls);
+        }
+        else {
+            _scene.remove(_transformControls);
+        }
+
+        if (_renderMode === "normal") {
+            _scene.traverse((node) => {
+                if (node.isMesh) {
+                    originalMaterials[node.id] = node.material;
+
+                    node.material = normalMaterial;
+                }
+            });
+        } else {
+            _scene.traverse((node) => {
+                if (node.isMesh && originalMaterials[node.id]) {
+                    node.material = originalMaterials[node.id];
+                }
+            });
+
+            if (_transformControls) {
+                _scene.add(_transformControls);
+            }
+        }
+    }
 }
 
 export function setFar(far) {
@@ -149,6 +182,10 @@ function checkDivVisible(div) {
 
 function isRenderDepth() {
     return _renderMode === "depth";
+}
+
+function isRenderNone() {
+    return _renderMode === "none";
 }
 
 let depthTarget;

@@ -40,6 +40,8 @@ function RenderPanel({setRenderMode, setDepthContrast}) {
                                                   checked={mode === "none"}/>
                                 <FormControlLabel value="depth" control={<Radio/>} label="Depth"
                                                   checked={mode === "depth"}/>
+                                <FormControlLabel value="normal" control={<Radio/>} label="Normal"
+                                                  checked={mode === "normal"}/>
                             </RadioGroup>
                             {
                                 mode === "depth" && <Box width="100%">
