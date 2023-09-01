@@ -4,7 +4,6 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
-import {Button} from "@mui/material";
 import {TreeItem, TreeView} from "@mui/lab";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
@@ -173,24 +172,18 @@ function BodyTree({handlePoseSelectedObject, setSelectedObj, transformControlMap
 }
 
 export default function HandPanel({
-                                      setPoseModelFileName,
                                       handlePoseSelectedObject,
                                   }) {
     return (<ObjectProvider>
-        <BodyTreeWrapper setPoseModelFileName={setPoseModelFileName}
+        <BodyTreeWrapper
                          handlePoseSelectedObject={handlePoseSelectedObject}/>
     </ObjectProvider>)
 }
 
 function BodyTreeWrapper({
-                             setPoseModelFileName,
                              handlePoseSelectedObject
                          }) {
     const [selectedObj, setSelectedObj] = useState(null);
-
-    const loadPoseModel = () => {
-        setPoseModelFileName("hand.fbx");
-    };
 
     const {updateObjects} = useObjectUpdate();
     const [transformControlMap, setTransformControlMap] = useState(boneNameTransformMap);
@@ -213,8 +206,6 @@ function BodyTreeWrapper({
     return (<div>
         <Box mb={1} mt={1}>
 
-            <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                    onClick={loadPoseModel}>Load Hand Model</Button>
             <BodyTree handlePoseSelectedObject={handlePoseSelectedObject} setSelectedObj={setSelectedObj}
                       transformControlMap={transformControlMap}/>
             {(selectedObj in boneNameTransformMap) && <FormControl>

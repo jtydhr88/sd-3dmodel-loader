@@ -80,15 +80,16 @@ export function handlePoseSelectedObject(objName, transformControlsMode) {
                 _transformControls.setMode(transformControlsMode);
                 _transformControls.attach(boneNode);
             }
-        }
-        else {
-            let hand = _scene.getObjectByName("mainObject1");
+        } else {
+            let hand = _scene.getObjectByName("handObject");
 
-            const boneNode =hand.getObjectByName(objName);
+            if (hand) {
+                const boneNode = hand.getObjectByName(objName);
 
-            if (boneNode) {
-                _transformControls.setMode(transformControlsMode);
-                _transformControls.attach(boneNode);
+                if (boneNode) {
+                    _transformControls.setMode(transformControlsMode);
+                    _transformControls.attach(boneNode);
+                }
             }
         }
     } else {
@@ -634,7 +635,7 @@ function ThreeJsScene({uploadedModelFile}) {
             resultScene.name = "mainObject" + _mainObjectCounter.toString();
 
             _mainObjectCounter++;
-            
+
             scaleObjectToProper(resultScene);
 
             _scene.add(resultScene);
@@ -730,7 +731,7 @@ function scaleObjectToProper(object) {
 }
 
 export function loadPoseModel(poseModelFileName) {
-    if (poseModelFileName && !_currentVRM) {
+    if (poseModelFileName) {
         let manager = new THREE.LoadingManager();
 
         let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
@@ -740,6 +741,10 @@ export function loadPoseModel(poseModelFileName) {
 
         switch (ext) {
             case "vrm": {
+                if (_currentVRM) {
+                    return;
+                }
+
                 const loader = new GLTFLoader(manager);
                 loader.crossOrigin = 'anonymous';
 
@@ -774,6 +779,10 @@ export function loadPoseModel(poseModelFileName) {
                 break;
             }
             case "fbx": {
+                if (_handModel) {
+                    return;
+                }
+
                 const loader = new FBXLoader(manager);
                 loader.load(path, (object) => {
                     object.traverse(function (child) {
@@ -783,7 +792,9 @@ export function loadPoseModel(poseModelFileName) {
                         }
                     });
 
-                    object.name = "mainObject";
+                    object.name = "handObject";
+
+                    _handModel = object;
 
                     scaleObjectToProper(object);
 

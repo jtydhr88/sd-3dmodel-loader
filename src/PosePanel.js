@@ -353,24 +353,19 @@ function BodyTree({handlePoseSelectedObject, setSelectedObj, transformControlMap
 }
 
 export default function PosePanel({
-                                      setPoseModelFileName,
                                       handlePoseSelectedObject,
                                   }) {
     return (<ObjectProvider>
-        <BodyTreeWrapper setPoseModelFileName={setPoseModelFileName}
+        <BodyTreeWrapper
                          handlePoseSelectedObject={handlePoseSelectedObject}/>
     </ObjectProvider>)
 }
 
 function BodyTreeWrapper({
-                             setPoseModelFileName,
+
                              handlePoseSelectedObject
                          }) {
     const [selectedObj, setSelectedObj] = useState(null);
-
-    const loadPoseModel = () => {
-        setPoseModelFileName("pose.vrm");
-    };
 
     const {updateObjects} = useObjectUpdate();
     const [transformControlMap, setTransformControlMap] = useState(boneNameTransformMap);
@@ -392,9 +387,6 @@ function BodyTreeWrapper({
 
     return (<div>
         <Box mb={1} mt={1}>
-            <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                    onClick={loadPoseModel}>Load Pose Model (VRM)</Button>
-            <div><h6>Pose edit only supports VRM file currently.</h6></div>
             <BodyTree handlePoseSelectedObject={handlePoseSelectedObject} setSelectedObj={setSelectedObj}
                       transformControlMap={transformControlMap}/>
             {(selectedObj in boneNameTransformMap) && <FormControl>

@@ -20,7 +20,6 @@ function RenderPanel({setRenderMode, setDepthContrast}) {
         <Box mb={1} mt={1}>
             <Box width="100%">
                 <FormControl>
-                    <FormLabel>Mode</FormLabel>
                     <RadioGroup
                         aria-labelledby="mode-radio-buttons-group-label"
                         defaultValue="none"

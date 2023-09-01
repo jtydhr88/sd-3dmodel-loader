@@ -1,10 +1,9 @@
 import React from 'react';
-import {useState, useCallback} from 'react';
+import {useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import {Container, Grid} from '@mui/material';
 import ThreeJsScene from './ThreeJsScene';
 import {
-    convertThreeJsObjects,
     setBgColor,
     setPlaying,
     setStopPlaying,
@@ -31,6 +30,7 @@ import HandPanel from './HandPanel'
 import RenderPanel from "./RenderPanel";
 import PosePanel from "./PosePanel";
 import SizePanel from "./SizePanel";
+import LoadModelPanel from "./LoadModelPanel";
 
 let _sendImage;
 
@@ -60,13 +60,19 @@ export default function App({controlNetNum}) {
                 <Grid container spacing={3}>
                     <Grid item xs={10} style={{height: '80vh'}}>
                         <Grid container item xs={12} spacing={3}>
-                            <Grid item xs={4}>
+                            <Grid item xs={2}>
                                 <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={2}>
+                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"hand.fbx"} labelName={"load hand model"}/>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"pose.vrm"} labelName={"load pose model"}/>
+                            </Grid>
+                            <Grid item xs={3}>
                                 <RenderPanel setRenderMode={setRenderMode} setDepthContrast={setDepthContrast}/>
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={3}>
                                 <SizePanel setPreviewSize={setPreviewSize}/>
                             </Grid>
                         </Grid>
@@ -75,9 +81,9 @@ export default function App({controlNetNum}) {
                         />
                     </Grid>
                     <Grid item xs={2}>
-                        {/*
-                        <HandPanel handlePoseSelectedObject={handlePoseSelectedObject} setPoseModelFileName={loadPoseModel}/>
-                        */}
+                        <HandPanel handlePoseSelectedObject={handlePoseSelectedObject}
+                                   setPoseModelFileName={loadPoseModel}/>
+
                         <PosePanel handlePoseSelectedObject={handlePoseSelectedObject}
                                    setPoseModelFileName={loadPoseModel}/>
                         <ScenePanel refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
