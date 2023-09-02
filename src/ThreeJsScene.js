@@ -958,6 +958,55 @@ export function controlAnimationProgress(e) {
     }
 }
 
+export function downloadRendererImage() {
+    _renderer.domElement.toBlob((blob) => {
+        const image = new Image();
+
+        image.onload = function () {
+            const canvas = document.createElement('canvas');
+
+            const canvas2 = document.createElement('canvas');
+
+            canvas.width = _width;
+            canvas.height = _height;
+
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(image, 0, 0);
+
+            const imageData = ctx.getImageData(0, image.height - previewHeight, previewWidth, previewHeight);
+
+            canvas2.width = previewWidth;
+            canvas2.height = previewHeight;
+
+            const ctx2 = canvas2.getContext('2d');
+
+            canvas2.width = previewWidth;
+            canvas2.height = previewHeight;
+
+            ctx2.putImageData(imageData, 0, 0);
+
+            canvas2.toBlob((blob2) => {
+                const file = new File([blob2], "pose.png");
+                const url = URL.createObjectURL(file); // 将blob转换为URL
+
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'pose.png';
+
+                document.body.appendChild(a);
+                a.click();
+
+                URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            });
+        };
+
+        image.src = URL.createObjectURL(blob);
+    });
+}
+
 export function setRendererImage(sendImage, controlNetIndex, type) {
     if (controlNetIndex !== '') {
         _renderer.domElement.toBlob((blob) => {

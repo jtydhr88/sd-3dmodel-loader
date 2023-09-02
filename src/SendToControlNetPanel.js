@@ -10,7 +10,7 @@ import {Button} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function SendToControlNetPanel({options, onValueChange, setRendererImage, sendImage}) {
+export default function SendToControlNetPanel({options, onValueChange, setRendererImage, sendImage, downloadRendererImage}) {
     const [selectedValue, setSelectedValue] = useState('');
     const [sizeValue, setSizeValue] = useState('1:1');
     const sizes = [
@@ -51,6 +51,9 @@ export default function SendToControlNetPanel({options, onValueChange, setRender
                 <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}} onClick={() => {
                     setRendererImage(sendImage, selectedValue, 'img2img');
                 }}>Send to img2img</Button>
+                <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}} onClick={() => {
+                    downloadRendererImage();
+                }}>Download</Button>
 
             </Box>
         </div>
