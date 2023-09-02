@@ -6,6 +6,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import {TreeItem, TreeView} from "@mui/lab";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import {showHandBones} from "./ThreeJsScene";
+import Checkbox from "@mui/material/Checkbox";
 
 
 const ObjectContext = createContext([]);
@@ -173,17 +175,19 @@ function BodyTree({handlePoseSelectedObject, setSelectedObj, transformControlMap
 
 export default function HandPanel({
                                       handlePoseSelectedObject,
+                                      showHandBones
                                   }) {
     return (<ObjectProvider>
         <BodyTreeWrapper
-                         handlePoseSelectedObject={handlePoseSelectedObject}/>
+            handlePoseSelectedObject={handlePoseSelectedObject} showHandBones={showHandBones}/>
     </ObjectProvider>)
 }
 
 function BodyTreeWrapper({
-                             handlePoseSelectedObject
+                             handlePoseSelectedObject, showHandBones
                          }) {
     const [selectedObj, setSelectedObj] = useState(null);
+    const [visible, setVisible] = useState(true);
 
     const {updateObjects} = useObjectUpdate();
     const [transformControlMap, setTransformControlMap] = useState(boneNameTransformMap);
@@ -230,7 +234,22 @@ function BodyTreeWrapper({
                     <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
                                       checked={transformControlMap[selectedObj] === "rotate"}/>
                 </RadioGroup>
+
             </FormControl>}
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={visible}
+                        onChange={(event) => {
+                            showHandBones(event.target.checked);
+
+                            setVisible(event.target.checked);
+                        }}
+                        color="primary"
+                    />
+                }
+                label='Show hand bones'
+            />
         </Box>
     </div>);
 }

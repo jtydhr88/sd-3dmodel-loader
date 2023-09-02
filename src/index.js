@@ -20,7 +20,8 @@ import {
     loadPoseModel,
     setPreviewSize,
     setRenderMode,
-    setDepthContrast
+    setDepthContrast,
+    showHandBones
 } from './ThreeJsScene';
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
@@ -64,10 +65,12 @@ export default function App({controlNetNum}) {
                                 <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
                             </Grid>
                             <Grid item xs={2}>
-                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"hand.fbx"} labelName={"load hand model"}/>
+                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"hand.fbx"}
+                                                labelName={"load hand model"}/>
                             </Grid>
                             <Grid item xs={2}>
-                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"pose.vrm"} labelName={"load pose model"}/>
+                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"pose.vrm"}
+                                                labelName={"load pose model"}/>
                             </Grid>
                             <Grid item xs={3}>
                                 <RenderPanel setRenderMode={setRenderMode} setDepthContrast={setDepthContrast}/>
@@ -82,10 +85,10 @@ export default function App({controlNetNum}) {
                     </Grid>
                     <Grid item xs={2}>
                         <HandPanel handlePoseSelectedObject={handlePoseSelectedObject}
-                                   setPoseModelFileName={loadPoseModel}/>
+                                   showHandBones={showHandBones}/>
 
                         <PosePanel handlePoseSelectedObject={handlePoseSelectedObject}
-                                   setPoseModelFileName={loadPoseModel}/>
+                        />
                         <ScenePanel refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
                                     setVisible={setVisible}
                                     setCameraNear={setNear} setCameraFar={setFar} setCameraFOV={setFOV}

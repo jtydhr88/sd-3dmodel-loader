@@ -89,3 +89,19 @@ Created by [jtydhr88](https://github.com/jtydhr88) and special thanks to other c
 - [StableStudio Adapter](https://github.com/jtydhr88/sd-webui-StableStudio) A custom extension for AUTOMATIC1111/stable-diffusion-webui to extend rest APIs to do some local operations, using in StableStudio.
 - [Txt/Img to 3D Model](https://github.com/jtydhr88/sd-webui-txt-img-to-3d-model) A custom extension for sd-webui that allow you to generate 3D model from txt or image, basing on OpenAI Shap-E.
 - [3D Editor](https://github.com/jtydhr88/sd-webui-3d-editor) A custom extension for sd-webui that with 3D modeling features (add/edit basic elements, load your custom model, modify scene and so on), then send screenshot to txt2img or img2img as your ControlNet's reference image, basing on ThreeJS editor.
+
+## Local Dev
+
+### Prepare
+1. npm install
+2. npm install npm install -g http-server
+
+### Local Run
+1. enable index.js -> localDev(); (the last line)
+2. enable ThreeJsScene.js -> **let path = "http://127.0.0.1:3001/" + poseModelFileName;**
+3. npm start
+4. http-server ./models -p 3001 --cors
+
+### Build
+1. webpack --mode production
+2. copy 3d-model-loader.bundle.js from dist folder to js folder

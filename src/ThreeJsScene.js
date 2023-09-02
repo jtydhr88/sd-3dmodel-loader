@@ -44,6 +44,18 @@ let _renderMode = "none";
 
 let _handModel;
 
+let _handBoneMeshes = [];
+
+let _isDragging = false;
+
+export function showHandBones(visible) {
+    if (_handBoneMeshes) {
+        for (let bone of _handBoneMeshes) {
+            bone.visible = visible;
+        }
+    }
+}
+
 export function setPreviewSize(previewSize) {
     if (previewSize === "1:1") {
         previewWidth = 300;
@@ -309,6 +321,7 @@ function ThreeJsScene({uploadedModelFile}) {
         _groundMesh.name = "Ground";
         _groundMesh.rotation.x = -Math.PI / 2;
         _groundMesh.receiveShadow = true;
+        _groundMesh.visible = false;
 
         _scene.add(_groundMesh);
 
@@ -317,12 +330,14 @@ function ThreeJsScene({uploadedModelFile}) {
         _groundGrid.name = "Grid";
         _groundGrid.material.opacity = 0.2;
         _groundGrid.material.transparent = true;
+        _groundGrid.visible = false;
 
         _scene.add(_groundGrid);
 
         _axis = new THREE.AxesHelper(2000);
 
         _axis.name = "Axis";
+        _axis.visible = false;
 
         _scene.add(_axis);
 
@@ -351,7 +366,11 @@ function ThreeJsScene({uploadedModelFile}) {
         _transformControls.addEventListener('dragging-changed', (event) => {
             _orbitController.enabled = !event.value;
             orbitController2.enabled = !event.value;
+
+            _isDragging = event.value;
         });
+
+        _transformControls.space = 'local';
 
         setupPost();
 
@@ -427,6 +446,15 @@ function ThreeJsScene({uploadedModelFile}) {
 
                     _renderer.setRenderTarget(null);
                     _renderer.render(depthPostScene, depthPostCamera);
+                }
+
+                if (_handBoneMeshes) {
+                    for (let boneMesh of _handBoneMeshes) {
+                        let worldPos = new THREE.Vector3();
+
+                        boneMesh.userData.boneRef.getWorldPosition(worldPos);
+                        boneMesh.position.copy(worldPos);
+                    }
                 }
             }
         };
@@ -730,12 +758,65 @@ function scaleObjectToProper(object) {
     object.scale.set(modelScale, modelScale, modelScale);
 }
 
+let mouse = new THREE.Vector2();
+let raycaster = new THREE.Raycaster();
+
+window.addEventListener('mousedown', onHandBonePickupMouseDown, false);
+
+function onHandBonePickupMouseDown(event) {
+    if (event.button !== 0) {
+        return;
+    }
+
+    let rect = _container.getBoundingClientRect();
+
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    checkForBoneIntersection();
+}
+
+function checkForBoneIntersection() {
+    if (!_handModel || _isDragging) {
+        return;
+    }
+
+    raycaster.setFromCamera(mouse, _camera);
+
+    let intersects = raycaster.intersectObjects(_handModel.children, true);
+
+    let closestBoneMesh = null;
+    let closestDistance = Infinity;
+
+    for (let i = 0; i < intersects.length; i++) {
+        if (intersects[i].object.userData && intersects[i].object.userData.tag === "handBone") {
+            if (intersects[i].distance < closestDistance) {
+                closestDistance = intersects[i].distance;
+                closestBoneMesh = intersects[i].object;
+            }
+        }
+    }
+
+    if (closestBoneMesh) {
+        const boneName = closestBoneMesh.userData.boneName;
+
+        const boneNode = _handModel.getObjectByName(boneName);
+
+        if (boneNode) {
+            _transformControls.setMode("rotate");
+            _transformControls.attach(boneNode);
+        }
+    } else {
+        _transformControls.detach();
+    }
+}
+
 export function loadPoseModel(poseModelFileName) {
     if (poseModelFileName) {
         let manager = new THREE.LoadingManager();
 
         let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
-        //let path = "/file=/models/" + poseModelFileName;
+        //let path = "http://127.0.0.1:3001/" + poseModelFileName;
 
         const ext = poseModelFileName.split('.').pop().toLowerCase()
 
@@ -796,9 +877,32 @@ export function loadPoseModel(poseModelFileName) {
 
                     _handModel = object;
 
-                    scaleObjectToProper(object);
+                    //scaleObjectToProper(_handModel);
 
-                    _scene.add(object);
+                    _scene.add(_handModel);
+
+                    let boneMaterial = new THREE.MeshBasicMaterial({color: 0xff0000}); // 红色
+                    let boneGeometry = new THREE.SphereGeometry(1); // 调整大小以适应你的模型
+
+                    _handModel.traverse(object => {
+                        if (object instanceof THREE.Bone) {
+                            let randomColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+                            let boneMaterial = new THREE.MeshBasicMaterial({color: randomColor});
+                            let boneMesh = new THREE.Mesh(boneGeometry, boneMaterial);
+
+                            let worldPosition = new THREE.Vector3();
+                            object.getWorldPosition(worldPosition);
+                            boneMesh.position.copy(worldPosition);
+
+                            boneMesh.userData.boneName = object.name;
+                            boneMesh.userData.boneRef = object;
+                            boneMesh.userData.tag = "handBone";
+
+                            _handBoneMeshes.push(boneMesh);
+
+                            _handModel.add(boneMesh);
+                        }
+                    });
                 });
 
                 break;
