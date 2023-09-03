@@ -2,7 +2,7 @@
 
 ## Prepare
 1. npm install
-2. npm install npm install -g http-server
+2. npm install -g http-server
 
 ## Local Run
 1. enable index.js -> localDev(); (the last line)
