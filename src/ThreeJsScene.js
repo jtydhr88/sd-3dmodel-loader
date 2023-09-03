@@ -966,6 +966,52 @@ export function controlAnimationProgress(e) {
     }
 }
 
+export function sendRendererImageToCanvasEditor() {
+    if (!window.sendImageToCanvasEditorDirect) {
+        alert("No Canvas Editor extension installed.");
+
+        return;
+    }
+
+    _renderer.domElement.toBlob((blob) => {
+        const image = new Image();
+
+        image.onload = function () {
+            const canvas = document.createElement('canvas');
+
+            const canvas2 = document.createElement('canvas');
+
+            canvas.width = _width;
+            canvas.height = _height;
+
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(image, 0, 0);
+
+            const imageData = ctx.getImageData(0, image.height - previewHeight, previewWidth, previewHeight);
+
+            canvas2.width = previewWidth;
+            canvas2.height = previewHeight;
+
+            const ctx2 = canvas2.getContext('2d');
+
+            canvas2.width = previewWidth;
+            canvas2.height = previewHeight;
+
+            ctx2.putImageData(imageData, 0, 0);
+
+            const dataURL = canvas2.toDataURL();
+
+            const img = document.createElement('img');
+            img.src = dataURL;
+
+            window.sendImageToCanvasEditorDirect(img, previewWidth, previewHeight);
+        };
+
+        image.src = URL.createObjectURL(blob);
+    });
+}
+
 export function downloadRendererImage() {
     _renderer.domElement.toBlob((blob) => {
         const image = new Image();

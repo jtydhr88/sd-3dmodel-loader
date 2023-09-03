@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
 import {Button} from "@mui/material";
 
-export default function SendToControlNetPanel({configs, setRendererImage, sendImage, downloadRendererImage}) {
+export default function SendToControlNetPanel({configs, setRendererImage, sendImage, downloadRendererImage, sendRendererImageToCanvasEditor}) {
     const [selectedValue, setSelectedValue] = useState('');
 
     const generateControlNetOptions = () => {
@@ -52,6 +52,9 @@ export default function SendToControlNetPanel({configs, setRendererImage, sendIm
                 <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}} onClick={() => {
                     downloadRendererImage();
                 }}>Download</Button>
+                <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}} onClick={() => {
+                    sendRendererImageToCanvasEditor();
+                }}>Send To Canvas Editor</Button>
 
             </Box>
         </div>

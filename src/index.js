@@ -10,6 +10,7 @@ import {
     controlAnimationProgress,
     setRendererImage,
     downloadRendererImage,
+    sendRendererImageToCanvasEditor,
     setFar,
     setFOV,
     setNear,
@@ -82,7 +83,7 @@ export default function App({configs}) {
                                     setCanvasBgColor={setBgColor} removeObject={removeObject} setGroundColor={setGroundColor}/>
                         <SendToControlNetPanel configs={configs}
                                                setRendererImage={setRendererImage}
-                                               sendImage={_sendImage} downloadRendererImage={downloadRendererImage}/>
+                                               sendImage={_sendImage} downloadRendererImage={downloadRendererImage} sendRendererImageToCanvasEditor={sendRendererImageToCanvasEditor}/>
                         <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
                                         controlAnimation={controlAnimationProgress}/>
                     </Grid>
