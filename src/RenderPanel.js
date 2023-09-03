@@ -40,7 +40,7 @@ function RenderPanel({setRenderMode, setDepthContrast}) {
                     {
                         mode === "depth" && <Box width="100%">
                             <Typography gutterBottom>Depth Contrast</Typography>
-                            <Slider min={0.1} max={1}
+                            <Slider min={0.05} max={0.95}
                                     valueLabelDisplay="auto"
                                     step={0.05}
                                     value={contrast}

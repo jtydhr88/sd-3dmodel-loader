@@ -231,7 +231,7 @@ function setupRenderTarget() {
 
 export function setDepthContrast(contrast) {
     if (depthPostMaterial) {
-        depthPostMaterial.uniforms.contrast.value = contrast;
+        depthPostMaterial.uniforms.contrast.value = 1 - contrast;
     }
 }
 
