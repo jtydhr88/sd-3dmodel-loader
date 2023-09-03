@@ -24,7 +24,8 @@ On the main tab of 3D Model Loader, you can use:
 - [Support Formats](/doc/support_formats.md)
 - [Settings](/doc/settings.md)
 - [Render Mode](/doc/render_mode.md)
-- [Pose Support](/doc/pose_support.md)
+- [Pose Model](/doc/pose_support.md)
+- [Hand Model](/doc/hand_model.md)
 - [Local Dev](/doc/local_dev.md)
 
 ## Gradio.Model3D?
