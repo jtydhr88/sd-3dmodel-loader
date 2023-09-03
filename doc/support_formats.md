@@ -1,6 +1,6 @@
 ## Support formats
-Currently, it supports to load several types with two modes.  
-**Single File mode**  
+Currently, it supports to load several types.  
+
 By the default, you can upload single file directly, support formats:
 1. obj
 2. stl

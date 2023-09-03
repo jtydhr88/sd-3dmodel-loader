@@ -19,8 +19,32 @@ await _import();
     const controlNetNumInput = gradioApp().querySelector('#threeDModelLoader-control-net-num');
     const controlNetNum = controlNetNumInput.value;
 
+    const defaultBGColorInput = gradioApp().querySelector('#threeDModelLoader-default-bg-color');
+    const defaultBGColor = defaultBGColorInput.value;
+
+    const defaultGroundColorInput = gradioApp().querySelector('#threeDModelLoader-default-ground-color');
+    const defaultGroundColor = defaultGroundColorInput.value;
+
+    const defaultShowGroundInput = gradioApp().querySelector('#threeDModelLoader-default-show-ground');
+    const defaultShowGround = defaultShowGroundInput.value;
+
+    const defaultShowGirdInput = gradioApp().querySelector('#threeDModelLoader-default-show-grid');
+    const defaultShowGird = defaultShowGirdInput.value;
+
+    const defaultShowAxisInput = gradioApp().querySelector('#threeDModelLoader-default-show-axis');
+    const defaultShowAxis = defaultShowAxisInput.value;
+
+    const configs = {
+        "controlNetNum": controlNetNum,
+        "defaultBGColor": defaultBGColor,
+        "defaultGroundColor": defaultGroundColor,
+        "defaultShowGround": defaultShowGround === "True",
+        "defaultShowGird": defaultShowGird === "True",
+        "defaultShowAxis": defaultShowAxis === "True"
+    }
+
     async function init_canvas() {
-        create3dmodelLoaderApp({container: container, controlNetNum: controlNetNum});
+        create3dmodelLoaderApp({container: container, configs: configs});
 
         setSendImageFunc3dmodel(sendImage);
     }

@@ -16,6 +16,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import Slider from "@mui/material/Slider";
 import {SketchPicker} from "react-color";
+import {setGroundColor} from "./ThreeJsScene";
 
 const CustomTreeView = styled(TreeView)`
   height: 240px;
@@ -75,6 +76,7 @@ function processNode(node, handleSelectedObject, setSelectedObj, transformContro
 }
 
 function ScenePanel({
+                        configs,
                         refreshSceneTree,
                         handleSelectedObject,
                         setVisible,
@@ -82,13 +84,15 @@ function ScenePanel({
                         setCameraFar,
                         setCameraFOV,
                         setCanvasBgColor,
-                        removeObject
+                        removeObject, setGroundColor
                     }) {
     return (<ObjectProvider>
-        <SceneTreeWrapper refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
+        <SceneTreeWrapper configs={configs} refreshSceneTree={refreshSceneTree}
+                          handleSelectedObject={handleSelectedObject}
                           setVisible={setVisible}
                           setCameraNear={setCameraNear} setCameraFar={setCameraFar} setCameraFOV={setCameraFOV}
-                          setCanvasBgColor={setCanvasBgColor} removeObject={removeObject}/>
+                          setCanvasBgColor={setCanvasBgColor} removeObject={removeObject}
+                          setSceneGroundColor={setGroundColor}/>
     </ObjectProvider>)
 }
 
@@ -105,6 +109,7 @@ function SceneTree({handleSelectedObject, setSelectedObj, transformControlMap}) 
 }
 
 function SceneTreeWrapper({
+                              configs,
                               refreshSceneTree,
                               handleSelectedObject,
                               setVisible,
@@ -112,15 +117,20 @@ function SceneTreeWrapper({
                               setCameraFar,
                               setCameraFOV,
                               setCanvasBgColor,
-                              removeObject
+                              removeObject, setSceneGroundColor
                           }) {
+    visibleValues.Ground = configs.defaultShowGround;
+    visibleValues.Grid = configs.defaultShowGird;
+    visibleValues.Axis = configs.defaultShowAxis;
+
     const [selectedObj, setSelectedObj] = useState(null);
     const [far, setFar] = useState(1000);
     const [near, setNear] = useState(0.1);
     const [fov, setFOV] = useState(45);
     const [visibleMap, setVisibleMap] = useState(visibleValues);
     const [transformControlMap, setTransformControlMap] = useState(transformControlValues);
-    const [bgColor, setBgColor] = useState();
+    const [bgColor, setBgColor] = useState(configs.defaultBGColor);
+    const [groundColor, setGroundColor] = useState(configs.defaultGroundColor);
 
     const {updateObjects} = useObjectUpdate();
 
@@ -240,6 +250,16 @@ function SceneTreeWrapper({
                     onChangeComplete={(color) => {
                         setBgColor(color);
                         setCanvasBgColor(color);
+                    }}
+                    disableAlpha={true}
+                />
+            }
+            {
+                selectedObj === "Ground" && visibleMap["Ground"] && <SketchPicker
+                    color={groundColor}
+                    onChangeComplete={(color) => {
+                        setGroundColor(color);
+                        setSceneGroundColor(color);
                     }}
                     disableAlpha={true}
                 />

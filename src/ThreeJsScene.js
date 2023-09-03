@@ -256,7 +256,7 @@ function setupPost() {
     depthPostScene.add(postQuad);
 }
 
-function ThreeJsScene({uploadedModelFile}) {
+function ThreeJsScene({configs, uploadedModelFile}) {
     const containerRef = useRef();
     const managerRef = useRef();
     const sceneRef = useRef();
@@ -265,6 +265,8 @@ function ThreeJsScene({uploadedModelFile}) {
         _container = containerRef.current;
 
         _renderer = new THREE.WebGLRenderer({antialias: true, preserveDrawingBuffer: true,});
+
+        _renderer.setClearColor(configs.defaultBGColor);
 
         _renderer.domElement.style.width = '100%';
         _renderer.domElement.style.height = '100%';
@@ -314,14 +316,14 @@ function ThreeJsScene({uploadedModelFile}) {
 
         _renderer.setSize(_width, _height);
 
-        const groundMaterial = new THREE.MeshBasicMaterial({color: 0xbebebe});
+        const groundMaterial = new THREE.MeshBasicMaterial({color: configs.defaultGroundColor});
 
         _groundMesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), groundMaterial);
 
         _groundMesh.name = "Ground";
         _groundMesh.rotation.x = -Math.PI / 2;
         _groundMesh.receiveShadow = true;
-        _groundMesh.visible = false;
+        _groundMesh.visible = configs.defaultShowGround;
 
         _scene.add(_groundMesh);
 
@@ -330,14 +332,14 @@ function ThreeJsScene({uploadedModelFile}) {
         _groundGrid.name = "Grid";
         _groundGrid.material.opacity = 0.2;
         _groundGrid.material.transparent = true;
-        _groundGrid.visible = false;
+        _groundGrid.visible = configs.defaultShowGird;
 
         _scene.add(_groundGrid);
 
         _axis = new THREE.AxesHelper(2000);
 
         _axis.name = "Axis";
-        _axis.visible = false;
+        _axis.visible = configs.defaultShowAxis;
 
         _scene.add(_axis);
 
@@ -921,6 +923,12 @@ export function setBgColor(bgColor) {
     const backgroundColor = new THREE.Color(bgColor.hex);
 
     _renderer.setClearColor(backgroundColor);
+}
+
+export function setGroundColor(groundColor) {
+    const groundColorHex = new THREE.Color(groundColor.hex);
+
+    _groundMesh.material.color.set(groundColorHex);
 }
 
 export function setPlaying() {

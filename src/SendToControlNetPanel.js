@@ -3,21 +3,22 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import {Accordion, AccordionSummary, AccordionDetails} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
 import {Button} from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function SendToControlNetPanel({options, onValueChange, setRendererImage, sendImage, downloadRendererImage}) {
+export default function SendToControlNetPanel({configs, setRendererImage, sendImage, downloadRendererImage}) {
     const [selectedValue, setSelectedValue] = useState('');
-    const [sizeValue, setSizeValue] = useState('1:1');
-    const sizes = [
-        {label: "1:1", value: "1:1"},
-        {label: "2:3", value: "2:3"},
-        {label: "3:2", value: "3:2"}
-    ];
+
+    const generateControlNetOptions = () => {
+        const options = [];
+        for (let i = 0; i < configs.controlNetNum; i++) {
+            const option = {value: i.toString(), label: i.toString()};
+
+            options.push(option);
+        }
+
+        return options;
+    }
 
     return (
         <div>
@@ -28,9 +29,6 @@ export default function SendToControlNetPanel({options, onValueChange, setRender
                         value={selectedValue}
                         onChange={(event) => {
                             setSelectedValue(event.target.value);
-                            if (onValueChange) {
-                                onValueChange(event.target.value);
-                            }
                         }}
                         label="ControlNet Index"
                         inputProps={{
@@ -38,7 +36,7 @@ export default function SendToControlNetPanel({options, onValueChange, setRender
                             id: 'dropdown-list',
                         }}
                     >
-                        {options.map((option, index) => (
+                        {generateControlNetOptions().map((option, index) => (
                             <MenuItem key={index} value={option.value}>
                                 {option.label}
                             </MenuItem>

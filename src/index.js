@@ -22,7 +22,8 @@ import {
     setPreviewSize,
     setRenderMode,
     setDepthContrast,
-    showHandBones
+    showHandBones,
+    setGroundColor
 } from './ThreeJsScene';
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
@@ -36,25 +37,8 @@ import LoadModelPanel from "./LoadModelPanel";
 
 let _sendImage;
 
-export default function App({controlNetNum}) {
+export default function App({configs}) {
     const [uploadedModelFile, setUploadedModelFile] = useState(null);
-
-    const generateControlNetOptions = () => {
-        const options = [];
-        for (let i = 0; i < controlNetNum; i++) {
-            const option = {value: i.toString(), label: i.toString()};
-
-            options.push(option);
-        }
-
-        return options;
-    }
-
-    const options = generateControlNetOptions();
-
-    const handleValueChange = (value) => {
-        console.log('Selected value:', value);
-    };
 
     return (
         <>
@@ -81,6 +65,7 @@ export default function App({controlNetNum}) {
                             </Grid>
                         </Grid>
                         <ThreeJsScene
+                            configs={configs}
                             uploadedModelFile={uploadedModelFile}
                         />
                     </Grid>
@@ -90,11 +75,12 @@ export default function App({controlNetNum}) {
 
                         <PosePanel handlePoseSelectedObject={handlePoseSelectedObject}
                         />
-                        <ScenePanel refreshSceneTree={refreshSceneTree} handleSelectedObject={handleSelectedObject}
+                        <ScenePanel configs={configs} refreshSceneTree={refreshSceneTree}
+                                    handleSelectedObject={handleSelectedObject}
                                     setVisible={setVisible}
                                     setCameraNear={setNear} setCameraFar={setFar} setCameraFOV={setFOV}
-                                    setCanvasBgColor={setBgColor} removeObject={removeObject}/>
-                        <SendToControlNetPanel options={options} onValueChange={handleValueChange}
+                                    setCanvasBgColor={setBgColor} removeObject={removeObject} setGroundColor={setGroundColor}/>
+                        <SendToControlNetPanel configs={configs}
                                                setRendererImage={setRendererImage}
                                                sendImage={_sendImage} downloadRendererImage={downloadRendererImage}/>
                         <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
@@ -106,17 +92,12 @@ export default function App({controlNetNum}) {
     );
 }
 
-export function create3dmodelLoaderApp({container, controlNetNum}) {
+export function create3dmodelLoaderApp({container, configs}) {
     const root = ReactDOM.createRoot(container);
 
-    root.render(<App controlNetNum={controlNetNum}/>);
+    root.render(<App configs={configs}/>);
 }
 
-function localDev() {
-    const root = ReactDOM.createRoot(document.getElementById('sd-3d-model-loader-container'));
-
-    root.render(<App controlNetNum={3}/>);
-}
 
 export function setSendImageFunc3dmodel(sendImage) {
     _sendImage = sendImage;
@@ -124,6 +105,21 @@ export function setSendImageFunc3dmodel(sendImage) {
 
 window.create3dmodelLoaderApp = create3dmodelLoaderApp;
 window.setSendImageFunc3dmodel = setSendImageFunc3dmodel;
+
+function localDev() {
+    const root = ReactDOM.createRoot(document.getElementById('sd-3d-model-loader-container'));
+
+    const configs = {
+        "controlNetNum": 4,
+        "defaultBGColor": "#ff0000",
+        "defaultGroundColor": "#00ff00",
+        "defaultShowGround": "True" === "True",
+        "defaultShowGird": "True" === "True",
+        "defaultShowAxis": "True" === "True"
+    }
+
+    root.render(<App configs={configs}/>);
+}
 
 // enable this method for local dev, and run npm start
 // localDev();

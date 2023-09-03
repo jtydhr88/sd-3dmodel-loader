@@ -37,7 +37,48 @@ def on_ui_tabs():
         except:
             control_net_num = 0
 
-        gr.HTML(f'<input type="hidden" id="threeDModelLoader-control-net-num" value="{control_net_num}" />', visible=False)
+        gr.HTML(f'<input type="hidden" id="threeDModelLoader-control-net-num" value="{control_net_num}" />',
+                visible=False)
+
+        try:
+            default_bg_color = opts.threeDmodel_bg_color
+        except:
+            default_bg_color = "#ffffff"
+
+        gr.HTML(f'<input type="hidden" id="threeDModelLoader-default-bg-color" value="{default_bg_color}" />',
+                visible=False)
+
+        try:
+            default_ground_color = opts.threeDmodel_ground_color
+        except:
+            default_ground_color = "#ffffff"
+
+        gr.HTML(f'<input type="hidden" id="threeDModelLoader-default-ground-color" value="{default_ground_color}" />',
+                visible=False)
+
+        try:
+            default_show_ground = opts.threeDmodel_has_ground
+        except:
+            default_show_ground = False
+
+        gr.HTML(f'<input type="hidden" id="threeDModelLoader-default-show-ground" value="{default_show_ground}" />',
+                visible=False)
+
+        try:
+            default_show_grid = opts.threeDmodel_has_ground_grid
+        except:
+            default_show_grid = False
+
+        gr.HTML(f'<input type="hidden" id="threeDModelLoader-default-show-grid" value="{default_show_grid}" />',
+                visible=False)
+
+        try:
+            default_show_axis = opts.threeDmodel_has_axis
+        except:
+            default_show_axis = False
+
+        gr.HTML(f'<input type="hidden" id="threeDModelLoader-default-show-axis" value="{default_show_axis}" />',
+                visible=False)
 
         if ext is None:
             return []
@@ -63,15 +104,9 @@ def get_self_extension():
 def on_ui_settings():
     section = ('3dmodel', "3D Model&Pose")
     shared.opts.add_option("threeDmodel_bg_color", shared.OptionInfo(
-        "#ffffff", "Canvas Background Color", gr.ColorPicker, {"interactive": True}, section=section))
+        "#ffffff", "Background Color", gr.ColorPicker, {"interactive": True}, section=section))
     shared.opts.add_option("threeDmodel_ground_color", shared.OptionInfo(
-        "#ffffff", "Canvas Ground Color", gr.ColorPicker, {"interactive": True}, section=section))
-    shared.opts.add_option("threeDmodel_canvas_width", shared.OptionInfo(
-        512, "Canvas Width", gr.Slider, {"minimum": 64, "maximum": 2048, "step": 64, "interactive": True},
-        section=section))
-    shared.opts.add_option("threeDmodel_canvas_height", shared.OptionInfo(
-        512, "Canvas Height", gr.Slider, {"minimum": 64, "maximum": 2048, "step": 64, "interactive": True},
-        section=section))
+        "#ffffff", "Ground Color", gr.ColorPicker, {"interactive": True}, section=section))
     shared.opts.add_option("threeDmodel_has_ground", shared.OptionInfo(
         True, "Show Ground", gr.Checkbox, {"interactive": True}, section=section))
     shared.opts.add_option("threeDmodel_has_ground_grid", shared.OptionInfo(
