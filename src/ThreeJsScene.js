@@ -13,21 +13,21 @@ import {setAnimationProgress} from './AnimationPanel'
 import {vertexShader, fragmentShader} from './shaders';
 
 let _playing = true;
+let _action;
+
 let _renderer;
 let _container;
-let _camera;
+export let _camera;
 let _groundMesh;
 let _groundGrid;
 let _axis;
-let _action;
 let _mixer;
 let _totalTime;
 let _currentTime;
 let _progress;
 let _controlByProgressBar;
-let _secondCamera;
+export let _secondCamera;
 let _scene;
-
 let previewWidth = 300;
 let previewHeight = 300;
 
@@ -180,27 +180,6 @@ export function setRenderMode(renderMode) {
             }
         }
     }
-}
-
-export function setFar(far) {
-    _camera.far = far;
-    _camera.updateProjectionMatrix();
-    _secondCamera.far = far;
-    _secondCamera.updateProjectionMatrix();
-}
-
-export function setNear(near) {
-    _camera.near = near;
-    _camera.updateProjectionMatrix();
-    _secondCamera.near = near;
-    _secondCamera.updateProjectionMatrix();
-}
-
-export function setFOV(fov) {
-    _camera.fov = fov;
-    _camera.updateProjectionMatrix();
-    _secondCamera.fov = fov;
-    _secondCamera.updateProjectionMatrix();
 }
 
 const observer = new IntersectionObserver((entries, observer) => {
@@ -965,6 +944,14 @@ export function setGroundColor(groundColor) {
     _groundMesh.material.color.set(groundColorHex);
 }
 
+export function setVisible(objName, visible) {
+    if (_scene) {
+        const selectedObject = _scene.getObjectByName(objName);
+
+        selectedObject.visible = visible;
+    }
+}
+
 export function setPlaying() {
     _playing = !_playing;
 
@@ -979,14 +966,6 @@ export function setStopPlaying() {
     }
 
     _playing = false;
-}
-
-export function setVisible(objName, visible) {
-    if (_scene) {
-        const selectedObject = _scene.getObjectByName(objName);
-
-        selectedObject.visible = visible;
-    }
 }
 
 export function controlAnimationProgress(e) {

@@ -16,7 +16,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import Slider from "@mui/material/Slider";
 import {SketchPicker} from "react-color";
-import {setGroundColor} from "./ThreeJsScene";
+import {_camera, _secondCamera} from "./ThreeJsScene";
 
 const CustomTreeView = styled(TreeView)`
   height: 240px;
@@ -208,7 +208,7 @@ function SceneTreeWrapper({
                             value={near}
                             onChange={(event, newValue) => {
                                 setNear(newValue);
-                                setCameraNear(newValue);
+                                setCameraNear(_camera, _secondCamera, newValue);
                             }}
                             aria-labelledby="continuous-slider"
                     />
@@ -218,7 +218,7 @@ function SceneTreeWrapper({
                             value={far}
                             onChange={(event, newValue) => {
                                 setFar(newValue);
-                                setCameraFar(newValue)
+                                setCameraFar(_camera, _secondCamera, newValue)
                             }}
                             aria-labelledby="continuous-slider"
                     />
@@ -228,7 +228,7 @@ function SceneTreeWrapper({
                             value={fov}
                             onChange={(event, newValue) => {
                                 setFOV(newValue);
-                                setCameraFOV(newValue);
+                                setCameraFOV(_camera, _secondCamera, newValue);
                             }}
                             aria-labelledby="continuous-slider"
                     />

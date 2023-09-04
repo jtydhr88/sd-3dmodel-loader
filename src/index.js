@@ -5,15 +5,10 @@ import {Container, Grid} from '@mui/material';
 import ThreeJsScene from './ThreeJsScene';
 import {
     setBgColor,
-    setPlaying,
-    setStopPlaying,
     controlAnimationProgress,
     setRendererImage,
     downloadRendererImage,
     sendRendererImageToCanvasEditor,
-    setFar,
-    setFOV,
-    setNear,
     refreshSceneTree,
     handleSelectedObject,
     setVisible,
@@ -25,8 +20,12 @@ import {
     setDepthContrast,
     showHandBones,
     setGroundColor,
-    setOperateMode
+    setOperateMode,
+    setPlaying,
+    setStopPlaying
 } from './ThreeJsScene';
+import {setCameraNear, setCameraFOV, setCameraFar} from './ThreeJSScene/Camera'
+
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
 import SendToControlNetPanel from './SendToControlNetPanel'
@@ -84,11 +83,13 @@ export default function App({configs}) {
                         <ScenePanel configs={configs} refreshSceneTree={refreshSceneTree}
                                     handleSelectedObject={handleSelectedObject}
                                     setVisible={setVisible}
-                                    setCameraNear={setNear} setCameraFar={setFar} setCameraFOV={setFOV}
-                                    setCanvasBgColor={setBgColor} removeObject={removeObject} setGroundColor={setGroundColor}/>
+                                    setCameraNear={setCameraNear} setCameraFar={setCameraFar} setCameraFOV={setCameraFOV}
+                                    setCanvasBgColor={setBgColor} removeObject={removeObject}
+                                    setGroundColor={setGroundColor}/>
                         <SendToControlNetPanel configs={configs}
                                                setRendererImage={setRendererImage}
-                                               sendImage={_sendImage} downloadRendererImage={downloadRendererImage} sendRendererImageToCanvasEditor={sendRendererImageToCanvasEditor}/>
+                                               sendImage={_sendImage} downloadRendererImage={downloadRendererImage}
+                                               sendRendererImageToCanvasEditor={sendRendererImageToCanvasEditor}/>
                         <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
                                         controlAnimation={controlAnimationProgress}/>
                     </Grid>
