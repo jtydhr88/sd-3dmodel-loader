@@ -209,33 +209,6 @@ function BodyTreeWrapper({
 
     return (<div>
         <Box mb={1} mt={1}>
-
-            <BodyTree handlePoseSelectedObject={handlePoseSelectedObject} setSelectedObj={setSelectedObj}
-                      transformControlMap={transformControlMap}/>
-            {(selectedObj in boneNameTransformMap) && <FormControl>
-                <FormLabel>Operate</FormLabel>
-                <RadioGroup
-                    aria-labelledby="operate-radio-buttons-group-label"
-                    defaultValue="none"
-                    name="operate-radio-buttons-group"
-                    row={true}
-                    onChange={(event) => {
-                        handlePoseSelectedObject(selectedObj, event.target.value);
-
-                        const updatedMap = {...transformControlMap};
-
-                        updatedMap[selectedObj] = event.target.value;
-
-                        setTransformControlMap(updatedMap);
-                    }}
-                >
-                    <FormControlLabel value="none" control={<Radio/>} label="None"
-                                      checked={transformControlMap[selectedObj] === "none"}/>
-                    <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
-                                      checked={transformControlMap[selectedObj] === "rotate"}/>
-                </RadioGroup>
-
-            </FormControl>}
             <FormControlLabel
                 control={
                     <Checkbox

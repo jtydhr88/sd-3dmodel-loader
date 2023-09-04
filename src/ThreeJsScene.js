@@ -41,6 +41,7 @@ let _currentVRM;
 let _mainObjectCounter = 1;
 
 let _renderMode = "none";
+let _operateMode = "none";
 
 let _handModel;
 
@@ -128,6 +129,26 @@ export function refreshSceneTree() {
 const normalMaterial = new THREE.MeshNormalMaterial();
 
 const originalMaterials = {};
+
+export function setOperateMode(operateMode) {
+    _operateMode = operateMode;
+
+    if (_operateMode === "none") {
+        _transformControls.detach();
+    } else {
+        if (_currentSelected && _handModel) {
+            const boneName = _currentSelected.userData.boneName;
+            console.log(boneName);
+
+            const boneNode = _handModel.getObjectByName(boneName);
+
+            if (boneNode) {
+                _transformControls.setMode(_operateMode);
+                _transformControls.attach(boneNode);
+            }
+        }
+    }
+}
 
 export function setRenderMode(renderMode) {
     _renderMode = renderMode;
@@ -778,6 +799,9 @@ function onHandBonePickupMouseDown(event) {
     checkForBoneIntersection();
 }
 
+let _previousSelected;
+let _currentSelected;
+
 function checkForBoneIntersection() {
     if (!_handModel || _isDragging) {
         return;
@@ -800,16 +824,27 @@ function checkForBoneIntersection() {
     }
 
     if (closestBoneMesh) {
+        if (_currentSelected && _previousSelected) {
+            _currentSelected.material.color.copy(_previousSelected.color);
+        }
+
+        _previousSelected = {
+            mesh: closestBoneMesh,
+            color: closestBoneMesh.material.color.clone()
+        };
+
+        closestBoneMesh.material.color.set("red");
+
+        _currentSelected = closestBoneMesh;
+
         const boneName = closestBoneMesh.userData.boneName;
 
         const boneNode = _handModel.getObjectByName(boneName);
 
-        if (boneNode) {
-            _transformControls.setMode("rotate");
+        if (boneNode && _operateMode !== "none") {
+            _transformControls.setMode(_operateMode);
             _transformControls.attach(boneNode);
         }
-    } else {
-        _transformControls.detach();
     }
 }
 
@@ -817,8 +852,8 @@ export function loadPoseModel(poseModelFileName) {
     if (poseModelFileName) {
         let manager = new THREE.LoadingManager();
 
-        let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
-        // let path = "http://127.0.0.1:3001/" + poseModelFileName;
+        // let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
+        let path = "http://127.0.0.1:3001/" + poseModelFileName;
 
         const ext = poseModelFileName.split('.').pop().toLowerCase()
 
@@ -883,11 +918,10 @@ export function loadPoseModel(poseModelFileName) {
 
                     _scene.add(_handModel);
 
-                    let boneMaterial = new THREE.MeshBasicMaterial({color: 0xff0000}); // 红色
                     let boneGeometry = new THREE.SphereGeometry(1); // 调整大小以适应你的模型
 
                     _handModel.traverse(object => {
-                        if (object instanceof THREE.Bone) {
+                        if (object instanceof THREE.Bone && !object.name.endsWith("end")) {
                             let randomColor = new THREE.Color(Math.random(), Math.random(), Math.random());
                             let boneMaterial = new THREE.MeshBasicMaterial({color: randomColor});
                             let boneMesh = new THREE.Mesh(boneGeometry, boneMaterial);

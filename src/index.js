@@ -24,7 +24,8 @@ import {
     setRenderMode,
     setDepthContrast,
     showHandBones,
-    setGroundColor
+    setGroundColor,
+    setOperateMode
 } from './ThreeJsScene';
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
@@ -34,6 +35,7 @@ import HandPanel from './HandPanel'
 import RenderPanel from "./RenderPanel";
 import PosePanel from "./PosePanel";
 import SizePanel from "./SizePanel";
+import OperatePanel from "./OperatePanel";
 import LoadModelPanel from "./LoadModelPanel";
 
 let _sendImage;
@@ -58,10 +60,13 @@ export default function App({configs}) {
                                 <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"pose.vrm"}
                                                 labelName={"load pose model"}/>
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={2}>
                                 <RenderPanel setRenderMode={setRenderMode} setDepthContrast={setDepthContrast}/>
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={2}>
+                                <OperatePanel setOperateMode={setOperateMode}/>
+                            </Grid>
+                            <Grid item xs={2}>
                                 <SizePanel setPreviewSize={setPreviewSize}/>
                             </Grid>
                         </Grid>
@@ -123,4 +128,4 @@ function localDev() {
 }
 
 // enable this method for local dev, and run npm start
-// localDev();
+localDev();
