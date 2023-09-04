@@ -112,11 +112,11 @@ function localDev() {
 
     const configs = {
         "controlNetNum": 4,
-        "defaultBGColor": "#ff0000",
+        "defaultBGColor": "#000000",
         "defaultGroundColor": "#00ff00",
-        "defaultShowGround": "True" === "True",
-        "defaultShowGird": "True" === "True",
-        "defaultShowAxis": "True" === "True"
+        "defaultShowGround": "False" === "True",
+        "defaultShowGird": "False" === "True",
+        "defaultShowAxis": "False" === "True"
     }
 
     root.render(<App configs={configs}/>);

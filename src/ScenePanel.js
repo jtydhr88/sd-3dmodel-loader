@@ -26,7 +26,7 @@ const CustomTreeView = styled(TreeView)`
 const transformControlObjNames = ["Hemisphere Light", "Directional Light"];
 let transformControlValues = {"Hemisphere Light": "none", "Directional Light": "none"};
 
-const treeItemObjNames = ["Scene", "mainObject", "Hemisphere Light", "Directional Light", "Ground", "Grid", "Axis", "Preview Camera"];
+const treeItemObjNames = ["Scene", "mainObject", "Hemisphere Light", "Directional Light", "Ground", "Grid", "Axis", "Preview Camera", "hand model", "pose model"];
 
 const visibleControlObjNames = ["Directional Light", "Ground", "Grid", "Axis"];
 
@@ -153,8 +153,7 @@ function SceneTreeWrapper({
         <Box mb={1} mt={1}>
             <SceneTree handleSelectedObject={handleSelectedObject} setSelectedObj={setSelectedObj}
                        transformControlMap={transformControlMap}/>
-            <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                    onClick={refreshSceneTree}>Refresh Scene Tree</Button>
+
 
             {(transformControlObjNames.includes(selectedObj) || (selectedObj && selectedObj.startsWith("mainObject"))) &&
                 <FormControl>
@@ -236,7 +235,7 @@ function SceneTreeWrapper({
                 </Box>
             }
             {
-                selectedObj && selectedObj.startsWith("mainObject") &&
+                selectedObj && (selectedObj.startsWith("mainObject") || selectedObj.startsWith("hand model") || selectedObj.startsWith("pose model")) &&
                 <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
                         onClick={() => {
                             removeObject(selectedObj);
@@ -264,6 +263,8 @@ function SceneTreeWrapper({
                     disableAlpha={true}
                 />
             }
+            <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
+                    onClick={refreshSceneTree}>Refresh Scene Tree</Button>
         </Box>
     </div>);
 }

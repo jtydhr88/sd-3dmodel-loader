@@ -818,7 +818,7 @@ export function loadPoseModel(poseModelFileName) {
         let manager = new THREE.LoadingManager();
 
         let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
-        //let path = "http://127.0.0.1:3001/" + poseModelFileName;
+        // let path = "http://127.0.0.1:3001/" + poseModelFileName;
 
         const ext = poseModelFileName.split('.').pop().toLowerCase()
 
@@ -842,7 +842,7 @@ export function loadPoseModel(poseModelFileName) {
 
                         const resultScene = vrm.scene;
 
-                        resultScene.name = "mainObject" + _mainObjectCounter.toString();
+                        resultScene.name = "pose model";
 
                         _mainObjectCounter++;
 
@@ -862,7 +862,7 @@ export function loadPoseModel(poseModelFileName) {
                 break;
             }
             case "fbx": {
-                if (_handModel) {
+                if (_handModel && _scene.getObjectByName("hand model")) {
                     return;
                 }
 
@@ -875,7 +875,7 @@ export function loadPoseModel(poseModelFileName) {
                         }
                     });
 
-                    object.name = "handObject";
+                    object.name = "hand model";
 
                     _handModel = object;
 
