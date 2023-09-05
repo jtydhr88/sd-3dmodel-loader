@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import {Button} from "@mui/material";
 import {TreeItem, TreeView} from "@mui/lab";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import Checkbox from "@mui/material/Checkbox";
 
 
 const ObjectContext = createContext([]);
@@ -353,20 +354,20 @@ function BodyTree({handlePoseSelectedObject, setSelectedObj, transformControlMap
 }
 
 export default function PosePanel({
-                                      handlePoseSelectedObject,
+                                      handlePoseSelectedObject,showBodyBones
                                   }) {
     return (<ObjectProvider>
         <BodyTreeWrapper
-                         handlePoseSelectedObject={handlePoseSelectedObject}/>
+                         handlePoseSelectedObject={handlePoseSelectedObject} showBodyBones={showBodyBones}/>
     </ObjectProvider>)
 }
 
 function BodyTreeWrapper({
 
-                             handlePoseSelectedObject
+                             handlePoseSelectedObject,showBodyBones
                          }) {
     const [selectedObj, setSelectedObj] = useState(null);
-
+const [visible, setVisible] = useState(true);
     const {updateObjects} = useObjectUpdate();
     const [transformControlMap, setTransformControlMap] = useState(boneNameTransformMap);
 
@@ -387,31 +388,20 @@ function BodyTreeWrapper({
 
     return (<div>
         <Box mb={1} mt={1}>
-            <BodyTree handlePoseSelectedObject={handlePoseSelectedObject} setSelectedObj={setSelectedObj}
-                      transformControlMap={transformControlMap}/>
-            {(selectedObj in boneNameTransformMap) && <FormControl>
-                <FormLabel>Operate</FormLabel>
-                <RadioGroup
-                    aria-labelledby="operate-radio-buttons-group-label"
-                    defaultValue="none"
-                    name="operate-radio-buttons-group"
-                    row={true}
-                    onChange={(event) => {
-                        handlePoseSelectedObject(selectedObj, event.target.value);
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={visible}
+                        onChange={(event) => {
+                            showBodyBones(event.target.checked);
 
-                        const updatedMap = {...transformControlMap};
-
-                        updatedMap[selectedObj] = event.target.value;
-
-                        setTransformControlMap(updatedMap);
-                    }}
-                >
-                    <FormControlLabel value="none" control={<Radio/>} label="None"
-                                      checked={transformControlMap[selectedObj] === "none"}/>
-                    <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
-                                      checked={transformControlMap[selectedObj] === "rotate"}/>
-                </RadioGroup>
-            </FormControl>}
+                            setVisible(event.target.checked);
+                        }}
+                        color="primary"
+                    />
+                }
+                label='Show body bones'
+            />
         </Box>
     </div>);
 }

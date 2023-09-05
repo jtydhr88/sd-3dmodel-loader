@@ -26,7 +26,7 @@ const CustomTreeView = styled(TreeView)`
 const transformControlObjNames = ["Hemisphere Light", "Directional Light"];
 let transformControlValues = {"Hemisphere Light": "none", "Directional Light": "none"};
 
-const treeItemObjNames = ["Scene", "mainObject", "Hemisphere Light", "Directional Light", "Ground", "Grid", "Axis", "Preview Camera", "hand model", "pose model"];
+const treeItemObjNames = ["Scene", "mainObject", "Hemisphere Light", "Directional Light", "Ground", "Grid", "Axis", "Preview Camera", "hand model", "body model"];
 
 const visibleControlObjNames = ["Directional Light", "Ground", "Grid", "Axis"];
 
@@ -235,7 +235,7 @@ function SceneTreeWrapper({
                 </Box>
             }
             {
-                selectedObj && (selectedObj.startsWith("mainObject") || selectedObj.startsWith("hand model") || selectedObj.startsWith("pose model")) &&
+                selectedObj && (selectedObj.startsWith("mainObject") || selectedObj.startsWith("hand model") || selectedObj.startsWith("body model")) &&
                 <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
                         onClick={() => {
                             removeObject(selectedObj);

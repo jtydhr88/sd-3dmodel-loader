@@ -22,7 +22,8 @@ import {
     setGroundColor,
     setOperateMode,
     setPlaying,
-    setStopPlaying
+    setStopPlaying,
+    showBodyBones
 } from './ThreeJsScene';
 import {setCameraNear, setCameraFOV, setCameraFar} from './ThreeJSScene/Camera'
 
@@ -56,7 +57,7 @@ export default function App({configs}) {
                                                 labelName={"load hand model"}/>
                             </Grid>
                             <Grid item xs={2}>
-                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"pose.vrm"}
+                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"pose.fbx"}
                                                 labelName={"load pose model"}/>
                             </Grid>
                             <Grid item xs={2}>
@@ -78,12 +79,13 @@ export default function App({configs}) {
                         <HandPanel handlePoseSelectedObject={handlePoseSelectedObject}
                                    showHandBones={showHandBones}/>
 
-                        <PosePanel handlePoseSelectedObject={handlePoseSelectedObject}
+                        <PosePanel handlePoseSelectedObject={handlePoseSelectedObject} showBodyBones={showBodyBones}
                         />
                         <ScenePanel configs={configs} refreshSceneTree={refreshSceneTree}
                                     handleSelectedObject={handleSelectedObject}
                                     setVisible={setVisible}
-                                    setCameraNear={setCameraNear} setCameraFar={setCameraFar} setCameraFOV={setCameraFOV}
+                                    setCameraNear={setCameraNear} setCameraFar={setCameraFar}
+                                    setCameraFOV={setCameraFOV}
                                     setCanvasBgColor={setBgColor} removeObject={removeObject}
                                     setGroundColor={setGroundColor}/>
                         <SendToControlNetPanel configs={configs}
@@ -129,4 +131,4 @@ function localDev() {
 }
 
 // enable this method for local dev, and run npm start
-localDev();
+// localDev();

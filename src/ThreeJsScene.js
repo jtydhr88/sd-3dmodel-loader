@@ -44,14 +44,24 @@ let _renderMode = "none";
 let _operateMode = "none";
 
 let _handModel;
+let _bodyModel;
 
 let _handBoneMeshes = [];
+let _bodyBoneMeshes = [];
 
 let _isDragging = false;
 
 export function showHandBones(visible) {
     if (_handBoneMeshes) {
         for (let bone of _handBoneMeshes) {
+            bone.visible = visible;
+        }
+    }
+}
+
+export function showBodyBones(visible) {
+    if (_bodyBoneMeshes) {
+        for (let bone of _bodyBoneMeshes) {
             bone.visible = visible;
         }
     }
@@ -82,6 +92,16 @@ export function removeObject(objName) {
     if (_currentVRM && _currentVRM.scene.name === objName) {
         _currentVRM = undefined;
     }
+
+    if (objName === "hand model") {
+        _handModel = undefined;
+        _handBoneMeshes = [];
+    }
+
+    if (objName === "body model") {
+        _bodyModel = undefined;
+        _bodyBoneMeshes = [];
+    }
 }
 
 export function handlePoseSelectedObject(objName, transformControlsMode) {
@@ -92,17 +112,6 @@ export function handlePoseSelectedObject(objName, transformControlsMode) {
             if (boneNode) {
                 _transformControls.setMode(transformControlsMode);
                 _transformControls.attach(boneNode);
-            }
-        } else {
-            let hand = _scene.getObjectByName("handObject");
-
-            if (hand) {
-                const boneNode = hand.getObjectByName(objName);
-
-                if (boneNode) {
-                    _transformControls.setMode(transformControlsMode);
-                    _transformControls.attach(boneNode);
-                }
             }
         }
     } else {
@@ -135,17 +144,21 @@ export function setOperateMode(operateMode) {
 
     if (_operateMode === "none") {
         _transformControls.detach();
-    } else {
-        if (_currentSelected && _handModel) {
-            const boneName = _currentSelected.userData.boneName;
-            console.log(boneName);
+    } else if (_currentSelected) {
+        const boneName = _currentSelected.userData.boneName;
 
-            const boneNode = _handModel.getObjectByName(boneName);
+        let boneNode;
 
-            if (boneNode) {
-                _transformControls.setMode(_operateMode);
-                _transformControls.attach(boneNode);
-            }
+        if (_handModel) {
+            boneNode = _handModel.getObjectByName(boneName);
+
+        } else if (_bodyModel) {
+            boneNode = _bodyModel.getObjectByName(boneName);
+        }
+
+        if (boneNode) {
+            _transformControls.setMode(_operateMode);
+            _transformControls.attach(boneNode);
         }
     }
 }
@@ -458,6 +471,15 @@ function ThreeJsScene({configs, uploadedModelFile}) {
                         boneMesh.position.copy(worldPos);
                     }
                 }
+
+                if (_bodyBoneMeshes) {
+                    for (let boneMesh of _bodyBoneMeshes) {
+                        let worldPos = new THREE.Vector3();
+
+                        boneMesh.userData.boneRef.getWorldPosition(worldPos);
+                        boneMesh.position.copy(worldPos);
+                    }
+                }
             }
         };
 
@@ -763,9 +785,9 @@ function scaleObjectToProper(object) {
 let mouse = new THREE.Vector2();
 let raycaster = new THREE.Raycaster();
 
-window.addEventListener('mousedown', onHandBonePickupMouseDown, false);
+window.addEventListener('mousedown', onBonePickupMouseDown, false);
 
-function onHandBonePickupMouseDown(event) {
+function onBonePickupMouseDown(event) {
     if (event.button !== 0) {
         return;
     }
@@ -782,19 +804,30 @@ let _previousSelected;
 let _currentSelected;
 
 function checkForBoneIntersection() {
-    if (!_handModel || _isDragging) {
+    if (!(_handModel || _bodyModel) || _isDragging) {
         return;
     }
 
     raycaster.setFromCamera(mouse, _camera);
 
-    let intersects = raycaster.intersectObjects(_handModel.children, true);
+    let intersectObjects;
+    let tag;
+
+    if (_handModel) {
+        intersectObjects = _handModel.children;
+        tag = "handBone";
+    } else if (_bodyModel) {
+        intersectObjects = _bodyModel.children;
+        tag = "bodyBone";
+    }
+
+    let intersects = raycaster.intersectObjects(intersectObjects, true);
 
     let closestBoneMesh = null;
     let closestDistance = Infinity;
 
     for (let i = 0; i < intersects.length; i++) {
-        if (intersects[i].object.userData && intersects[i].object.userData.tag === "handBone") {
+        if (intersects[i].object.userData && intersects[i].object.userData.tag === tag) {
             if (intersects[i].distance < closestDistance) {
                 closestDistance = intersects[i].distance;
                 closestBoneMesh = intersects[i].object;
@@ -813,12 +846,21 @@ function checkForBoneIntersection() {
         };
 
         closestBoneMesh.material.color.set("red");
+        closestBoneMesh.material.needsUpdate = true;
 
         _currentSelected = closestBoneMesh;
 
         const boneName = closestBoneMesh.userData.boneName;
 
-        const boneNode = _handModel.getObjectByName(boneName);
+        console.log(boneName);
+
+        let boneNode;
+
+        if (_handModel) {
+            boneNode = _handModel.getObjectByName(boneName);
+        } else if (_bodyModel) {
+            boneNode = _bodyModel.getObjectByName(boneName);
+        }
 
         if (boneNode && _operateMode !== "none") {
             _transformControls.setMode(_operateMode);
@@ -831,98 +873,81 @@ export function loadPoseModel(poseModelFileName) {
     if (poseModelFileName) {
         let manager = new THREE.LoadingManager();
 
-        // let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
-        let path = "http://127.0.0.1:3001/" + poseModelFileName;
+        let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
+        //let path = "http://127.0.0.1:3001/" + poseModelFileName;
 
-        const ext = poseModelFileName.split('.').pop().toLowerCase()
+        const isHand = poseModelFileName.startsWith("hand")
 
-        switch (ext) {
-            case "vrm": {
-                if (_currentVRM) {
-                    return;
-                }
-
-                const loader = new GLTFLoader(manager);
-                loader.crossOrigin = 'anonymous';
-
-                loader.register((parser) => {
-                    return new VRMLoaderPlugin(parser);
-                });
-
-                loader.load(
-                    path,
-                    (gltf) => {
-                        const vrm = gltf.userData.vrm;
-
-                        const resultScene = vrm.scene;
-
-                        resultScene.name = "pose model";
-
-                        _mainObjectCounter++;
-
-                        scaleObjectToProper(resultScene);
-
-                        _scene.add(resultScene);
-
-                        _currentVRM = vrm;
-
-                        vrm.scene.traverse((obj) => {
-                            obj.frustumCulled = false;
-                        });
-
-                        VRMUtils.rotateVRM0(vrm);
-                    }
-                )
-                break;
+        if (isHand) {
+            if (_handModel && _scene.getObjectByName("hand model")) {
+                return;
             }
-            case "fbx": {
-                if (_handModel && _scene.getObjectByName("hand model")) {
-                    return;
-                }
-
-                const loader = new FBXLoader(manager);
-                loader.load(path, (object) => {
-                    object.traverse(function (child) {
-                        if (child.isMesh) {
-                            child.castShadow = true;
-                            child.receiveShadow = true;
-                        }
-                    });
-
-                    object.name = "hand model";
-
-                    _handModel = object;
-
-                    //scaleObjectToProper(_handModel);
-
-                    _scene.add(_handModel);
-
-                    let boneGeometry = new THREE.SphereGeometry(1); // 调整大小以适应你的模型
-
-                    _handModel.traverse(object => {
-                        if (object instanceof THREE.Bone && !object.name.endsWith("end")) {
-                            let randomColor = new THREE.Color(Math.random(), Math.random(), Math.random());
-                            let boneMaterial = new THREE.MeshBasicMaterial({color: randomColor});
-                            let boneMesh = new THREE.Mesh(boneGeometry, boneMaterial);
-
-                            let worldPosition = new THREE.Vector3();
-                            object.getWorldPosition(worldPosition);
-                            boneMesh.position.copy(worldPosition);
-
-                            boneMesh.userData.boneName = object.name;
-                            boneMesh.userData.boneRef = object;
-                            boneMesh.userData.tag = "handBone";
-
-                            _handBoneMeshes.push(boneMesh);
-
-                            _handModel.add(boneMesh);
-                        }
-                    });
-                });
-
-                break;
+        } else {
+            if (_bodyModel && _scene.getObjectByName("body model")) {
+                return;
             }
         }
+
+        const loader = new FBXLoader(manager);
+
+        loader.load(path, (object) => {
+            object.traverse(function (child) {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+
+            let targetModel;
+            let boneRadius;
+            let tag;
+            let excludedSubstrings = [];
+
+            if (isHand) {
+                object.name = "hand model";
+                _handModel = object;
+                targetModel = _handModel;
+                boneRadius = 0.5;
+                tag = "handBone";
+                excludedSubstrings = ["end"];
+            } else {
+                object.name = "body model";
+                _bodyModel = object;
+                targetModel = _bodyModel;
+                boneRadius = 1.5;
+                tag = "bodyBone";
+                excludedSubstrings = ["Bow", "End", "eye", "Middle", "Ring", "Index", "Thumb", "Pinky"];
+            }
+
+            _scene.add(targetModel);
+
+            let boneGeometry = new THREE.SphereGeometry(boneRadius);
+
+            targetModel.traverse(object => {
+                if (object instanceof THREE.Bone && !excludedSubstrings.some(sub => object.name.includes(sub))) {
+                    let randomColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+                    let boneMaterial = new THREE.MeshBasicMaterial({color: randomColor, depthTest: false});
+                    let boneMesh = new THREE.Mesh(boneGeometry, boneMaterial);
+
+                    let worldPosition = new THREE.Vector3();
+                    object.getWorldPosition(worldPosition);
+                    boneMesh.position.copy(worldPosition);
+
+                    boneMesh.userData.boneName = object.name;
+                    boneMesh.userData.boneRef = object;
+                    boneMesh.userData.tag = tag;
+
+                    if (isHand) {
+                        _handBoneMeshes.push(boneMesh);
+                    } else {
+                        _bodyBoneMeshes.push(boneMesh);
+                    }
+
+                    targetModel.add(boneMesh);
+                }
+            });
+
+        });
     }
 }
 
