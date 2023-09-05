@@ -15,12 +15,13 @@ Or you can install from Extensions -> Available, and load the official extension
 ![installFromOfficialLink.png](doc/images/installFromOfficialLink.png)
 
 ## Quick Start
-1. click Load Moder button, select one model from your local, check [here](doc/support_formats.md) to support formats
-2. On the main canvas, you can use:
+1. click **Load Model** button, select one model from your local, check [here](doc/support_formats.md) for support formats, 
+2. or click /**Load Hand Model**/**Load Body Model** to load embedded hand/body model.
+3. On the main canvas, you can use:
    1. **Mouse left button** -> rotate the camera
    2. **Mouse wheel** -> zoom in or out
    3. **Mouse right button** -> move the camera
-3. Send the screenshot to ControlNet
+4. Send the screenshot to ControlNet
 
 ## More Details
 - [Support Formats](/doc/support_formats.md)

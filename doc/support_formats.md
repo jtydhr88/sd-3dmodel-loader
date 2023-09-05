@@ -12,4 +12,4 @@ By the default, you can upload single file directly, support formats:
 
 But it has potential to support more, since threejs does.
 So if you want other formats such as cmt, just feel free to open an issue, I will add it later.  
-(I upload two models, **male02.obj** and **Sanba Dancing.fbx**, as your test, you can find them under **/models** folder)
+(I upload some models, such as **male02.obj** and **Sanba Dancing.fbx**, as your test, you can find them under **/models** folder)
