@@ -23,7 +23,7 @@ const CustomTreeView = styled(TreeView)`
   overflow-y: auto;
 `;
 
-const transformControlObjNames = ["Hemisphere Light", "Directional Light"];
+const transformControlObjNames = ["mainObject", "Hemisphere Light", "Directional Light"];
 let transformControlValues = {"Hemisphere Light": "none", "Directional Light": "none"};
 
 const treeItemObjNames = ["Scene", "mainObject", "Hemisphere Light", "Directional Light", "Ground", "Grid", "Axis", "Preview Camera", "hand model", "body model"];
@@ -68,7 +68,7 @@ function processNode(node, handleSelectedObject, setSelectedObj, transformContro
     return (<TreeItem key={node.uuid} nodeId={node.uuid} label={node.name || node.type} onClick={(objEvent) => {
         const objName = objEvent.target.innerHTML;
 
-        handleSelectedObject(objName, transformControlMap[objName]);
+        handleSelectedObject(objName);
         setSelectedObj(objName);
     }}>
         {node.children && node.children.map((child) => processNode(child, handleSelectedObject, setSelectedObj, transformControlMap))}
@@ -154,33 +154,6 @@ function SceneTreeWrapper({
             <SceneTree handleSelectedObject={handleSelectedObject} setSelectedObj={setSelectedObj}
                        transformControlMap={transformControlMap}/>
 
-
-            {(transformControlObjNames.includes(selectedObj) || (selectedObj && selectedObj.startsWith("mainObject"))) &&
-                <FormControl>
-                    <FormLabel>Operate</FormLabel>
-                    <RadioGroup
-                        aria-labelledby="operate-radio-buttons-group-label"
-                        defaultValue="none"
-                        name="operate-radio-buttons-group"
-                        row={true}
-                        onChange={(event) => {
-                            handleSelectedObject(selectedObj, event.target.value);
-
-                            const updatedMap = {...transformControlMap};
-
-                            updatedMap[selectedObj] = event.target.value;
-
-                            setTransformControlMap(updatedMap);
-                        }}
-                    >
-                        <FormControlLabel value="none" control={<Radio/>} label="None"
-                                          checked={transformControlMap[selectedObj] === "none" || !transformControlMap[selectedObj]}/>
-                        <FormControlLabel value="translate" control={<Radio/>} label="Translate"
-                                          checked={transformControlMap[selectedObj] === "translate"}/>
-                        <FormControlLabel value="rotate" control={<Radio/>} label="Rotate"
-                                          checked={transformControlMap[selectedObj] === "rotate"}/>
-                    </RadioGroup>
-                </FormControl>}
             {(visibleControlObjNames.includes(selectedObj) || (selectedObj && selectedObj.startsWith("mainObject"))) &&
                 <FormControlLabel
                     control={
