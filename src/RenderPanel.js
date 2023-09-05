@@ -2,25 +2,20 @@ import React, {useState} from 'react';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import {
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
     Typography,
     FormControl,
-    FormLabel,
-    RadioGroup, FormControlLabel, Radio
 } from '@mui/material';
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import {FormattedMessage} from 'react-intl';
 
 function RenderPanel({setRenderMode, setDepthContrast}) {
     const [mode, setMode] = useState("none");
     const modes = [
-        {label: "None", value: "none"},
-        {label: "Depth", value: "depth"},
-        {label: "Normal", value: "normal"}
+        {labelId: "none", value: "none"},
+        {labelId: "depth", value: "depth"},
+        {labelId: "normal", value: "normal"}
     ];
     const [contrast, setContrast] = useState(0.5);
 
@@ -28,7 +23,9 @@ function RenderPanel({setRenderMode, setDepthContrast}) {
         <Box mb={1} mt={1}>
             <Box width="100%">
                 <FormControl variant="outlined" fullWidth sx={{margin: '2px'}}>
-                    <InputLabel htmlFor="dropdown-list">Render</InputLabel>
+                    <InputLabel htmlFor="dropdown-list">
+                        <FormattedMessage id="render" defaultMessage="Render"/>
+                    </InputLabel>
                     <Select
                         value={mode}
                         onChange={(event) => {
@@ -43,14 +40,16 @@ function RenderPanel({setRenderMode, setDepthContrast}) {
                     >
                         {modes.map((option, index) => (
                             <MenuItem key={index} value={option.value}>
-                                {option.label}
+                                <FormattedMessage id={option.labelId}/>
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
                 {
                     mode === "depth" && <Box width="100%">
-                        <Typography gutterBottom>Depth Contrast</Typography>
+                        <Typography gutterBottom>
+                            <FormattedMessage id="depth-contrast" defaultMessage="Depth Contrast"/>
+                        </Typography>
                         <Slider min={0.05} max={0.95}
                                 valueLabelDisplay="auto"
                                 step={0.05}

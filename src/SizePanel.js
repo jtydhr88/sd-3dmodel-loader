@@ -4,6 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
+import {FormattedMessage} from "react-intl";
 
 export default function SizePanel({setPreviewSize}) {
     const [sizeValue, setSizeValue] = useState('1:1');
@@ -17,7 +18,9 @@ export default function SizePanel({setPreviewSize}) {
         <div>
             <Box mb={1} mt={1}>
                 <FormControl variant="outlined" fullWidth sx={{margin: '2px'}}>
-                    <InputLabel htmlFor="dropdown-list">Size</InputLabel>
+                    <InputLabel htmlFor="dropdown-list">
+                        <FormattedMessage id="size" defaultMessage="Size"/>
+                    </InputLabel>
                     <Select
                         value={sizeValue}
                         onChange={(event) => {

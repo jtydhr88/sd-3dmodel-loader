@@ -80,6 +80,14 @@ def on_ui_tabs():
         gr.HTML(f'<input type="hidden" id="threeDModelLoader-default-show-axis" value="{default_show_axis}" />',
                 visible=False)
 
+        try:
+            default_lang = opts.threeDmodel_lang
+        except:
+            default_lang = "en"
+
+        gr.HTML(f'<input type="hidden" id="threeDModelLoader-lang" value="{default_lang}" />',
+                visible=False)
+
         if ext is None:
             return []
         js_ = [f'{x.path}?{os.path.getmtime(x.path)}' for x in ext.list_files('javascript/lazyload', '.js')]
@@ -103,6 +111,8 @@ def get_self_extension():
 
 def on_ui_settings():
     section = ('3dmodel', "3D Model&Pose")
+    shared.opts.add_option("threeDmodel_lang", shared.OptionInfo(
+        "en", "Language", gr.Dropdown, {"choices": ["en", "zh-CN", "zh-TW", "ja", "fr"]}, section=section))
     shared.opts.add_option("threeDmodel_bg_color", shared.OptionInfo(
         "#ffffff", "Background Color", gr.ColorPicker, {"interactive": True}, section=section))
     shared.opts.add_option("threeDmodel_ground_color", shared.OptionInfo(

@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from "@mui/material/Checkbox";
+import {FormattedMessage} from "react-intl";
 
 export default function PosePanel({
                                       showBodyBones,
@@ -39,12 +40,12 @@ export default function PosePanel({
                         color="primary"
                     />
                 }
-                label='Show body bones'
+                label={<FormattedMessage id="show-body-bones" defaultMessage="Show body bones" />}
             />
             <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
                     onClick={() => {
                         exportBonesJSON("body");
-                    }}>Export Pose JSON</Button>
+                    }}><FormattedMessage id="export-pose-json" defaultMessage="Export Pose JSON" /></Button>
             <input
                 type="file"
                 accept=".json"
@@ -58,7 +59,7 @@ export default function PosePanel({
                 sx={{margin: '2px'}}
                 onClick={() => inputFileRef.current.click()}
             >
-                Import Pose JSON
+                <FormattedMessage id="import-pose-json" defaultMessage="Import Pose JSON" />
             </Button>
         </Box>
     </div>);

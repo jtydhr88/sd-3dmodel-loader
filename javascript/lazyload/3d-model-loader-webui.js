@@ -34,13 +34,17 @@ await _import();
     const defaultShowAxisInput = gradioApp().querySelector('#threeDModelLoader-default-show-axis');
     const defaultShowAxis = defaultShowAxisInput.value;
 
+    const defaultLangInput = gradioApp().querySelector('#threeDModelLoader-lang');
+    const defaultLang = defaultLangInput.value;
+
     const configs = {
         "controlNetNum": controlNetNum,
         "defaultBGColor": defaultBGColor,
         "defaultGroundColor": defaultGroundColor,
         "defaultShowGround": defaultShowGround === "True",
         "defaultShowGird": defaultShowGird === "True",
-        "defaultShowAxis": defaultShowAxis === "True"
+        "defaultShowAxis": defaultShowAxis === "True",
+        "lang": defaultLang
     }
 
     async function init_canvas() {

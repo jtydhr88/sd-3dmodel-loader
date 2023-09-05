@@ -602,7 +602,6 @@ function ThreeJsScene({configs, uploadedModelFile}) {
         window.updateObjects(convertThreeJsObjects());
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     function loadGLTF(event) {
         const contents = event.target.result;
 
@@ -856,7 +855,6 @@ function checkForBoneIntersection() {
             _currentSelected.material.color.copy(_selectedMeshOriginalColor);
         }
 
-        // 保存当前小球的原始颜色
         _selectedMeshOriginalColor = closestBoneMesh.material.color.clone();
 
         _previousSelected = {

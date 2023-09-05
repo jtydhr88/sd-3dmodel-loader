@@ -3,6 +3,7 @@ import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import {Accordion, AccordionSummary, AccordionDetails, Button} from '@mui/material';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {FormattedMessage} from "react-intl";
 
 let _animationProgress;
 
@@ -20,16 +21,17 @@ function AnimationPanel({setAnimationPlaying, setAnimationStopPlaying, controlAn
             <Box mb={1} mt={1}>
                 <Accordion>
                     <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                        Animation
+                        <FormattedMessage id="animation" defaultMessage="Animation"/>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}} onClick={() => {
                             if (setAnimationPlaying) {
                                 setAnimationPlaying();
                             }
-                        }}>Play/Pause</Button>
+                        }}><FormattedMessage id="play-pause" defaultMessage="Play/Pause"/></Button>
                         <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                                onClick={setAnimationStopPlaying}>Stop</Button>
+                                onClick={setAnimationStopPlaying}>
+                            <FormattedMessage id="stop" defaultMessage="Stop"/></Button>
                         <Box width="100%">
                             <Slider min={0} max={100}
                                     value={value}

@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from "@mui/material/Checkbox";
+import {FormattedMessage} from "react-intl";
 
 export default function HandPanel({
                                       showHandBones,
@@ -39,12 +40,12 @@ export default function HandPanel({
                         color="primary"
                     />
                 }
-                label='Show hand bones'
+                label={<FormattedMessage id="show-hand-bones" defaultMessage="Show hand bones" />}
             />
             <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
                     onClick={() => {
                         exportBonesJSON("hand");
-                    }}>Export Gesture JSON</Button>
+                    }}><FormattedMessage id="export-gesture-json" defaultMessage="Export Gesture JSON" /></Button>
             <input
                 type="file"
                 accept=".json"
@@ -58,7 +59,7 @@ export default function HandPanel({
                 sx={{margin: '2px'}}
                 onClick={() => inputFileRef.current.click()}
             >
-                Import Gesture JSON
+                <FormattedMessage id="import-gesture-json" defaultMessage="Import Gesture JSON" />
             </Button>
         </Box>
     </div>);

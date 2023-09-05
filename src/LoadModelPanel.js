@@ -12,7 +12,6 @@ export default function LoadModelPanel({
     return (<div>
         <Box mb={1} mt={1}>
 
-
             <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
                     onClick={loadPoseModel}>{labelName}</Button>
         </Box>

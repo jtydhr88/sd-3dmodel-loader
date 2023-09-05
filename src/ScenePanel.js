@@ -17,6 +17,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Slider from "@mui/material/Slider";
 import {SketchPicker} from "react-color";
 import {_camera, _secondCamera} from "./ThreeJsScene";
+import {FormattedMessage} from "react-intl";
 
 const CustomTreeView = styled(TreeView)`
   height: 240px;
@@ -169,12 +170,12 @@ function SceneTreeWrapper({
                             color="primary"
                         />
                     }
-                    label='Visible'
+                    label={<FormattedMessage id="visible" defaultMessage="Visible" />}
                 />
             }
             {
                 selectedObj === "Preview Camera" && <Box width="100%">
-                    <Typography gutterBottom>Near</Typography>
+                    <Typography gutterBottom><FormattedMessage id="near" defaultMessage="Near" /></Typography>
                     <Slider min={0.1} max={100}
                             valueLabelDisplay="auto"
                             step={0.1}
@@ -185,7 +186,7 @@ function SceneTreeWrapper({
                             }}
                             aria-labelledby="continuous-slider"
                     />
-                    <Typography gutterBottom>Far</Typography>
+                    <Typography gutterBottom><FormattedMessage id="far" defaultMessage="Far" /></Typography>
                     <Slider min={0.1} max={20000}
                             valueLabelDisplay="auto"
                             value={far}
@@ -195,7 +196,7 @@ function SceneTreeWrapper({
                             }}
                             aria-labelledby="continuous-slider"
                     />
-                    <Typography gutterBottom>FOV</Typography>
+                    <Typography gutterBottom><FormattedMessage id="fov" defaultMessage="FOV" /></Typography>
                     <Slider min={1} max={100}
                             valueLabelDisplay="auto"
                             value={fov}
@@ -214,7 +215,7 @@ function SceneTreeWrapper({
                             removeObject(selectedObj);
                             refreshSceneTree();
                             setSelectedObj(null);
-                        }}>Remove</Button>
+                        }}><FormattedMessage id="remove" defaultMessage="Remove" /></Button>
             }
             {
                 selectedObj === "Scene" && <SketchPicker
@@ -237,7 +238,7 @@ function SceneTreeWrapper({
                 />
             }
             <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                    onClick={refreshSceneTree}>Refresh Scene Tree</Button>
+                    onClick={refreshSceneTree}><FormattedMessage id="refresh-scene-tree" defaultMessage="Refresh Scene Tree" /></Button>
         </Box>
     </div>);
 }
