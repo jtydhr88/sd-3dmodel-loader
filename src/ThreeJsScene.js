@@ -886,6 +886,10 @@ function checkForBoneIntersection() {
 window.addEventListener('mousemove', onBoneHover, false);
 
 function onBoneHover(event) {
+    if (!_container) {
+        return;
+    }
+
     let rect = _container.getBoundingClientRect();
 
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -919,7 +923,7 @@ function checkForBoneHover() {
     for (let i = 0; i < intersects.length; i++) {
         if (intersects[i].object.userData && intersects[i].object.userData.tag === tag) {
             closestHoveredMesh = intersects[i].object;
-            break; // 假设只有一个小球可以被hover，所以直接中断循环
+            break;
         }
     }
 
@@ -933,7 +937,6 @@ function checkForBoneHover() {
 
     if (closestHoveredMesh) {
         if (closestHoveredMesh !== _currentSelected) {
-            // 如果当前悬停的小球不是已选中的小球，我们保存它的原始颜色
             _hoveredMeshOriginalColor = closestHoveredMesh.material.color.clone();
             closestHoveredMesh.material.color.set("#FFD700");
             _hoveredMesh = closestHoveredMesh;
@@ -942,7 +945,6 @@ function checkForBoneHover() {
 }
 
 export function loadPoseModel(poseModelFileName) {
-
     let manager = new THREE.LoadingManager();
 
     let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
@@ -1023,6 +1025,94 @@ export function loadPoseModel(poseModelFileName) {
 
         window.updateObjects(convertThreeJsObjects());
     });
+}
+
+export function importBonesJSON(type, loadedBoneData) {
+    if (type === "hand") {
+        if (!_handModel) {
+            alert("No hand model imported.");
+            return;
+        }
+    } else if (type === "body") {
+        if (!_bodyModel) {
+            alert("No body model imported.");
+            return;
+        }
+    }
+
+    let targetModel;
+
+    if (type === "hand") {
+        targetModel = _handModel;
+    } else if (type === "body") {
+        targetModel = _bodyModel;
+    }
+
+    for (let boneName in loadedBoneData) {
+        let bone = targetModel.getObjectByName(boneName);
+
+        if (bone && bone.isBone) {
+            if (loadedBoneData[boneName].rotation) {
+                bone.rotation.fromArray(loadedBoneData[boneName].rotation);
+            }
+            if (loadedBoneData[boneName].position) {
+                bone.position.fromArray(loadedBoneData[boneName].position);
+            }
+        }
+    }
+
+    targetModel.updateMatrixWorld(true);
+}
+
+export function exportBonesJSON(type) {
+    if (type === "hand") {
+        if (!_handModel) {
+            alert("No hand model imported.");
+            return;
+        }
+    } else if (type === "body") {
+        if (!_bodyModel) {
+            alert("No body model imported.");
+            return;
+        }
+    }
+
+    let targetModel;
+
+    if (type === "hand") {
+        targetModel = _handModel;
+    } else if (type === "body") {
+        targetModel = _bodyModel;
+    }
+
+    let boneData = {};
+
+    targetModel.traverse(function (child) {
+        if (child.isBone) {
+            boneData[child.name] = {
+                rotation: child.rotation.toArray(),
+                position: child.position.toArray()
+            };
+        }
+    });
+
+    let jsonString = JSON.stringify(boneData);
+
+    let blob = new Blob([jsonString], {type: 'text/plain'});
+    let url = URL.createObjectURL(blob);
+
+    let fileName;
+
+    if (type === "hand") {
+        fileName = "gesture.json";
+    } else if (type === "body") {
+        fileName = "pose.json";
+    }
+
+    let a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
 }
 
 export function convertThreeJsObjects() {

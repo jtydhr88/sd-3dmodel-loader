@@ -23,7 +23,9 @@ import {
     setOperateMode,
     setPlaying,
     setStopPlaying,
-    showBodyBones
+    showBodyBones,
+    exportBonesJSON,
+    importBonesJSON
 } from './ThreeJsScene';
 import {setCameraNear, setCameraFOV, setCameraFar} from './ThreeJSScene/Camera'
 
@@ -43,62 +45,61 @@ let _sendImage;
 export default function App({configs}) {
     const [uploadedModelFile, setUploadedModelFile] = useState(null);
 
-    return (
-        <>
-            <Container maxWidth="none">
-                <Grid container spacing={3}>
-                    <Grid item xs={10} style={{height: '80vh'}}>
-                        <Grid container item xs={12} spacing={3}>
-                            <Grid item xs={2}>
-                                <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
-                            </Grid>
-                            <Grid item xs={2}>
-                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"hand.fbx"}
-                                                labelName={"load hand model"}/>
-                            </Grid>
-                            <Grid item xs={2}>
-                                <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"pose.fbx"}
-                                                labelName={"load pose model"}/>
-                            </Grid>
-                            <Grid item xs={2}>
-                                <RenderPanel setRenderMode={setRenderMode} setDepthContrast={setDepthContrast}/>
-                            </Grid>
-                            <Grid item xs={2}>
-                                <OperatePanel setOperateMode={setOperateMode}/>
-                            </Grid>
-                            <Grid item xs={2}>
-                                <SizePanel setPreviewSize={setPreviewSize}/>
-                            </Grid>
+    return (<>
+        <Container maxWidth="none">
+            <Grid container spacing={3}>
+                <Grid item xs={10} style={{height: '80vh'}}>
+                    <Grid container item xs={12} spacing={3}>
+                        <Grid item xs={2}>
+                            <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
                         </Grid>
-                        <ThreeJsScene
-                            configs={configs}
-                            uploadedModelFile={uploadedModelFile}
-                        />
+                        <Grid item xs={2}>
+                            <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"hand.fbx"}
+                                            labelName={"load hand model"}/>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"pose.fbx"}
+                                            labelName={"load pose model"}/>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <RenderPanel setRenderMode={setRenderMode} setDepthContrast={setDepthContrast}/>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <OperatePanel setOperateMode={setOperateMode}/>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <SizePanel setPreviewSize={setPreviewSize}/>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={2}>
-                        <HandPanel handlePoseSelectedObject={handlePoseSelectedObject}
-                                   showHandBones={showHandBones}/>
-
-                        <PosePanel handlePoseSelectedObject={handlePoseSelectedObject} showBodyBones={showBodyBones}
-                        />
-                        <ScenePanel configs={configs} refreshSceneTree={refreshSceneTree}
-                                    handleSelectedObject={handleSelectedObject}
-                                    setVisible={setVisible}
-                                    setCameraNear={setCameraNear} setCameraFar={setCameraFar}
-                                    setCameraFOV={setCameraFOV}
-                                    setCanvasBgColor={setBgColor} removeObject={removeObject}
-                                    setGroundColor={setGroundColor}/>
-                        <SendToControlNetPanel configs={configs}
-                                               setRendererImage={setRendererImage}
-                                               sendImage={_sendImage} downloadRendererImage={downloadRendererImage}
-                                               sendRendererImageToCanvasEditor={sendRendererImageToCanvasEditor}/>
-                        <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
-                                        controlAnimation={controlAnimationProgress}/>
-                    </Grid>
+                    <ThreeJsScene
+                        configs={configs}
+                        uploadedModelFile={uploadedModelFile}
+                    />
                 </Grid>
-            </Container>
-        </>
-    );
+                <Grid item xs={2}>
+                    <HandPanel showHandBones={showHandBones} exportBonesJSON={exportBonesJSON}
+                               importBonesJSON={importBonesJSON}/>
+
+                    <PosePanel showBodyBones={showBodyBones} exportBonesJSON={exportBonesJSON}
+                               importBonesJSON={importBonesJSON}/>
+
+                    <ScenePanel configs={configs} refreshSceneTree={refreshSceneTree}
+                                handleSelectedObject={handleSelectedObject}
+                                setVisible={setVisible}
+                                setCameraNear={setCameraNear} setCameraFar={setCameraFar}
+                                setCameraFOV={setCameraFOV}
+                                setCanvasBgColor={setBgColor} removeObject={removeObject}
+                                setGroundColor={setGroundColor}/>
+                    <SendToControlNetPanel configs={configs}
+                                           setRendererImage={setRendererImage}
+                                           sendImage={_sendImage} downloadRendererImage={downloadRendererImage}
+                                           sendRendererImageToCanvasEditor={sendRendererImageToCanvasEditor}/>
+                    <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
+                                    controlAnimation={controlAnimationProgress}/>
+                </Grid>
+            </Grid>
+        </Container>
+    </>);
 }
 
 export function create3dmodelLoaderApp({container, configs}) {
@@ -121,7 +122,7 @@ function localDev() {
     const configs = {
         "controlNetNum": 4,
         "defaultBGColor": "#000000",
-        "defaultGroundColor": "#00ff00",
+        "defaultGroundColor": "#ffffff",
         "defaultShowGround": "False" === "True",
         "defaultShowGird": "False" === "True",
         "defaultShowAxis": "False" === "True"
