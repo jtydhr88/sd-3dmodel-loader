@@ -1,4 +1,4 @@
-# Body model and pose edit support
+# Body model and pose edit
 you can click **LOAD BODY MODEL** to load the embedded model to edit pose.
 ![pose.png](images/pose/pose1.png)
 

@@ -28,8 +28,9 @@ Or you can install from Extensions -> Available, and load the official extension
 - [Settings](/doc/settings.md)
 - [Settings From Page](/doc/settings_from_page.md)
 - [Render Mode](/doc/render_mode.md)
-- [Pose Model](/doc/pose_support.md)
-- [Hand Model](/doc/hand_model.md)
+- [Body model and pose edit](/doc/pose_support.md)
+- [Hand Model and gesture edit](/doc/hand_model.md)
+- [Send to](/doc/hand_model.md)
 - [Local Dev](/doc/local_dev.md)
 
 ## Gradio.Model3D?
