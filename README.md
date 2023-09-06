@@ -26,6 +26,7 @@ Or you can install from Extensions -> Available, and load the official extension
 ## More Details
 - [Support Formats](/doc/support_formats.md)
 - [Settings](/doc/settings.md)
+- [Settings From Page](/doc/settings_from_page.md)
 - [Render Mode](/doc/render_mode.md)
 - [Pose Model](/doc/pose_support.md)
 - [Hand Model](/doc/hand_model.md)
