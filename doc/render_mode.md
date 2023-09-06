@@ -1,5 +1,5 @@
 # Render Mode
-Right now it supports generate **depth** directly from 3D model:
+Right now it supports generate **depth** or **normal** directly from 3D model:
 
 ## Depth Mode
 1. upload model (or use embedded hand or body model) and choose Render -> Depth ![depth1.png](images/depth/depth1.png)

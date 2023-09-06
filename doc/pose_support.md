@@ -1,15 +1,15 @@
-# Pose support
-you can click **LOAD BODY MODEL** to load the embedded model edit pose.
+# Body model and pose edit support
+you can click **LOAD BODY MODEL** to load the embedded model to edit pose.
 ![pose.png](images/pose/pose1.png)
 
-Then choose the bone points on the body to choose the bone.
+Then click the bone points on the body to choose the bone.
 ![pose.png](images/pose/pose2.png)
 Yellow means hover on the bone and blue means select the the bone.
 
 Next, choose **Rotate** from **Operate**, the rotate bar will show up.
 ![pose.png](images/pose/pose3.png)
 
-Edit until what you want.
+Edit pose until what you want.
 
 you can check/uncheck **show body bones** checkbox.
 ![pose.png](images/pose/pose4.png)

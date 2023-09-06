@@ -16,7 +16,7 @@ Or you can install from Extensions -> Available, and load the official extension
 
 ## Quick Start
 1. click **Load Model** button, select one model from your local, check [here](doc/support_formats.md) for support formats, 
-2. or click /**Load Hand Model**/**Load Body Model** to load embedded hand/body model.
+2. or click **Load Hand Model**/**Load Body Model** to load embedded hand/body model.
 3. On the main canvas, you can use:
    1. **Mouse left button** -> rotate the camera
    2. **Mouse wheel** -> zoom in or out
