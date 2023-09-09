@@ -23,7 +23,7 @@ Or you can install from Extensions -> Available, and load the official extension
    3. **Mouse right button** -> move the camera
 4. Send the screenshot to ControlNet
 
-## More Details
+## More Details and features
 - [Support Formats](/doc/support_formats.md)
 - [Settings](/doc/settings.md)
 - [Settings From Page](/doc/settings_from_page.md)

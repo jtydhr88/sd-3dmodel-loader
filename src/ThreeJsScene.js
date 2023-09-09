@@ -942,11 +942,10 @@ function checkForBoneHover() {
     }
 }
 
-export function loadPoseModel(poseModelFileName) {
+export function loadPoseModel(resourcePath, poseModelFileName) {
     let manager = new THREE.LoadingManager();
 
-    let path = "/file=extensions/sd-3dmodel-loader/models/" + poseModelFileName;
-    // let path = "http://127.0.0.1:3001/" + poseModelFileName;
+    let path = resourcePath + poseModelFileName;
 
     const isHand = poseModelFileName.startsWith("hand")
 
@@ -955,9 +954,17 @@ export function loadPoseModel(poseModelFileName) {
             alert("Right now only support load one hand model.");
             return;
         }
+        else if(_bodyModel && _scene.getObjectByName("body model")) {
+            alert("Do not allow to allow hand and body at the same time.");
+            return;
+        }
     } else {
         if (_bodyModel && _scene.getObjectByName("body model")) {
             alert("Right now only support load one body model.");
+            return;
+        }
+        else if(_handModel && _scene.getObjectByName("hand model")) {
+            alert("Do not allow to allow hand and body at the same time.");
             return;
         }
     }

@@ -1,0 +1,17 @@
+{
+  "gesture-fist1": "fist1.json",
+  "gesture-fist2": "fist2.json",
+  "gesture-like": "like.json",
+  "gesture-number-2": "number_2.json",
+  "gesture-number-3": "number_3.json",
+  "gesture-number-4": "number_4.json",
+  "gesture-number-5": "number_5.json",
+  "gesture-number-6": "number_6.json",
+  "gesture-number-7": "number_7.json",
+  "gesture-number-8": "number_8.json",
+  "gesture-number-9": "number_9.json",
+  "gesture-raise-index":"raise_index.json",
+  "gesture-raise-little":"raise_little.json",
+  "gesture-raise-middle":"raise_middle.json",
+  "gesture-raise-ring":"raise_ring.json"
+}

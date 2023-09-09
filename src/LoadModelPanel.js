@@ -3,10 +3,11 @@ import Box from '@mui/material/Box';
 import {Button} from "@mui/material";
 
 export default function LoadModelPanel({
+                                           configs,
                                            setPoseModelFileName, modelName, labelName
                                        }) {
     const loadPoseModel = () => {
-        setPoseModelFileName(modelName);
+        setPoseModelFileName(configs.resourcePath, modelName);
     };
 
     return (<div>

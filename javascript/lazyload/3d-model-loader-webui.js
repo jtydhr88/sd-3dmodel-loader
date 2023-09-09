@@ -44,7 +44,8 @@ await _import();
         "defaultShowGround": defaultShowGround === "True",
         "defaultShowGird": defaultShowGird === "True",
         "defaultShowAxis": defaultShowAxis === "True",
-        "lang": defaultLang
+        "lang": defaultLang,
+        "resourcePath": "/file=extensions/sd-3dmodel-loader/models/"
     }
 
     async function init_canvas() {

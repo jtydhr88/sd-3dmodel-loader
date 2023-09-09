@@ -75,6 +75,7 @@ export default function App({configs}) {
                                 <FormattedMessage id="load-hand-model" defaultMessage="Load Hand Model">
                                     {(labelName) => (
                                         <LoadModelPanel
+                                            configs={configs}
                                             setPoseModelFileName={loadPoseModel}
                                             modelName={"hand.fbx"}
                                             labelName={labelName}
@@ -85,7 +86,8 @@ export default function App({configs}) {
                             <Grid item xs={2}>
                                 <FormattedMessage id="load-body-model" defaultMessage="Load Body Model">
                                     {(labelName) => (
-                                        <LoadModelPanel setPoseModelFileName={loadPoseModel} modelName={"pose.fbx"}
+                                        <LoadModelPanel configs={configs} setPoseModelFileName={loadPoseModel}
+                                                        modelName={"pose.fbx"}
                                                         labelName={labelName}/>
                                     )}
                                 </FormattedMessage>
@@ -107,10 +109,10 @@ export default function App({configs}) {
                         />
                     </Grid>
                     <Grid item xs={2}>
-                        <HandPanel showHandBones={showHandBones} exportBonesJSON={exportBonesJSON}
+                        <HandPanel configs={configs} showHandBones={showHandBones} exportBonesJSON={exportBonesJSON}
                                    importBonesJSON={importBonesJSON}/>
 
-                        <PosePanel showBodyBones={showBodyBones} exportBonesJSON={exportBonesJSON}
+                        <PosePanel configs={configs} showBodyBones={showBodyBones} exportBonesJSON={exportBonesJSON}
                                    importBonesJSON={importBonesJSON}/>
 
                         <ScenePanel configs={configs} refreshSceneTree={refreshSceneTree}
@@ -157,7 +159,8 @@ function localDev() {
         "defaultShowGround": "False" === "True",
         "defaultShowGird": "False" === "True",
         "defaultShowAxis": "False" === "True",
-        "lang": "fr"
+        "lang": "zh-CN",
+        "resourcePath": "http://127.0.0.1:3001/"
     }
 
     root.render(<App configs={configs}/>);
