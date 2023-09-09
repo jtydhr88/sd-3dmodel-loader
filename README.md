@@ -30,7 +30,7 @@ Or you can install from Extensions -> Available, and load the official extension
 - [Render Mode](/doc/render_mode.md)
 - [Body model and pose edit](/doc/pose_support.md)
 - [Hand Model and gesture edit](/doc/hand_model.md)
-- [Send to](/doc/hand_model.md)
+- [Send to](/doc/send_to.md)
 - [Local Dev](/doc/local_dev.md)
 
 ## Gradio.Model3D?
