@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import {Button} from "@mui/material";
-import { FormattedMessage } from 'react-intl';
+import {Button, Grid} from "@mui/material";
+import {FormattedMessage} from 'react-intl';
 
 export default function ModelPanel({setUploadedModelFile}) {
     const loadSingleModel = () => {
@@ -23,10 +23,12 @@ export default function ModelPanel({setUploadedModelFile}) {
 
     return (
         <div>
-            <Box mb={1} mt={1}>
-                <Button variant="contained" color="primary" fullWidth sx={{margin: '2px'}}
-                        onClick={loadSingleModel}><FormattedMessage id="load-model" defaultMessage="Load Model" /></Button>
-            </Box>
+
+            <Button variant="contained" color="primary" fullWidth
+                    onClick={loadSingleModel}><FormattedMessage id="load-model"
+                                                                defaultMessage="Load Model"/></Button>
+
+
         </div>
     );
 }

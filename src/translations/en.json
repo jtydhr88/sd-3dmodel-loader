@@ -1,5 +1,6 @@
 {
   "animation": "Animation",
+  "body": "Body",
   "default": "Default",
   "depth": "Depth",
   "depth-contrast": "Depth Contrast",
@@ -24,8 +25,10 @@
   "gesture-raise-middle": "raise_middle",
   "gesture-raise-ring": "raise_ring",
   "hand": "Hand",
+  "hand-right": "Right Hand",
   "import-gesture-json": "Import Gesture Json",
   "import-pose-json": "Import Pose Json",
+  "kachujin": "Kachujin",
   "load-body-model": "Load Body Model",
   "load-hand-model": "Load Hand Model",
   "load-model": "Load Model",
@@ -47,5 +50,8 @@
   "size": "Size",
   "stop": "Stop",
   "translate": "Translate",
-  "visible": "Visible"
+  "vanguard": "Vanguard",
+  "visible": "Visible",
+  "warrok": "Warrok",
+  "y-bot": "Y Bot"
 }

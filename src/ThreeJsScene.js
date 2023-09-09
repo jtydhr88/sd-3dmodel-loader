@@ -934,12 +934,24 @@ function checkForBoneHover() {
     }
 
     if (closestHoveredMesh) {
+
         if (closestHoveredMesh !== _currentSelected) {
             _hoveredMeshOriginalColor = closestHoveredMesh.material.color.clone();
-            closestHoveredMesh.material.color.set("#FFD700");
+            closestHoveredMesh.material.color.set("red");
+
             _hoveredMesh = closestHoveredMesh;
         }
     }
+}
+
+let existingCoordinates = [];
+
+function hasCoordinate(coordArray, coord) {
+    return coordArray.some(existing =>
+        existing.x === coord.x &&
+        existing.y === coord.y &&
+        existing.z === coord.z
+    );
 }
 
 export function loadPoseModel(resourcePath, poseModelFileName) {
@@ -947,14 +959,13 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
 
     let path = resourcePath + poseModelFileName;
 
-    const isHand = poseModelFileName.startsWith("hand")
+    const isHand = poseModelFileName.includes("hand")
 
     if (isHand) {
         if (_handModel && _scene.getObjectByName("hand model")) {
             alert("Right now only support load one hand model.");
             return;
-        }
-        else if(_bodyModel && _scene.getObjectByName("body model")) {
+        } else if (_bodyModel && _scene.getObjectByName("body model")) {
             alert("Do not allow to allow hand and body at the same time.");
             return;
         }
@@ -962,8 +973,7 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
         if (_bodyModel && _scene.getObjectByName("body model")) {
             alert("Right now only support load one body model.");
             return;
-        }
-        else if(_handModel && _scene.getObjectByName("hand model")) {
+        } else if (_handModel && _scene.getObjectByName("hand model")) {
             alert("Do not allow to allow hand and body at the same time.");
             return;
         }
@@ -988,7 +998,7 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
             object.name = "hand model";
             _handModel = object;
             targetModel = _handModel;
-            boneRadius = 0.5;
+            boneRadius = 0.7;
             tag = "handBone";
             excludedSubstrings = ["end"];
         } else {
@@ -1012,6 +1022,13 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
 
                 let worldPosition = new THREE.Vector3();
                 object.getWorldPosition(worldPosition);
+
+                if (hasCoordinate(existingCoordinates, worldPosition)) {
+                    return;
+                }
+
+                existingCoordinates.push(worldPosition.clone());
+
                 boneMesh.position.copy(worldPosition);
 
                 boneMesh.userData.boneName = object.name;
@@ -1025,8 +1042,11 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
                 }
 
                 targetModel.add(boneMesh);
+
             }
         });
+
+        existingCoordinates = [];
 
         window.updateObjects(convertThreeJsObjects());
     });

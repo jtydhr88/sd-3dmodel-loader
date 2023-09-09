@@ -1,5 +1,6 @@
 {
   "animation": "动画",
+  "body": "身体",
   "default": "默认",
   "depth": "深度图",
   "depth-contrast": "深度对比度",
@@ -24,8 +25,10 @@
   "gesture-raise-middle": "竖起中指",
   "gesture-raise-ring": "竖起无名指",
   "hand": "手部",
+  "hand-right": "右手",
   "import-gesture-json": "导入手势Json",
   "import-pose-json": "导入姿势Json",
+  "kachujin": "Kachujin",
   "load-body-model": "加载身体模型",
   "load-hand-model": "加载手部模型",
   "load-model": "加载模型",
@@ -47,5 +50,8 @@
   "size": "大小",
   "stop": "停止",
   "translate": "移动",
-  "visible": "可见"
+  "vanguard": "Vanguard",
+  "visible": "可见",
+  "warrok": "Warrok",
+  "y-bot": "Y Bot"
 }

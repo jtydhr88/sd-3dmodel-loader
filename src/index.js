@@ -65,41 +65,46 @@ export default function App({configs}) {
     return (<>
         <IntlProvider locale={lang} messages={messages[lang]}>
             <Container maxWidth="none">
-                <Grid container spacing={3}>
+                <Grid container spacing={1}>
                     <Grid item xs={10} style={{height: '80vh'}}>
                         <Grid container item xs={12} spacing={3}>
                             <Grid item xs={2}>
                                 <ModelPanel setUploadedModelFile={setUploadedModelFile}/>
                             </Grid>
-                            <Grid item xs={2}>
+
+                            <Grid item xs={3}>
                                 <FormattedMessage id="load-hand-model" defaultMessage="Load Hand Model">
                                     {(labelName) => (
                                         <LoadModelPanel
                                             configs={configs}
                                             setPoseModelFileName={loadPoseModel}
-                                            modelName={"hand.fbx"}
+                                            modelNames={{"hand-right": "hand/hand_right.fbx"}}
                                             labelName={labelName}
                                         />
                                     )}
                                 </FormattedMessage>
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={3}>
                                 <FormattedMessage id="load-body-model" defaultMessage="Load Body Model">
                                     {(labelName) => (
                                         <LoadModelPanel configs={configs} setPoseModelFileName={loadPoseModel}
-                                                        modelName={"pose.fbx"}
+                                                        modelNames={{
+                                                            "kachujin": "body/kachujin.fbx",
+                                                            "vanguard": "body/vanguard.fbx",
+                                                            "warrok": "body/warrok.fbx",
+                                                            "y-bot": "body/ybot.fbx"
+                                                        }}
                                                         labelName={labelName}/>
                                     )}
                                 </FormattedMessage>
-
                             </Grid>
                             <Grid item xs={2}>
                                 <RenderPanel setRenderMode={setRenderMode} setDepthContrast={setDepthContrast}/>
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={1}>
                                 <OperatePanel setOperateMode={setOperateMode}/>
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={1}>
                                 <SizePanel setPreviewSize={setPreviewSize}/>
                             </Grid>
                         </Grid>

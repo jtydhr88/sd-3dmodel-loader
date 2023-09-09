@@ -13,6 +13,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LoadModelPanel from "./LoadModelPanel";
+import {loadPoseModel} from "./ThreeJsScene";
 
 export default function HandPanel({
                                       configs,
@@ -36,6 +38,7 @@ export default function HandPanel({
         }
     };
     return (<div>
+
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
                 <FormattedMessage id="hand" defaultMessage="Hand"/>
