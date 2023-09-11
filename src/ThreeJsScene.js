@@ -1007,7 +1007,7 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
             targetModel = _bodyModel;
             boneRadius = 1.5;
             tag = "bodyBone";
-            excludedSubstrings = ["Bow", "End", "eye", "Middle", "Ring", "Index", "Thumb", "Pinky"];
+            excludedSubstrings = ["Bow", "End", "Eye","Nose","Ear", "Middle", "Ring", "Index", "Thumb", "Pinky"];
         }
 
         _scene.add(targetModel);
@@ -1114,9 +1114,11 @@ export function exportBonesJSON(type) {
 
     targetModel.traverse(function (child) {
         if (child.isBone) {
+            const bone = targetModel.getObjectByName(child.name);
+
             boneData[child.name] = {
-                rotation: child.rotation.toArray(),
-                position: child.position.toArray()
+                rotation: bone.rotation.toArray(),
+                position: bone.position.toArray()
             };
         }
     });
