@@ -815,7 +815,7 @@ let _currentSelected;
 let _selectedMeshOriginalColor;
 
 function checkForBoneIntersection() {
-    if (!(_handModel || _bodyModel) || _isDragging) {
+    if (!(_handModel || _bodyModel)) {
         return;
     }
 
