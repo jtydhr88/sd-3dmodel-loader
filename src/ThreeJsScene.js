@@ -11,6 +11,10 @@ import {ColladaLoader} from 'three/examples/jsm/loaders/ColladaLoader.js';
 import {VRMLoaderPlugin, VRMUtils} from "@pixiv/three-vrm";
 import {setAnimationProgress} from './AnimationPanel'
 import {vertexShader, fragmentShader} from './shaders';
+import openposeInfo from './Pose/openposeInfo.json'
+import mixamorig from './Pose/mixamorig.json'
+import handrig from './Pose/handrig.json'
+
 
 let _playing = true;
 let _action;
@@ -46,26 +50,21 @@ let _operateMode = "none";
 let _handModel;
 let _bodyModel;
 
-let _handBoneMeshes = [];
-let _bodyBoneMeshes = [];
+let _boneMeshGroup = new THREE.Group();
 
 let _isDragging = false;
 
 const transformControlObjNames = ["mainObject", "Hemisphere Light", "Directional Light"];
 
 export function showHandBones(visible) {
-    if (_handBoneMeshes) {
-        for (let bone of _handBoneMeshes) {
-            bone.visible = visible;
-        }
-    }
+    _boneMeshGroup.visible = visible;
 }
 
 export function showBodyBones(visible) {
-    if (_bodyBoneMeshes) {
-        for (let bone of _bodyBoneMeshes) {
-            bone.visible = visible;
-        }
+    _boneMeshGroup.visible = visible;
+
+    if (!visible && _transformControls) {
+        _transformControls.detach();
     }
 }
 
@@ -95,29 +94,13 @@ export function removeObject(objName) {
         _currentVRM = undefined;
     }
 
-    if (objName === "hand model") {
+    if (objName === "hand model" || objName === "body model") {
         _handModel = undefined;
-        _handBoneMeshes = [];
-    }
-
-    if (objName === "body model") {
         _bodyModel = undefined;
-        _bodyBoneMeshes = [];
-    }
-}
 
-export function handlePoseSelectedObject(objName, transformControlsMode) {
-    if (transformControlsMode && transformControlsMode !== "none") {
-        if (_currentVRM) {
-            const boneNode = _currentVRM.humanoid.getNormalizedBoneNode(objName);
-
-            if (boneNode) {
-                _transformControls.setMode(transformControlsMode);
-                _transformControls.attach(boneNode);
-            }
+        while (_boneMeshGroup.children.length > 0) {
+            _boneMeshGroup.remove(_boneMeshGroup.children[0]);
         }
-    } else {
-        _transformControls.detach();
     }
 }
 
@@ -175,10 +158,22 @@ export function setRenderMode(renderMode) {
     _renderMode = renderMode;
 
     if (_scene) {
-        if (isRenderNone()) {
+        if (isRenderNone() || isRenderOpenpose()) {
             _scene.add(_transformControls);
         } else {
             _scene.remove(_transformControls);
+        }
+
+        const renderOpenpose = isRenderOpenpose();
+
+        if (_bodyModel) {
+            _bodyModel.visible = !renderOpenpose;
+            showBones(renderOpenpose ? mixamorig.openposeBodyBones : mixamorig.bodyBones, _boneMeshGroup);
+        }
+
+        if (_handModel) {
+            _handModel.visible = !renderOpenpose;
+            showBones(handrig.handBones, _boneMeshGroup);
         }
 
         if (_renderMode === "normal") {
@@ -198,6 +193,12 @@ export function setRenderMode(renderMode) {
 
             if (_transformControls) {
                 _scene.add(_transformControls);
+            }
+
+            if (_renderMode === "openpose") {
+                if (_bodyModel) {
+                    showBones(mixamorig.openposeBodyBones, _boneMeshGroup);
+                }
             }
         }
     }
@@ -227,6 +228,10 @@ function checkDivVisible(div) {
 
 function isRenderDepth() {
     return _renderMode === "depth";
+}
+
+function isRenderOpenpose() {
+    return _renderMode === "openpose";
 }
 
 function isRenderNone() {
@@ -399,6 +404,8 @@ function ThreeJsScene({configs, uploadedModelFile}) {
 
         _scene.add(_transformControls);
 
+        _scene.add(_boneMeshGroup);
+
         const animate = () => {
             requestAnimationFrame(animate);
 
@@ -471,17 +478,9 @@ function ThreeJsScene({configs, uploadedModelFile}) {
                     _renderer.render(depthPostScene, depthPostCamera);
                 }
 
-                if (_handBoneMeshes) {
-                    for (let boneMesh of _handBoneMeshes) {
-                        let worldPos = new THREE.Vector3();
 
-                        boneMesh.userData.boneRef.getWorldPosition(worldPos);
-                        boneMesh.position.copy(worldPos);
-                    }
-                }
-
-                if (_bodyBoneMeshes) {
-                    for (let boneMesh of _bodyBoneMeshes) {
+                if (_boneMeshGroup) {
+                    for (let boneMesh of _boneMeshGroup.children) {
                         let worldPos = new THREE.Vector3();
 
                         boneMesh.userData.boneRef.getWorldPosition(worldPos);
@@ -821,14 +820,12 @@ function checkForBoneIntersection() {
 
     raycaster.setFromCamera(mouse, _camera);
 
-    let intersectObjects;
+    let intersectObjects = _boneMeshGroup.children;
     let tag;
 
     if (_handModel) {
-        intersectObjects = _handModel.children;
         tag = "handBone";
     } else if (_bodyModel) {
-        intersectObjects = _bodyModel.children;
         tag = "bodyBone";
     }
 
@@ -839,7 +836,7 @@ function checkForBoneIntersection() {
 
     for (let i = 0; i < intersects.length; i++) {
         if (intersects[i].object.userData && intersects[i].object.userData.tag === tag) {
-            if (intersects[i].distance < closestDistance) {
+            if (intersects[i].distance < closestDistance && intersects[i].object.visible) {
                 closestDistance = intersects[i].distance;
                 closestBoneMesh = intersects[i].object;
             }
@@ -847,6 +844,8 @@ function checkForBoneIntersection() {
     }
 
     if (closestBoneMesh) {
+        // console.log(closestBoneMesh);
+
         if (closestBoneMesh === _hoveredMesh) {
             closestBoneMesh.material.color.copy(_hoveredMeshOriginalColor);
         }
@@ -903,14 +902,12 @@ function checkForBoneHover() {
 
     raycaster.setFromCamera(mouse, _camera);
 
-    let intersectObjects;
+    let intersectObjects = _boneMeshGroup.children;
     let tag;
 
     if (_handModel) {
-        intersectObjects = _handModel.children;
         tag = "handBone";
     } else if (_bodyModel) {
-        intersectObjects = _bodyModel.children;
         tag = "bodyBone";
     }
 
@@ -934,8 +931,7 @@ function checkForBoneHover() {
     }
 
     if (closestHoveredMesh) {
-
-        if (closestHoveredMesh !== _currentSelected) {
+        if (closestHoveredMesh !== _currentSelected && closestHoveredMesh.material && closestHoveredMesh.material.color) {
             _hoveredMeshOriginalColor = closestHoveredMesh.material.color.clone();
             closestHoveredMesh.material.color.set("red");
 
@@ -992,7 +988,7 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
         let targetModel;
         let boneRadius;
         let tag;
-        let excludedSubstrings = [];
+        let shouldShowBones;
 
         if (isHand) {
             object.name = "hand model";
@@ -1000,14 +996,14 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
             targetModel = _handModel;
             boneRadius = 0.7;
             tag = "handBone";
-            excludedSubstrings = ["end"];
+            shouldShowBones = handrig.handBones;
         } else {
             object.name = "body model";
             _bodyModel = object;
             targetModel = _bodyModel;
             boneRadius = 1.5;
             tag = "bodyBone";
-            excludedSubstrings = ["Bow", "End", "Eye","Nose","Ear", "Middle", "Ring", "Index", "Thumb", "Pinky"];
+            shouldShowBones = mixamorig.bodyBones;
         }
 
         _scene.add(targetModel);
@@ -1015,8 +1011,7 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
         let boneGeometry = new THREE.SphereGeometry(boneRadius);
 
         targetModel.traverse(object => {
-            if (object instanceof THREE.Bone && !excludedSubstrings.some(sub => object.name.includes(sub))) {
-                let randomColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+            if (object instanceof THREE.Bone) {
                 let boneMaterial = new THREE.MeshBasicMaterial({color: "#CCCCCC", depthTest: false});
                 let boneMesh = new THREE.Mesh(boneGeometry, boneMaterial);
 
@@ -1035,41 +1030,42 @@ export function loadPoseModel(resourcePath, poseModelFileName) {
                 boneMesh.userData.boneRef = object;
                 boneMesh.userData.tag = tag;
 
-                if (isHand) {
-                    _handBoneMeshes.push(boneMesh);
-                } else {
-                    _bodyBoneMeshes.push(boneMesh);
-                }
-
-                targetModel.add(boneMesh);
-
+                _boneMeshGroup.add(boneMesh);
             }
         });
 
         existingCoordinates = [];
 
+        showBones(shouldShowBones, _boneMeshGroup);
+
         window.updateObjects(convertThreeJsObjects());
     });
 }
 
+function showBones(boneList, targetModel) {
+    targetModel.traverse(function (object) {
+        if (object instanceof THREE.Mesh) {
+            object.visible = boneList.includes(object.userData.boneName);
+        }
+    });
+}
+
 export function importBonesJSON(type, loadedBoneData) {
+    let targetModel;
+
     if (type === "hand") {
         if (!_handModel) {
             alert("No hand model imported.");
             return;
         }
+
+        targetModel = _handModel;
     } else if (type === "body") {
         if (!_bodyModel) {
             alert("No body model imported.");
             return;
         }
-    }
 
-    let targetModel;
-
-    if (type === "hand") {
-        targetModel = _handModel;
-    } else if (type === "body") {
         targetModel = _bodyModel;
     }
 
@@ -1090,23 +1086,21 @@ export function importBonesJSON(type, loadedBoneData) {
 }
 
 export function exportBonesJSON(type) {
+    let targetModel;
+
     if (type === "hand") {
         if (!_handModel) {
             alert("No hand model imported.");
             return;
         }
+
+        targetModel = _handModel;
     } else if (type === "body") {
         if (!_bodyModel) {
             alert("No body model imported.");
             return;
         }
-    }
 
-    let targetModel;
-
-    if (type === "hand") {
-        targetModel = _handModel;
-    } else if (type === "body") {
         targetModel = _bodyModel;
     }
 
@@ -1135,6 +1129,85 @@ export function exportBonesJSON(type) {
     } else if (type === "body") {
         fileName = "pose.json";
     }
+
+    let a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
+}
+
+function toScreenPosition(vector3D) {
+    const widthHalf = 0.5 * previewWidth;
+    const heightHalf = 0.5 * previewHeight;
+
+    const vector = vector3D.clone();
+
+    vector.project(_secondCamera);
+
+    return {
+        x: parseFloat((vector.x * widthHalf + widthHalf).toFixed(1)),
+        y: parseFloat((-vector.y * heightHalf + heightHalf).toFixed(1))
+    };
+}
+
+export function downloadOpenposeJSON() {
+
+    const bones2D = _boneMeshGroup.children.map(function (boneMesh) {
+        const screenPos = toScreenPosition(boneMesh.position);
+
+        const key = boneMesh.userData.boneName;
+        const newKey = openposeInfo.mixamorigToOpenpose[key];
+
+        if (newKey) {
+            return {
+                [newKey]: screenPos
+            };
+        }
+    }).filter(Boolean);
+
+    let targetWidth = previewWidth === 300 ? 512 : 768;
+    let targetHeight = previewHeight === 300 ? 512 : 768;
+
+    const scaleX = targetWidth / previewWidth;
+    const scaleY = targetHeight / previewHeight;
+
+    const output = openposeInfo.openposeOrder.map(name => {
+        const bone = bones2D.find(b => b[name]);
+
+        if (bone) {
+            let x = (bone[name].x * scaleX).toFixed(1);
+            let y = (bone[name].y * scaleY).toFixed(1);
+
+            x = parseFloat(x);
+            y = parseFloat(y);
+
+            if (x > targetWidth) x = -1;
+            if (y > targetHeight) y = -1;
+
+            return [x, y, 1];
+        } else {
+            return [-1, -1, 1];
+        }
+    });
+
+    const flattenedOutput = output.flat();
+
+    const result = {
+        "people": [
+            {
+                "pose_keypoints_2d": flattenedOutput
+            }
+        ],
+        "canvas_width": targetWidth,
+        "canvas_height": targetHeight
+    };
+
+    const jsonString = JSON.stringify(result);
+
+    let blob = new Blob([jsonString], {type: 'text/plain'});
+    let url = URL.createObjectURL(blob);
+
+    let fileName = "openpose.json";
 
     let a = document.createElement('a');
     a.href = url;

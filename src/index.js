@@ -24,13 +24,14 @@ import {
     setStopPlaying,
     showBodyBones,
     exportBonesJSON,
-    importBonesJSON
+    importBonesJSON,
+    downloadOpenposeJSON
 } from './ThreeJsScene';
 import {setCameraNear, setCameraFOV, setCameraFar} from './ThreeJSScene/Camera'
 
 import ScenePanel from './ScenePanel'
 import AnimationPanel from './AnimationPanel'
-import SendToControlNetPanel from './SendToControlNetPanel'
+import SendToDownloadPanel from './SendToDownloadPanel'
 import ModelPanel from './ModelPanel'
 import HandPanel from './HandPanel'
 import RenderPanel from "./RenderPanel";
@@ -127,10 +128,11 @@ export default function App({configs}) {
                                     setCameraFOV={setCameraFOV}
                                     setCanvasBgColor={setBgColor} removeObject={removeObject}
                                     setGroundColor={setGroundColor}/>
-                        <SendToControlNetPanel configs={configs}
-                                               setRendererImage={setRendererImage}
-                                               sendImage={_sendImage} downloadRendererImage={downloadRendererImage}
-                                               sendRendererImageToCanvasEditor={sendRendererImageToCanvasEditor}/>
+                        <SendToDownloadPanel configs={configs}
+                                             setRendererImage={setRendererImage}
+                                             sendImage={_sendImage} downloadRendererImage={downloadRendererImage}
+                                             sendRendererImageToCanvasEditor={sendRendererImageToCanvasEditor}
+                                             downloadOpenposeJSON={downloadOpenposeJSON}/>
                         <AnimationPanel setAnimationPlaying={setPlaying} setAnimationStopPlaying={setStopPlaying}
                                         controlAnimation={controlAnimationProgress}/>
                     </Grid>

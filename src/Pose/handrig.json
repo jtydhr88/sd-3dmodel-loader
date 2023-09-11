@@ -1,0 +1,22 @@
+{
+  "handBones": [
+    "forearm",
+    "hand_joint",
+    "middle_bone",
+    "thumb_prox",
+    "thumb_inter",
+    "thumb_dist",
+    "index_prox",
+    "index_inter",
+    "index_dist",
+    "middle_prox",
+    "middle_inter",
+    "middle_dist",
+    "ring_prox",
+    "ring_inter",
+    "ring_dist",
+    "little_prox",
+    "little_inter",
+    "little_dist"
+  ]
+}

@@ -15,7 +15,8 @@ function RenderPanel({setRenderMode, setDepthContrast}) {
     const modes = [
         {labelId: "none", value: "none"},
         {labelId: "depth", value: "depth"},
-        {labelId: "normal", value: "normal"}
+        {labelId: "normal", value: "normal"},
+        {labelId: "openpose", value: "openpose"}
     ];
     const [contrast, setContrast] = useState(0.5);
 
